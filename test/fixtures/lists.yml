@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  origin: MyString
+  origin_lat: 1
+  origin_lng: 1
+  respond_list: MyText
+
+two:
+  origin: MyString
+  origin_lat: 1
+  origin_lng: 1
+  respond_list: MyText

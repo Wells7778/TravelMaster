@@ -1,0 +1,2 @@
+class ListAttraction < ApplicationRecord
+end
