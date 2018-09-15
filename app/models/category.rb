@@ -1,5 +1,5 @@
 class Category < ApplicationRecord
-  validates_presence_of :name
+  validates_presence_of :tag_name
 
   has_many :categories_attractions, dependent: :restrict_with_error
   has_many :attractions, through: :categories_attractions
