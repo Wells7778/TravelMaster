@@ -3,8 +3,9 @@ Rails.application.routes.draw do
 
   # routes for admin
   namespace :admin do
+    resources :attractions
     resources :users, only: [:index, :update]
 
-    root "users#index"
+    root "attractions#index"
   end
 end
