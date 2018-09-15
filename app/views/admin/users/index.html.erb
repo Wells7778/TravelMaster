@@ -1,0 +1,29 @@
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td data-link="<%= user_path(user) %>"><%= user.name %></td>
+        <td data-link="<%= user_path(user) %>"><%= user.email %></td>
+        <td>
+          <%= form_tag admin_user_path(user), method: :patch do %>
+            <%= select_tag :role, options_for_select(User::ROLE.map(&:reverse), user.role) %>
+            <%= submit_tag "Update" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<script>
+  $("td[data-link]").click(function() {
+    window.location = $(this).data("link")
+  })
+</script>
