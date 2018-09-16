@@ -1,0 +1,39 @@
+    <ul>
+      <li><%= link_to "All", admin_attractions_path, class: "nav-link" %></li>
+      <% @categories.each do |category| %>
+        <li><%= link_to category.tag_name, admin_attractions_path(category_id: category.id) %></li>
+      <% end %>
+    </ul>
+    <%= link_to "新增景點", new_admin_attraction_path %>
+    <table>
+      <thead>
+        <tr>
+          <th>name</th>
+          <th>description</th>
+          <th>address</th>
+          <th>category</th>
+          <th>#</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @attractions.each do |attraction| %>
+          <tr>
+            <td><%= attraction.name %></td>
+            <td><%= attraction.description %></td>
+            <td><%= attraction.address %></td>
+            <td>
+              <% attraction.categories.each do |category| %>
+                <p><%= category.tag_name %></p>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to "Show", admin_attraction_path(attraction) %>
+              <%= link_to "edit", edit_admin_attraction_path(attraction) %>
+              <%= link_to "delete", admin_attraction_path(attraction), method: :delete, data: { confirm: "Are You Sure?" } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

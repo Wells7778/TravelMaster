@@ -1,0 +1,29 @@
+    <%= form_for [:admin, @category] do |f| %>
+      <%= f.text_field :tag_name, placeholder: "Category Name" %>
+      <%= f.submit %>
+      <% if @category.errors.any? %>
+        <%= @category.errors.full_messages.to_sentence %>
+      <% end %>
+    <% end %>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>#</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @categories.each do |category| %>
+          <tr>
+            <td><%= category.tag_name %></td>
+            <td>
+              <%= link_to "Edit", admin_categories_path(id: category.id)%>
+              <%= link_to "Delete", admin_category_path(category), method: :delete, data: { confirm: "Are you sure??" } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+

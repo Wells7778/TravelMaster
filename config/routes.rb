@@ -1,3 +1,12 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  devise_for :users
+
+  # routes for admin
+  namespace :admin do
+    resources :categories
+    resources :attractions
+    resources :users, only: [:index, :update]
+
+    root "attractions#index"
+  end
 end

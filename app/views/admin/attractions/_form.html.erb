@@ -1,0 +1,24 @@
+<%= form_for [:admin, attraction] do |f| %>
+  <%= f.label :name, "name" %>
+  <%= f.text_field :name %>
+
+  <%= f.label :image, "image" %>
+  <%= f.text_field :image %>
+
+  <%= f.label :description, "description" %>
+  <%= f.text_area :description %>
+
+  <%= f.label :address, "address" %>
+  <%= f.text_field :address %>
+
+  <%= f.label :lat, "lat" %>
+  <%= f.number_field :lat %>
+
+  <%= f.label :lng, "lng" %>
+  <%= f.number_field :lng %>
+
+  <h5>Category</h5>
+  <%= f.collection_check_boxes :category_ids, Category.all, :id, :tag_name, {}, {multiple: true} %>
+
+  <%= f.submit %>
+<% end %>
