@@ -1,0 +1,7 @@
+<% @attraction.categories.each do |category| %>
+  <p><%= category.tag_name %></p>
+<% end %>
+<%= @attraction.name %>
+<img src="<%= @attraction.image %>" alt="">
+<%= @attraction.description %>
+<%= @attraction.address %>
