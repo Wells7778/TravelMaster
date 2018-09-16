@@ -12,7 +12,6 @@
 
 ActiveRecord::Schema.define(version: 20180915142313) do
 
-
   create_table "attractions", force: :cascade do |t|
     t.string "name", null: false
     t.string "image"
