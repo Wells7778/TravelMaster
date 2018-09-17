@@ -19,7 +19,7 @@
     <!-- Navbar and Header -->
     <nav class="nav-extended">
       <div class="nav-background">
-        <div class="pattern active" style="background-image: url('http://placehold.it/1400x300');"></div>
+        <div id="nav-bg-img" class="pattern active" style="background-image: url('http://placehold.it/1400x300');"></div>
       </div>
       <div class="nav-wrapper container">
         <%= link_to root_path, class:"brand-logo" do %>
@@ -28,7 +28,7 @@
         
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
-          <li class="active">
+          <li id="mainnav-1" class="">
             <%= link_to root_path do %>
               Spots
             <% end %>
@@ -51,25 +51,14 @@
         </ul>
 
         <div class="nav-header center">
-          <h1>I MAKE THINGS</h1>
-          <div class="tagline">Portfolio</div>
-        </div>
-      </div>
-
-      <!-- Fixed Masonry Filters -->
-      <div class="categories-wrapper purple lighten-1">
-        <div class="categories-container">
-          <ul class="categories container">
-            <li class="active"><a href="#all">All</a></li>
-            <li><a href="#polygon">Polygon</a></li>
-            <li><a href="#bigbang">Big Bang</a></li>
-            <li><a href="#sacred">Sacred Geometry</a></li>
-          </ul>
+          <h1 id="nav-header-h1" >######</h1>
+          <div id="nav-header-tag" class="tagline">#######</div>
         </div>
       </div>
     </nav>
+
     <ul class="side-nav" id="nav-mobile">
-      <li class="active">
+      <li id="sidenav-1" class="">
         <%= link_to root_path do %>
           <i class="material-icons">landscape</i>Spots
         <% end %>
@@ -212,8 +201,7 @@
     }); // end of document ready
   })(jQuery); // end of jQuery name space
 
-
-
     </script>
+
   </body>
 </html>

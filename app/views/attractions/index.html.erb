@@ -30,3 +30,14 @@
     </tbody>
   </table>
 </div>
+
+<%= javascript_tag do %>
+  <%#客製 layout 的變數%>
+  $("#mainnav-1").addClass('active');
+  $("#sidenav-1").addClass('active');
+
+  $("#nav-bg-img").css("background-image","url(<%= asset_path 'rock.jpg' %>)");
+  $("#nav-header-h1").text("想出門走走？馬上開始");
+  $("#nav-header-tag").text("找尋景點好幫手");
+
+<% end %>
