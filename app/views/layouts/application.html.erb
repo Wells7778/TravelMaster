@@ -2,6 +2,8 @@
 <html>
   <head>
     <title>TravelMaster</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%= csrf_meta_tags %>
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -12,21 +14,97 @@
   </head>
 
   <body>
+    
+    <header>
+    <!-- Navbar and Header -->
+    <nav class="nav-extended">
+      <div class="nav-background">
+        <div class="pattern active" style="background-image: url('http://placehold.it/1400x300');"></div>
+      </div>
+      <div class="nav-wrapper container">
+        <%= link_to root_path, class:"brand-logo" do %>
+          <i class="material-icons">landscape</i>Travel Master
+        <% end %>
+        
+        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+          <li class="active">
+            <%= link_to root_path do %>
+              Spots
+            <% end %>
+          </li>
+          <li><a href="#">Feeds</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Docs</a></li>
+
+          <li><a class='dropdown-button' href='#' data-activates='feature-dropdown' data-belowOrigin="true" data-constrainWidth="false">會員功能<i class="material-icons right">arrow_drop_down</i></a></li>
+        </ul>
+        <!-- Dropdown Structure -->
+        <ul id='feature-dropdown' class='dropdown-content'>
+          <% if current_user %>
+              <li><%= link_to('登出', destroy_user_session_path, method: :delete) %></li>
+              <li><%= link_to('修改密碼', edit_user_registration_path) %></li>
+            <% else %>
+              <li><%= link_to('註冊', new_user_registration_path) %></li>
+              <li><%= link_to('登入', new_user_session_path) %></li>
+          <% end %>
+        </ul>
+
+        <div class="nav-header center">
+          <h1>I MAKE THINGS</h1>
+          <div class="tagline">Portfolio</div>
+        </div>
+      </div>
+
+      <!-- Fixed Masonry Filters -->
+      <div class="categories-wrapper purple lighten-1">
+        <div class="categories-container">
+          <ul class="categories container">
+            <li class="active"><a href="#all">All</a></li>
+            <li><a href="#polygon">Polygon</a></li>
+            <li><a href="#bigbang">Big Bang</a></li>
+            <li><a href="#sacred">Sacred Geometry</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <ul class="side-nav" id="nav-mobile">
+      <li class="active">
+        <%= link_to root_path do %>
+          <i class="material-icons">landscape</i>Spots
+        <% end %>
+      </li>
+      <li><a href="#"><i class="material-icons">brightness_3</i>Feeds</a></li>
+      <li><a href="#"><i class="material-icons">edit</i>Blog</a></li>
+      <li><a href="#"><i class="material-icons">school</i>Docs</a></li>
+      <% if current_user %>
+          <li><%= link_to destroy_user_session_path, method: :delete  do %>
+            <i class="material-icons">fullscreen</i>登出<%end%>
+          </li>
+          <li><%= link_to edit_user_registration_path do %>
+            <i class="material-icons">fullscreen</i>修改密碼<%end%>
+          </li>
+        <% else %>
+          <li><%= link_to new_user_registration_path do %>
+            <i class="material-icons">fullscreen</i>註冊<%end%>
+          </li>
+          <li><%= link_to new_user_session_path do %>
+            <i class="material-icons">fullscreen</i>登入<%end%>
+          </li>
+      <% end %>
+    </ul>
+    </header>
+
+
+
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>
 
- <% if current_user %>
-  Hi, <%= current_user.email %>
-    <%= link_to('登出', destroy_user_session_path, method: :delete) %> |
-    <%= link_to('修改密碼', edit_user_registration_path) %>
-  <% else %>
-    <%= link_to('註冊', new_user_registration_path) %> |
-    <%= link_to('登入', new_user_session_path) %>
- <% end %>
+ 
     <%= yield %>
 
     <script>
-  (function($){
+  (function($){ //initialize
     $(function(){
 
 
@@ -133,6 +211,8 @@
 
     }); // end of document ready
   })(jQuery); // end of jQuery name space
+
+
 
     </script>
   </body>
