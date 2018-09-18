@@ -730,6 +730,7 @@
 
               // Remove active class
               origin.removeClass('active');
+              history.pushState({},"","/"); //客製 改變URL
 
               // Enable origin to be clickable once return animation finishes.
               originClickable = true;

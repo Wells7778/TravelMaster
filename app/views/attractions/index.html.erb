@@ -1,35 +1,22 @@
-<h1>前台首頁</h1>
 
-<div>
-  <table>
-    <thead>
-      <tr>
-        <th>name</th>
-        <th>description</th>
-        <th>address</th>
-        <th>category</th>
-        <th>#</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @attractions.each do |attraction| %>
-        <tr>
-          <td><%= attraction.name %></td>
-          <td><%= attraction.description %></td>
-          <td><%= attraction.address %></td>
-          <td>
-            <% attraction.categories.each do |category| %>
-              <p><%= category.tag_name %></p>
-            <% end %>
-          </td>
-          <td>
-            <%= link_to "Show", admin_attraction_path(attraction) %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+    <div id="portfolio" class="section gray">
+      <div class="container">
+        <div class="gallery row">
+
+
+        <% if @attractions && @attractions.length>0 %>
+          <% @attractions.each do |spot| %>
+          <%= render partial: "spot", locals: {id:spot.id,name: spot.name,address: spot.address,description: spot.description}%>
+          <%end%>
+        <% else %>
+          不好意思，沒有搜尋結果，請重新嘗試！
+        <%end%>
+
+        </div>
+      </div>
+    </div><!-- /.container -->
+
+
 
 <%= javascript_tag do %>
   <%#客製 layout 的變數%>
@@ -41,3 +28,21 @@
   $("#nav-header-tag").text("找尋景點好幫手");
 
 <% end %>
+
+<script>
+  (function($){ //initialize
+    $(function(){
+
+      var onShow = function(el) {
+        console.log();
+        history.pushState({},"","/"+el.attr('id'));
+        //消除的部分在galleryExpand.js
+      };
+
+      $('.gallery-expand').galleryExpand({
+        onShow: onShow,
+      });
+
+    }); // end of document ready
+  })(jQuery); // end of jQuery name space
+</script>
