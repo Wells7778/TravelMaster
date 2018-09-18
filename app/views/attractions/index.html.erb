@@ -1,23 +1,43 @@
+<div id="function" class="section">
+  <div class="container">
+    <div class="function-trigger center">
+      <div id="open-search" class="btn">開始旅程</div>
+    </div>
 
-    <div id="portfolio" class="section gray">
-      <div class="container">
-        <div class="gallery row">
-
-        <% if @show #以controller show進入 %>
-          <%= render partial: "spot", locals: {id:@show.id,name: @show.name,address: @show.address,description: @show.description} %>
-        <%else #以controller index進入 %>
-          <% if @attractions && @attractions.length>0 %>
-            <% @attractions.each do |spot| %>
-            <%= render partial: "spot", locals: {id:spot.id,name: spot.name,address: spot.address,description: spot.description}%>
-            <%end%>
-          <% else %>
-            不好意思，沒有搜尋結果，請重新嘗試！
-          <%end%>
-        <%end%>
-
-        </div>
+    <div class="search-outter center" style="display: none;">
+      <div>
+         <div class="chips">
+            <input class="custom-class">
+         </div>
       </div>
-    </div><!-- /.container -->
+    </div>
+  </div>
+</div>
+
+<div id="portfolio" class="section gray">
+  <div class="container">
+    <div class="center">
+      <h4>精選景點</h4>
+    </div>
+
+    <div class="gallery row">
+
+    <% if @show #以controller show進入 %>
+      <%= render partial: "spot", locals: {id:@show.id,name: @show.name,address: @show.address,description: @show.description} %>
+    <%else #以controller index進入 %>
+
+      <% if @attractions && @attractions.length>0 %>
+        <% @attractions.each do |spot| %>
+        <%= render partial: "spot", locals: {id:spot.id,name: spot.name,address: spot.address,description: spot.description}%>
+        <%end%>
+      <% else %>
+        不好意思，沒有搜尋結果，請重新嘗試！
+      <%end%>
+    <%end%>
+
+    </div>
+  </div>
+</div><!-- /.container -->
 
 
 
@@ -40,34 +60,58 @@
 <% end %>
 
 <script>
-  (function($){ //initialize
-    $(function(){
 
-      var onShow = function(el) {
-        console.log();
-        history.pushState({},"","/attractions/"+el.attr('id'));
-        //消除的部分在galleryExpand.js
-      };
+$(function(){
 
-      $('.gallery-expand').galleryExpand({
-        onShow: onShow,
-      });
+  $( "#open-search" ).click(function() {
+    $( "#open-search" ).toggle();
+    $( ".search-outter" ).slideDown( "slow" );
+  });
 
-      var $masonry = $('.gallery');
-      $masonry.masonry({
-        // set itemSelector so .grid-sizer is not used in layout
-        itemSelector: '.gallery-item',
-        // use element for option
-        columnWidth: '.gallery-item',
-      });
+  $('.chips').chips({
+    data: [{
+      tag: 'Apple',
+    }, {
+      tag: 'Microsoft',
+    }, {
+      tag: 'Google',
+    }],
+    autocompleteOptions: {
+      data: {
+        'Apple': null,
+        'Microsoft': null,
+        'Google': null
+      },
+      limit: Infinity,
+      minLength: 1
+    },
+  });
 
-      // layout Masonry after each image loads
-      $masonry.imagesLoaded(function() {
-        $masonry.masonry('layout');
-      });
+  var onShow = function(el) {
+    console.log();
+    history.pushState({},"","/attractions/"+el.attr('id'));
+    //消除的部分在galleryExpand.js
+  };
+
+  $('.gallery-expand').galleryExpand({
+    onShow: onShow,
+  });
+
+  var $masonry = $('.gallery');
+  $masonry.masonry({
+    // set itemSelector so .grid-sizer is not used in layout
+    itemSelector: '.gallery-item',
+    // use element for option
+    columnWidth: '.gallery-item',
+  });
+
+  // layout Masonry after each image loads
+  $masonry.imagesLoaded(function() {
+    $masonry.masonry('layout');
+  });
 
 
 
-    }); // end of document ready
-  })(jQuery); // end of jQuery name space
+}); // end of document ready
+
 </script>
