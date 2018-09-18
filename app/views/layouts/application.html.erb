@@ -7,8 +7,10 @@
     <%= csrf_meta_tags %>
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/materialize/0.98.0/js/materialize.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/materialize/0.98.0/js/materialize.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
@@ -93,48 +95,8 @@
     <%= yield %>
 
     <script>
-  (function($){ //initialize
+
     $(function(){
-
-      // Navbar
-      $(".button-collapse").sideNav();
-      var categories = $('nav .categories-container');
-      if (categories.length) {
-        categories.pushpin({ top: categories.offset().top });
-        var $links = categories.find('li');
-        $links.each(function() {
-          var $link = $(this);
-          $link.on('click', function() {
-            $links.removeClass('active');
-            $link.addClass('active');
-            var hash = $link.find('a').first()[0].hash.substr(1);
-            var $galleryItems = $('.gallery .gallery-item');
-
-            $galleryItems.stop().addClass('gallery-filter').fadeIn(100);
-
-            if (hash !== 'all') {
-              var $galleryFilteredOut = $galleryItems.not('.' + hash).not('.all');
-              $galleryFilteredOut.removeClass('gallery-filter').hide();
-            }
-
-            // transition layout
-            $masonry.masonry({
-              transitionDuration: '.3s'
-            });
-            // only animate on layout
-            $masonry.one( 'layoutComplete', function( event, items ) {
-              $masonry.masonry({
-                transitionDuration: 0
-              });
-            });
-            setTimeout(function() {
-
-            $masonry.masonry('layout');
-            }, 1000);
-          });
-        });
-      }
-
 
       // Home
       $('.carousel:not(.carousel-slider)').carousel({
@@ -160,7 +122,7 @@
 
 
     }); // end of document ready
-  })(jQuery); // end of jQuery name space
+
 
     </script>
 
