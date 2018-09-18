@@ -12,7 +12,11 @@ class AttractionsController < ApplicationController
     end
   end
 
+  def show
 
+    @show = Attraction.find(params[:id])
+    render "attractions/index"
+  end
 
   private
 
