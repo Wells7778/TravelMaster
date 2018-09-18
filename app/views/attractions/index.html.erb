@@ -5,9 +5,15 @@
     </div>
 
     <div class="search-outter center" style="display: none;">
+
+      <div class="grid">
+        <div class="grid-item">TAG1</div>
+        <div class="grid-item">TAG2</div>
+        <div class="grid-item">TAG3</div>
+      </div>
+
       <div>
          <div class="chips">
-            <input class="custom-class">
          </div>
       </div>
     </div>
@@ -63,28 +69,26 @@
 
 $(function(){
 
+  function openSearch() {
+
+    var $grid = $('.grid').packery({
+      itemSelector: '.grid-item',
+      // columnWidth helps with drop positioning
+      gutter: 20,
+      columnWidth: 150,
+    });
+    $grid.find('.grid-item').each( function( i, gridItem ) {
+      var draggie = new Draggabilly( gridItem );
+      // bind drag events to Packery
+      $grid.packery( 'bindDraggabillyEvents', draggie );
+    });
+
+  };
+
   $( "#open-search" ).click(function() {
     $( "#open-search" ).toggle();
     $( ".search-outter" ).slideDown( "slow" );
-  });
-
-  $('.chips').chips({
-    data: [{
-      tag: 'Apple',
-    }, {
-      tag: 'Microsoft',
-    }, {
-      tag: 'Google',
-    }],
-    autocompleteOptions: {
-      data: {
-        'Apple': null,
-        'Microsoft': null,
-        'Google': null
-      },
-      limit: Infinity,
-      minLength: 1
-    },
+    openSearch();
   });
 
   var onShow = function(el) {
