@@ -1,4 +1,20 @@
-.grid-item { 
-	width: 150px; 
-	background-color: red;
+.grid-css{
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.grid-item{ 
+
+}
+
+.tags-outter{
+	text-align: left;
+}
+
+.materialize-tags .chip .material-icons{
+	cursor: pointer;
+  float: right;
+  font-size: 16px;
+  line-height: 32px;
+  padding-left: 8px;
 }
