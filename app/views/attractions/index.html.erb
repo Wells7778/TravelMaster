@@ -53,6 +53,21 @@
         onShow: onShow,
       });
 
+      var $masonry = $('.gallery');
+      $masonry.masonry({
+        // set itemSelector so .grid-sizer is not used in layout
+        itemSelector: '.gallery-item',
+        // use element for option
+        columnWidth: '.gallery-item',
+      });
+
+      // layout Masonry after each image loads
+      $masonry.imagesLoaded(function() {
+        $masonry.masonry('layout');
+      });
+
+
+
     }); // end of document ready
   })(jQuery); // end of jQuery name space
 </script>

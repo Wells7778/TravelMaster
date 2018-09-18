@@ -150,25 +150,6 @@
         }
       });
 
-
-      // Masonry Grid
-      var $masonry = $('.gallery');
-      $masonry.masonry({
-        // set itemSelector so .grid-sizer is not used in layout
-        itemSelector: '.gallery-filter',
-        // use element for option
-        columnWidth: '.gallery-filter',
-        // no transitions
-        transitionDuration: 0
-      });
-      // layout Masonry after each image loads
-      $masonry.imagesLoaded(function() {
-        $masonry.masonry('layout');
-      });
-      $('a.filter').click(function (e) {
-        e.preventDefault();
-      });
-
       // Contact Form Icon
       $("form .form-control").focus(function() {
         $(this).siblings("label").first().children("i").first().css({"color": "#aaa", "left": 0});
