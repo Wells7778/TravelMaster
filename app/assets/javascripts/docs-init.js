@@ -86,7 +86,7 @@
       fillScreen: true
     });
     var toc = $('.table-of-contents');
-    toc.pushpin({ top: toc.offset().top });
+    //toc.pushpin({ top: toc.offset().top }); //出錯
     $('.scrollspy').scrollSpy();
 
 	}); // end of document ready
