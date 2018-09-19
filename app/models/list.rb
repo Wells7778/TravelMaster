@@ -30,7 +30,7 @@ class List < ApplicationRecord
     @origin = "#{@lat},#{@lng}"
     @mode = self.travel_mode.nil? ? "driving" : self.travel_mode
     # 依照分類先抓出景點清單
-    @destinations = Category.find_by(tag_name: tag_name).attractions
+    @destinations = Attraction.where(id: CategoriesAttraction.where(category_id: Category.where(tag_name: tag_name).pluck(:id)).pluck(:attraction_id).uniq)
     # 因ＡＰＩ一次只能有25個目的地，故先把景點經緯度取出，先做成Array稍後使用
     dest = @destinations.pluck(:lat, :lng).map { |t| t.join(",")}
 
@@ -38,7 +38,7 @@ class List < ApplicationRecord
     result = []
     # 把景點id先存進result
     @destinations.each do |destination|
-      result << {'attraction_id' => destination.id}
+      result << { attraction_id: destination.id }
     end
     i = 0
     # 一次送25個景點進去做旅程搜索
@@ -53,14 +53,14 @@ class List < ApplicationRecord
       # 把搜尋出來的旅行時間存進result
       res_array.each_with_index do |res, index|
         if res['status'] == "OK"
-          result[index + i * 25 ] ['travel_time'] = res['duration']['value']
+          result[index + i * 25 ][:travel_time] = res['duration']['value']
         else
-          result[index + i * 25 ] ['travel_time'] = self.travel_time + 1
+          result[index + i * 25 ][:travel_time] = self.travel_time + 1
         end
       end
       i += 1
     end
     # 結果把符合旅行時間的元素留下後回傳陣列
-    return result.select{ |e| e['travel_time'] <= self.travel_time }
+    return result.select{ |e| e[:travel_time] <= self.travel_time }
   end
 end
