@@ -11,14 +11,16 @@
         <div class="grid-item chip">TAG2</div>
         <div class="grid-item chip">TAGasdasd3</div>
       </div>
-
       <div class="tags-outter">
-        <input type="text" data-role="materialtags">
+        <input id="#tags-input" type="text" data-role="materialtags">
       </div>
+
     </div>
   </div>
 </div>
 
+<div id="test" class="btn">TEST</div>
+<div id="test2" class="btn">TEST2</div>
 <div id="portfolio" class="section gray">
   <div class="container">
     <div class="center">
@@ -61,6 +63,12 @@
     $(function(){$('#<%=@show.id%>').galleryExpand('open');})
   <%end%>
 
+  <%#讀取TAGS %>
+  <% @traffic_tags.each do |traffic| %>
+    $(".grid-item:last").after("<div class=\"grid-item chip\"><%=traffic%></div>");
+  <%end%>
+
+
   })
 <% end %>
 
@@ -68,8 +76,16 @@
 
 $(function(){
 
-  function openSearch() {
+  $( "#test" ).click(function() {
+    $('input').materialtags('add', 'sometag' );
+    $('.n-tag').val("");
+  });
 
+  $( "#test2" ).click(function() {
+    $('input').materialtags('remove', 'sometag' );
+  });
+
+  function openSearch() {
     var $grid = $('.grid').packery({
       itemSelector: '.grid-item',
       // columnWidth helps with drop positioning
@@ -81,7 +97,6 @@ $(function(){
       // bind drag events to Packery
       $grid.packery( 'bindDraggabillyEvents', draggie );
     });
-
   };
 
   $( "#open-search" ).click(function() {

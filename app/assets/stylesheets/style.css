@@ -18,3 +18,7 @@
   line-height: 32px;
   padding-left: 8px;
 }
+
+.n-tag{
+	display: inline !important;
+}

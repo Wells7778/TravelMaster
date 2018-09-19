@@ -10,6 +10,9 @@ class AttractionsController < ApplicationController
     else
       @attractions = Attraction.all
     end
+    @traffic_tags = ["T_TAG1","T_TAG2","T_TAG3","T_TAG4"]
+    @vibe_tages = ["V_TAG1","V_TAG2","V_TAG3"]
+    @time_tags = ["1hours","4hours","6hours"]
   end
 
   def show
