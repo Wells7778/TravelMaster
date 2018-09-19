@@ -5,8 +5,6 @@
   </div>
 </div>
 
-<div id="test" class="btn">XXX</div>
-
 <div class="test">
   <% if @test %>
   <h3>搜尋結果</h3>
@@ -113,7 +111,7 @@
   <% if @show #以controller show進入 %>
     $(function(){$('#<%=@show.id%>').galleryExpand('open');})
   <%end%>
-  
+
   <%#讀取TAGS %>
 
   <% @vibe_tags.each do |vibe| %>
@@ -134,6 +132,8 @@
 <script>
 
 $(function(){
+
+  //openSearch時 開啟.packery模組 並設定tag的選取、移位等
 
   function openSearch() { //tag initialize
     var $grid_1 = $('.grid-1').packery({
@@ -222,15 +222,23 @@ $(function(){
     });
   };
 
-  $(".n-tag").attr("placeholder", "自行輸入或點選上方標籤");
-  $("#search_location").attr("placeholder", "輸入出發地址(未填則採當前位置)");
+  //開始旅程按鈕 啟動openSearch()
+
+  $( "#open-search" ).click(function() {
+    $( "#starter" ).toggle();
+    $( "#function" ).slideDown( "slow" );
+    openSearch();
+  });
+
+  //送出表單時的click 進行資料清洗
 
   $( ".main-input .submit" ).click(function() {
+    //tags從materialtags 的功能來讀取值
     $("#search_tags").val($("input").materialtags('items')[1]);
     //$("#search_location").val(x);
     //安全因素 被chrome擋掉了 沒辦法測試
   });
-
+  //以下是geolocation的程式碼 先不用 
   var x="False";
   function getLocation()
     {
@@ -245,21 +253,19 @@ $(function(){
     x=[position.coords.latitude,position.coords.longitude];  
     }
 
-    $( "#open-search" ).click(function() {
-      $( "#starter" ).toggle();
-      $( "#function" ).slideDown( "slow" );
-      openSearch();
-    });
+  //gallery-expand 也就是點景點 會跳出來的特效
+  //從這邊直接改URL 需配合controller與galleryExpand.js
 
   var onShow = function(el) {
-    console.log();
     history.pushState({},"","/attractions/"+el.attr('id'));
-    //消除的部分在galleryExpand.js
+    //消除的部分寫在galleryExpand.js
   };
 
   $('.gallery-expand').galleryExpand({
     onShow: onShow,
   });
+
+  //card排版功能
 
   var $masonry = $('.gallery');
   $masonry.masonry({
@@ -273,6 +279,10 @@ $(function(){
   $masonry.imagesLoaded(function() {
     $masonry.masonry('layout');
   });
+
+  //添加placeholder
+  $(".n-tag").attr("placeholder", "自行輸入或點選上方標籤");
+  $("#search_location").attr("placeholder", "輸入出發地址");
 
 }); // end of document ready
 
