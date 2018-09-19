@@ -15,7 +15,7 @@
   </head>
 
   <body>
-    
+
     <header>
     <!-- Navbar and Header -->
     <nav class="nav-extended">
@@ -26,7 +26,7 @@
         <%= link_to root_path, class:"brand-logo" do %>
           <i class="material-icons">landscape</i>Travel Master
         <% end %>
-        
+
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
           <li id="mainnav-1" class="">
@@ -34,7 +34,7 @@
               Spots
             <% end %>
           </li>
-          <% if current_user.role=="admin" %>
+          <% if current_user && current_user.role=="admin" %>
           <li class="">
             <%= link_to admin_root_path do %>
               後台
@@ -91,7 +91,7 @@
       <% end %>
     </ul>
     </header>
- 
+
     <%= yield %>
 
     <footer class="page-footer">
@@ -110,7 +110,7 @@
           </div>
           <!--
           <div class="col l4 offset-l2 s12">
-            
+
             <h5 class="white-text"></h5>
             <ul>
               <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
@@ -125,7 +125,7 @@
       <div class="footer-copyright">
         <div class="container">
         © 2018 Copyright Text
-        
+
         </div>
       </div>
     </footer>
