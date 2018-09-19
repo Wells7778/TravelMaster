@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180919122450) do
+ActiveRecord::Schema.define(version: 20180919132307) do
 
   create_table "attractions", force: :cascade do |t|
     t.string "name", null: false
@@ -48,8 +48,8 @@ ActiveRecord::Schema.define(version: 20180919122450) do
 
   create_table "lists", force: :cascade do |t|
     t.string "origin", null: false
-    t.integer "origin_lat"
-    t.integer "origin_lng"
+    t.float "origin_lat"
+    t.float "origin_lng"
     t.text "search_params"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
