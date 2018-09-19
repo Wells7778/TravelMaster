@@ -12,15 +12,13 @@
         <div class="grid-item chip">TAGasdasd3</div>
       </div>
       <div class="tags-outter">
-        <input id="#tags-input" type="text" data-role="materialtags">
+        <input id="#tags-input" class="typeahead" type="text" data-role="materialtags">
       </div>
 
     </div>
   </div>
 </div>
 
-<div id="test" class="btn">TEST</div>
-<div id="test2" class="btn">TEST2</div>
 <div id="portfolio" class="section gray">
   <div class="container">
     <div class="center">
@@ -65,9 +63,8 @@
 
   <%#讀取TAGS %>
   <% @traffic_tags.each do |traffic| %>
-    $(".grid-item:last").after("<div class=\"grid-item chip\"><%=traffic%></div>");
+    $(".grid-item:last").after('<div class="grid-item chip"><%=traffic%></div>');
   <%end%>
-
 
   })
 <% end %>
@@ -76,16 +73,7 @@
 
 $(function(){
 
-  $( "#test" ).click(function() {
-    $('input').materialtags('add', 'sometag' );
-    $('.n-tag').val("");
-  });
-
-  $( "#test2" ).click(function() {
-    $('input').materialtags('remove', 'sometag' );
-  });
-
-  function openSearch() {
+  function openSearch() { //tag initialize
     var $grid = $('.grid').packery({
       itemSelector: '.grid-item',
       // columnWidth helps with drop positioning
@@ -97,6 +85,22 @@ $(function(){
       // bind drag events to Packery
       $grid.packery( 'bindDraggabillyEvents', draggie );
     });
+
+    $grid.on( 'click', '.grid-item', function( event ) {
+      $grid.packery( 'remove', event.currentTarget ).packery('shiftLayout');
+      // shiftLayout remaining item elements
+      $('input').materialtags('add', event.currentTarget.innerText );
+      $('.n-tag').val("");
+    });
+
+    $('input').on('beforeItemRemove', function(event) {
+      var $items = $('<div class="grid-item chip">'+event.item+'</div>');
+      // prepend items to grid
+      $grid.prepend( $items )
+      // add and lay out newly prepended items
+      .packery( 'prepended', $items );
+    });
+
   };
 
   $( "#open-search" ).click(function() {
@@ -127,8 +131,6 @@ $(function(){
   $masonry.imagesLoaded(function() {
     $masonry.masonry('layout');
   });
-
-
 
 }); // end of document ready
 
