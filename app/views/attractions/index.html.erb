@@ -79,14 +79,18 @@
       <%else%>
         <h4>精選景點</h4>
       <%end%>
-      
+
     </div>
 
     <div class="gallery row">
 
     <% if @attractions && @attractions.length>0 %>
       <% @attractions.each do |spot| %>
-      <%= render partial: "spot", locals: {id:spot.id,name: spot.name,address: spot.address,description: spot.description}%>
+      <%= render partial: "spot", locals: { id:spot.id,
+                                            name: spot.name,
+                                            image: spot.image,
+                                            address: spot.address,
+                                            description: spot.description} %>
       <%end%>
     <% else %>
       不好意思，沒有搜尋結果，請重新嘗試！
@@ -238,7 +242,7 @@ $(function(){
     //$("#search_location").val(x);
     //安全因素 被chrome擋掉了 沒辦法測試
   });
-  //以下是geolocation的程式碼 先不用 
+  //以下是geolocation的程式碼 先不用
   var x="False";
   function getLocation()
     {
@@ -250,7 +254,7 @@ $(function(){
     }
   function showPosition(position)
     {
-    x=[position.coords.latitude,position.coords.longitude];  
+    x=[position.coords.latitude,position.coords.longitude];
     }
 
   //gallery-expand 也就是點景點 會跳出來的特效
