@@ -34,6 +34,13 @@
               Spots
             <% end %>
           </li>
+          <% if current_user.role=="admin" %>
+          <li class="">
+            <%= link_to admin_root_path do %>
+              後台
+            <% end %>
+          </li>
+          <%end %>
           <li><a href="#">Feeds</a></li>
           <li><a href="#">Blog</a></li>
           <li><a href="#">Docs</a></li>
