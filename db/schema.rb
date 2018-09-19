@@ -10,20 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180915142313) do
-
+ActiveRecord::Schema.define(version: 20180919122450) do
 
   create_table "attractions", force: :cascade do |t|
     t.string "name", null: false
     t.string "image"
     t.text "description", null: false
     t.string "address", null: false
-    t.integer "lat"
-    t.integer "lng"
+    t.float "lat"
+    t.float "lng"
     t.integer "categoey_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "indroduction"
+    t.text "introduction"
+    t.string "region"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -50,9 +50,10 @@ ActiveRecord::Schema.define(version: 20180915142313) do
     t.string "origin", null: false
     t.integer "origin_lat"
     t.integer "origin_lng"
-    t.text "respond_list"
+    t.text "search_params"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
   end
 
   create_table "users", force: :cascade do |t|
