@@ -20,7 +20,7 @@
     <!-- Navbar and Header -->
     <nav class="nav-extended">
       <div class="nav-background">
-        <div id="nav-bg-img" class="pattern active" style="background-image: url('http://placehold.it/1400x300');"></div>
+        <div id="nav-bg-img" class="pattern active" style="background-image: url(<%= asset_path 'city.jpg' %>)"></div>
       </div>
       <div class="nav-wrapper container">
         <%= link_to root_path, class:"brand-logo" do %>
@@ -52,8 +52,8 @@
         </ul>
 
         <div class="nav-header center">
-          <h1 id="nav-header-h1" >######</h1>
-          <div id="nav-header-tag" class="tagline">#######</div>
+          <h1 id="nav-header-h1" >歡迎來到 Travel Master</h1>
+          <div id="nav-header-tag" class="tagline">找不到好玩的地方嗎？怎麼可能！</div>
         </div>
       </div>
     </nav>
