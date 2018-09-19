@@ -12,7 +12,6 @@
   <%end %>
 </div>
 
-
 <div id="function" class="section" style="display: none;">
   <div class="container">
 
@@ -56,32 +55,37 @@
   </div>
 </div>
 
-
-      <div class="search-outter center">
-
-
-      </div>
-
 <div id="portfolio" class="section gray">
+  <div class="container message">
+    <div class="center">
+      <% if @way_check == 1%>
+        <h5>您所在的分類是<%=@category.tag_name%></h5>
+      <% elsif @way_check == 3%>
+        <h5>您所選擇的標籤是<%=@search_tags%>，出發地點是<%=@search_location%></h5>
+      <%end%>
+    </div>
+  </div>
 
   <div class="container">
     <div class="center">
-      <h4>精選景點</h4>
+      <% if @way_check == 1%>
+        <h4>分類景點</h4>
+      <% elsif @way_check == 3%>
+        <h4>為您推薦</h4>
+      <%else%>
+        <h4>精選景點</h4>
+      <%end%>
+      
     </div>
 
     <div class="gallery row">
 
-    <% if @show #以controller show進入 %>
-      <%= render partial: "spot", locals: {id:@show.id,name: @show.name,address: @show.address,description: @show.description} %>
-    <%else #以controller index進入 %>
-
-      <% if @attractions && @attractions.length>0 %>
-        <% @attractions.each do |spot| %>
-        <%= render partial: "spot", locals: {id:spot.id,name: spot.name,address: spot.address,description: spot.description}%>
-        <%end%>
-      <% else %>
-        不好意思，沒有搜尋結果，請重新嘗試！
+    <% if @attractions && @attractions.length>0 %>
+      <% @attractions.each do |spot| %>
+      <%= render partial: "spot", locals: {id:spot.id,name: spot.name,address: spot.address,description: spot.description}%>
       <%end%>
+    <% else %>
+      不好意思，沒有搜尋結果，請重新嘗試！
     <%end%>
 
     </div>

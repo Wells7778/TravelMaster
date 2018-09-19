@@ -3,29 +3,42 @@ class AttractionsController < ApplicationController
   before_action :set_tags
 
   
-  def index   
+  def index
     @categories = Category.all
+    @attractions = Attraction.order("created_at").limit(5) #attractions以熱門景點為基礎
+
+    #進入首頁方式1 分類
     if params[:category_id]
+      @way_check = 1 #用來搭配view 顯示 避免出錯
       @category = Category.find(params[:category_id])
       @attractions = @category.attractions
     else
-      @attractions = Attraction.all
-    end
-
-    if flash[:value01]
-      @test = flash[:value01]
+      #進入首頁方式2 Show action
+      if flash[:show_id] #從Show action進來
+        @way_check = 2
+        @show = Attraction.find(flash[:show_id])
+        puts("!!!before")
+        puts(@attractions)
+        @attractions.merge(Attraction.where(id: flash[:show_id]))
+        puts("+++++after")
+        puts(@attractions)
+      #進入首頁方式3 Search action
+      elsif flash[:search] #從Search action進來
+        @way_check = 3
+        @search_tags = flash[:search]["tags"]
+        @search_location = flash[:search]["location"]
+      end
     end
 
   end
 
   def show
-    @show = Attraction.find(params[:id])
-    render "attractions/index"
+    flash[:show_id] = params[:id] #用來傳遞變數
+    redirect_to root_path
   end
 
   def search
-    puts search_params
-    flash[:value01] = search_params
+    flash[:search] = search_params #用來傳遞變數
     redirect_to root_path
   end
 
@@ -39,10 +52,10 @@ class AttractionsController < ApplicationController
       params.require(:search).permit(:location, :tags)
     end
 
-    def set_tags
-      @traffic_tags = ["T_TAG1","T_TAG2","T_TAG3","T_TAG4"]
-      @vibe_tags = ["V_TAG1","V_TAG2","V_TAG3"]
-      @time_tags = ["1hours","4hours","6hours"]
+    def set_tags #把我們要的TAG都放在這邊
+      @traffic_tags = ["BUS","MRT","CAR","SCOOTER"]
+      @vibe_tags = ["情侶","家庭","戶外","低消費","刺激","散步","宗教"]
+      @time_tags = ["2-3hours","6-8hours","一整天","週末二日"]
     end
 
 
