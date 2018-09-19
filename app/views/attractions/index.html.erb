@@ -5,6 +5,8 @@
   </div>
 </div>
 
+<div id="test" class="btn">XXX</div>
+
 <div class="test">
   <% if @test %>
   <h3>搜尋結果</h3>
@@ -110,22 +112,20 @@
 
   <% if @show #以controller show進入 %>
     $(function(){$('#<%=@show.id%>').galleryExpand('open');})
-  <% else #以controller index進入 %>
+  <%end%>
+  
+  <%#讀取TAGS %>
 
-    <%#讀取TAGS %>
+  <% @vibe_tags.each do |vibe| %>
+    $(".grid-1 span").after('<div class="grid-item chip vibe"><%=vibe%></div>');
+  <%end%>
 
-    <% @vibe_tags.each do |vibe| %>
-      $(".grid-1 span").after('<div class="grid-item chip vibe"><%=vibe%></div>');
-    <%end%>
+  <% @time_tags.each do |time| %>
+    $(".grid-2 span").after('<div class="grid-item chip time"><%=time%></div>');
+  <%end%>
 
-    <% @time_tags.each do |time| %>
-      $(".grid-2 span").after('<div class="grid-item chip time"><%=time%></div>');
-    <%end%>
-
-    <% @traffic_tags.each do |traffic| %>
-      $(".grid-3 span").after('<div class="grid-item chip traffic"><%=traffic%></div>');
-    <%end%>
-
+  <% @traffic_tags.each do |traffic| %>
+    $(".grid-3 span").after('<div class="grid-item chip traffic"><%=traffic%></div>');
   <%end%>
 
   })
@@ -227,13 +227,29 @@ $(function(){
 
   $( ".main-input .submit" ).click(function() {
     $("#search_tags").val($("input").materialtags('items')[1]);
+    //$("#search_location").val(x);
+    //安全因素 被chrome擋掉了 沒辦法測試
   });
 
-  $( "#open-search" ).click(function() {
-    $( "#starter" ).toggle();
-    $( "#function" ).slideDown( "slow" );
-    openSearch();
-  });
+  var x="False";
+  function getLocation()
+    {
+    if (navigator.geolocation)
+      {
+      navigator.geolocation.getCurrentPosition(showPosition);
+      }
+    else{x="False";}
+    }
+  function showPosition(position)
+    {
+    x=[position.coords.latitude,position.coords.longitude];  
+    }
+
+    $( "#open-search" ).click(function() {
+      $( "#starter" ).toggle();
+      $( "#function" ).slideDown( "slow" );
+      openSearch();
+    });
 
   var onShow = function(el) {
     console.log();
