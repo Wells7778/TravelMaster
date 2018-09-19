@@ -10,6 +10,7 @@
 
 .input-outter{
 	text-align: left;
+	max-width: 800px;
 }
 
 .materialize-tags .chip .material-icons{
@@ -65,4 +66,17 @@
 
 #search_location{
 	display: block !important;
+}
+
+.main-input{
+	text-align: left;
+}
+
+label{
+	margin-bottom: -10px;
+}
+
+::placeholder {
+  color: grey;
+  font-size: 15px;
 }

@@ -42,14 +42,18 @@
       </div>
 
       <div class="input-outter">
+        <label for="tags-input" class="active">景點標的</label>
         <input id="#tags-input" class="typeahead" type="text" data-role="materialtags">
       </div>
 
-      <%= form_tag("/attractions/search", method: "post", class: "main-input") do %>
-        <%= text_field_tag 'search[location]' %>
-        <%= hidden_field 'search', 'tags'%>
-        <%= submit_tag "送出", class: "btn submit" %>
-      <% end %>
+      <div class="input-outter">
+        <%= form_tag("/attractions/search", method: "post", class: "main-input") do %>
+          <label for="search[location]" class="active">出發位置</label>
+          <%= text_field_tag 'search[location]' %>
+          <%= hidden_field 'search', 'tags'%>
+          <%= submit_tag "送出", class: "btn submit" %>
+        <% end %>
+      </div>
 
     </div>
   </div>
@@ -218,6 +222,9 @@ $(function(){
       .packery( 'prepended', $items );
     });
   };
+
+  $(".n-tag").attr("placeholder", "自行輸入或點選上方標籤");
+  $("#search_location").attr("placeholder", "輸入出發地址(未填則採當前位置)");
 
   $( ".main-input .submit" ).click(function() {
     $("#search_tags").val($("input").materialtags('items')[1]);
