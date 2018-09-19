@@ -85,3 +85,12 @@ footer.page-footer {
     padding-top: 20px;
     background-color: #828081;
 }
+
+.devise-btn-div {
+	padding: 24px 24px;
+	text-align: center;
+}
+
+.devise-btn {
+	min-width: 250px;
+}

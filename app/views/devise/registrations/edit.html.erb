@@ -1,7 +1,4 @@
 
-
-
-
 <div id="edit-user" class="section gray">
   <div class="container">
 
@@ -23,26 +20,24 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+    <%= f.label :password %> [若不修改密碼則留空白]<br />
     <%= f.password_field :password, autocomplete: "new-password" %>
     <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
     <% end %>
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation %><br />
+    <%= f.label :password_confirmation %>[確認新密碼，最少六位英數字]<br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
   <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+    <%= f.label :current_password %>[請輸入目前密碼進行資料修改]<br />
     <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Update" %>
+  <div class="devise-btn-div">
+    <%= f.submit "Update", class:"btn devise-btn" %>
   </div>
 <% end %>
 
@@ -57,3 +52,5 @@
 
       </div>
     </div>
+  </div>
+</div>
