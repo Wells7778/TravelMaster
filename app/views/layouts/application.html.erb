@@ -84,86 +84,93 @@
       <% end %>
     </ul>
     </header>
-
-
-
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-
  
     <%= yield %>
 
-    <script>
+<%= javascript_tag do %>
+  $(function(){
 
-    $(function(){
+    <%if notice %>
+      Materialize.toast('<%= notice %>', 4000)
+    <% end %>
+    <%if alert %>
+      Materialize.toast('<%= alert %>', 4000)
+    <% end %>
 
-      // Home
-      $('.carousel:not(.carousel-slider)').carousel({
-        dist: 0,
-        padding: 10
-      });
-      $('.carousel.carousel-slider').carousel({
-        fullWidth: true,
-        indicators: true,
-        onCycleTo: function(el) {
-          $('.nav-background img').removeClass('active');
-          $('.nav-background img').eq(el.index()).addClass('active');
+  })
+<% end %>
+
+<script>
+
+$(function(){
+
+  // Home
+  $('.carousel:not(.carousel-slider)').carousel({
+    dist: 0,
+    padding: 10
+  });
+  $('.carousel.carousel-slider').carousel({
+    fullWidth: true,
+    indicators: true,
+    onCycleTo: function(el) {
+      $('.nav-background img').removeClass('active');
+      $('.nav-background img').eq(el.index()).addClass('active');
+    }
+  });
+
+ // Navbar
+  $(".button-collapse").sideNav();
+  var categories = $('nav .categories-container');
+  if (categories.length) {
+    categories.pushpin({ top: categories.offset().top });
+    var $links = categories.find('li');
+    $links.each(function() {
+      var $link = $(this);
+      $link.on('click', function() {
+        $links.removeClass('active');
+        $link.addClass('active');
+        var hash = $link.find('a').first()[0].hash.substr(1);
+        var $galleryItems = $('.gallery .gallery-item');
+
+        $galleryItems.stop().addClass('gallery-filter').fadeIn(100);
+
+        if (hash !== 'all') {
+          var $galleryFilteredOut = $galleryItems.not('.' + hash).not('.all');
+          $galleryFilteredOut.removeClass('gallery-filter').hide();
         }
-      });
 
-     // Navbar
-      $(".button-collapse").sideNav();
-      var categories = $('nav .categories-container');
-      if (categories.length) {
-        categories.pushpin({ top: categories.offset().top });
-        var $links = categories.find('li');
-        $links.each(function() {
-          var $link = $(this);
-          $link.on('click', function() {
-            $links.removeClass('active');
-            $link.addClass('active');
-            var hash = $link.find('a').first()[0].hash.substr(1);
-            var $galleryItems = $('.gallery .gallery-item');
-
-            $galleryItems.stop().addClass('gallery-filter').fadeIn(100);
-
-            if (hash !== 'all') {
-              var $galleryFilteredOut = $galleryItems.not('.' + hash).not('.all');
-              $galleryFilteredOut.removeClass('gallery-filter').hide();
-            }
-
-            // transition layout
-            $masonry.masonry({
-              transitionDuration: '.3s'
-            });
-            // only animate on layout
-            $masonry.one( 'layoutComplete', function( event, items ) {
-              $masonry.masonry({
-                transitionDuration: 0
-              });
-            });
-            setTimeout(function() {
-
-            $masonry.masonry('layout');
-            }, 1000);
+        // transition layout
+        $masonry.masonry({
+          transitionDuration: '.3s'
+        });
+        // only animate on layout
+        $masonry.one( 'layoutComplete', function( event, items ) {
+          $masonry.masonry({
+            transitionDuration: 0
           });
         });
-      }
+        setTimeout(function() {
 
-
-      // Contact Form Icon
-      $("form .form-control").focus(function() {
-        $(this).siblings("label").first().children("i").first().css({"color": "#aaa", "left": 0});
+        $masonry.masonry('layout');
+        }, 1000);
       });
-      $("form .form-control").blur(function() {
-        $(this).siblings("label").first().children("i").first().css({"color": "transparent", "left": "-20px"});
-      });
+    });
+  }
 
 
-    }); // end of document ready
+  // Contact Form Icon
+  $("form .form-control").focus(function() {
+    $(this).siblings("label").first().children("i").first().css({"color": "#aaa", "left": 0});
+  });
+  $("form .form-control").blur(function() {
+    $(this).siblings("label").first().children("i").first().css({"color": "transparent", "left": "-20px"});
+  });
 
 
-    </script>
+}); // end of document ready
+
+
+</script>
 
   </body>
 </html>
