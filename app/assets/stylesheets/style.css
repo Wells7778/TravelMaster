@@ -58,3 +58,11 @@
 .grid-item.chip.returned{
 	background-color: #FEDCD2;
 }
+
+.main-input .submit{
+	display: block !important;
+}
+
+#search_location{
+	display: block !important;
+}

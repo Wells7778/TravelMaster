@@ -82,10 +82,7 @@ var checkStop = 0; //修正：function add 會重複新增div階層造成錯誤
     * @constructor
     */
     function TagsMaterialize(element, options)
-    {
-
-        console.log("in");
-        
+    {   
         this.itemsArray = [];
 
         this.$element = $(element);
@@ -398,7 +395,7 @@ var checkStop = 0; //修正：function add 會重複新增div階層造成錯誤
         * element.
         */
         pushVal : function ()
-        {
+        {/*
             var self = this,
                 val  = $.map(self.items(), function (item)
                 {
@@ -406,7 +403,7 @@ var checkStop = 0; //修正：function add 會重複新增div階層造成錯誤
                 });
 
             self.$element.val(val, true).trigger('change');
-            self.$input.typeahead('val', '');
+            self.$input.typeahead('val', ''); */
         },
 
         /**

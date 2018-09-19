@@ -5,6 +5,14 @@
   </div>
 </div>
 
+<div class="test">
+  <% if @test %>
+  <h3>搜尋結果</h3>
+  <%= @test %>
+  <%end %>
+</div>
+
+
 <div id="function" class="section" style="display: none;">
   <div class="container">
 
@@ -33,13 +41,26 @@
         <div class="grid-4 grid-css">
         </div>
       </div>
+
       <div class="input-outter">
         <input id="#tags-input" class="typeahead" type="text" data-role="materialtags">
       </div>
 
+      <%= form_tag("/attractions/search", method: "post", class: "main-input") do %>
+        <%= text_field_tag 'search[location]' %>
+        <%= hidden_field 'search', 'tags'%>
+        <%= submit_tag "送出", class: "btn submit" %>
+      <% end %>
+
     </div>
   </div>
 </div>
+
+
+      <div class="search-outter center">
+
+
+      </div>
 
 <div id="portfolio" class="section gray">
 
@@ -192,8 +213,11 @@ $(function(){
       // add and lay out newly prepended items
       .packery( 'prepended', $items );
     });
-
   };
+
+  $( ".main-input .submit" ).click(function() {
+    $("#search_tags").val($("input").materialtags('items')[1]);
+  });
 
   $( "#open-search" ).click(function() {
     $( "#starter" ).toggle();
