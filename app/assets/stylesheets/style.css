@@ -1,13 +1,14 @@
 .grid-css{
-	padding-top: 20px;
-	padding-bottom: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 64px;
 }
 
 .grid-item{ 
 
 }
 
-.tags-outter{
+.input-outter{
 	text-align: left;
 }
 
@@ -21,4 +22,39 @@
 
 .n-tag{
 	display: inline !important;
+}
+
+.tags-outter{
+	text-align: left;
+	min-height: 72px;
+}
+
+.tags-outter span{
+	position: absolute;
+	padding-top: 30px;
+	font-size: 14px;
+	color: #606060;
+}
+
+#function{
+	background-color: #fff;
+}
+
+.grid-item.chip.vibe{
+	background-color: #F4F4F4;
+	border: 1px solid #E37222;
+}
+
+.grid-item.chip.traffic{
+	background-color: #F4F4F4;
+	border: 1px solid #07889B;
+}
+
+.grid-item.chip.time{
+	background-color: #F4F4F4;
+	border: 1px solid #C09F80;
+}
+
+.grid-item.chip.returned{
+	background-color: #FEDCD2;
 }

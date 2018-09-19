@@ -1,17 +1,39 @@
-<div id="function" class="section">
+
+<div id="starter" class="section">
+  <div class="function-trigger center">
+    <div id="open-search" class="btn">開始旅程</div>
+  </div>
+</div>
+
+<div id="function" class="section" style="display: none;">
   <div class="container">
-    <div class="function-trigger center">
-      <div id="open-search" class="btn">開始旅程</div>
-    </div>
 
-    <div class="search-outter center" style="display: none;">
+    <div class="search-outter center">
 
-      <div class="grid grid-css">
-        <div class="grid-item chip">TAG1</div>
-        <div class="grid-item chip">TAG2</div>
-        <div class="grid-item chip">TAGasdasd3</div>
+      <div class="vibe-outter tags-outter">
+        <span>心情分類</span>
+        <div class="grid-1 grid-css">
+          <span></span>
+        </div>
       </div>
-      <div class="tags-outter">
+      <div class="time-outter tags-outter">
+        <span>旅程時間</span>
+        <div class="grid-2 grid-css">
+          <span></span>
+        </div>
+      </div>
+      <div class="traffic-outter tags-outter">
+        <span>交通工具</span>
+        <div class="grid-3 grid-css">
+          <span></span>
+        </div>
+      </div>
+      <div class="returned-outter tags-outter" style="display: none;">
+        <span>待選區</span>
+        <div class="grid-4 grid-css">
+        </div>
+      </div>
+      <div class="input-outter">
         <input id="#tags-input" class="typeahead" type="text" data-role="materialtags">
       </div>
 
@@ -20,6 +42,7 @@
 </div>
 
 <div id="portfolio" class="section gray">
+
   <div class="container">
     <div class="center">
       <h4>精選景點</h4>
@@ -59,11 +82,22 @@
 
   <% if @show #以controller show進入 %>
     $(function(){$('#<%=@show.id%>').galleryExpand('open');})
-  <%end%>
+  <% else #以controller index進入 %>
 
-  <%#讀取TAGS %>
-  <% @traffic_tags.each do |traffic| %>
-    $(".grid-item:last").after('<div class="grid-item chip"><%=traffic%></div>');
+    <%#讀取TAGS %>
+
+    <% @vibe_tags.each do |vibe| %>
+      $(".grid-1 span").after('<div class="grid-item chip vibe"><%=vibe%></div>');
+    <%end%>
+
+    <% @time_tags.each do |time| %>
+      $(".grid-2 span").after('<div class="grid-item chip time"><%=time%></div>');
+    <%end%>
+
+    <% @traffic_tags.each do |traffic| %>
+      $(".grid-3 span").after('<div class="grid-item chip traffic"><%=traffic%></div>');
+    <%end%>
+
   <%end%>
 
   })
@@ -74,29 +108,87 @@
 $(function(){
 
   function openSearch() { //tag initialize
-    var $grid = $('.grid').packery({
+    var $grid_1 = $('.grid-1').packery({
       itemSelector: '.grid-item',
       // columnWidth helps with drop positioning
       gutter: 10,
       columnWidth: 11,
     });
-    $grid.find('.grid-item').each( function( i, gridItem ) {
+    $grid_1.find('.grid-item').each( function( i, gridItem ) {
       var draggie = new Draggabilly( gridItem );
       // bind drag events to Packery
-      $grid.packery( 'bindDraggabillyEvents', draggie );
+      $grid_1.packery( 'bindDraggabillyEvents', draggie );
     });
 
-    $grid.on( 'click', '.grid-item', function( event ) {
-      $grid.packery( 'remove', event.currentTarget ).packery('shiftLayout');
+    var $grid_2 = $('.grid-2').packery({
+      itemSelector: '.grid-item',
+      // columnWidth helps with drop positioning
+      gutter: 10,
+      columnWidth: 11,
+    });
+    $grid_2.find('.grid-item').each( function( i, gridItem ) {
+      var draggie = new Draggabilly( gridItem );
+      // bind drag events to Packery
+      $grid_2.packery( 'bindDraggabillyEvents', draggie );
+    });
+
+    var $grid_3 = $('.grid-3').packery({
+      itemSelector: '.grid-item',
+      // columnWidth helps with drop positioning
+      gutter: 10,
+      columnWidth: 11,
+    });
+    $grid_3.find('.grid-item').each( function( i, gridItem ) {
+      var draggie = new Draggabilly( gridItem );
+      // bind drag events to Packery
+      $grid_3.packery( 'bindDraggabillyEvents', draggie );
+    });
+
+    var $grid_4 = $('.grid-4').packery({
+      itemSelector: '.grid-item',
+      // columnWidth helps with drop positioning
+      gutter: 10,
+      columnWidth: 11,
+    });
+    $grid_4.find('.grid-item').each( function( i, gridItem ) {
+      var draggie = new Draggabilly( gridItem );
+      // bind drag events to Packery
+      $grid_4.packery( 'bindDraggabillyEvents', draggie );
+    });
+
+    $grid_1.on( 'click', '.vibe.grid-item', function( event ) {
+      $grid_1.packery( 'remove', event.currentTarget ).packery('shiftLayout');
+      // shiftLayout remaining item elements
+      $('input').materialtags('add', event.currentTarget.innerText );
+      $('.n-tag').val("");
+    });
+
+    $grid_2.on( 'click', '.time.grid-item', function( event ) {
+      $grid_2.packery( 'remove', event.currentTarget ).packery('shiftLayout');
+      // shiftLayout remaining item elements
+      $('input').materialtags('add', event.currentTarget.innerText );
+      $('.n-tag').val("");
+    });
+
+    $grid_3.on( 'click', '.traffic.grid-item', function( event ) {
+      $grid_3.packery( 'remove', event.currentTarget ).packery('shiftLayout');
+      // shiftLayout remaining item elements
+      $('input').materialtags('add', event.currentTarget.innerText );
+      $('.n-tag').val("");
+    });
+
+    $grid_4.on( 'click', '.returned.grid-item', function( event ) {
+      $grid_4.packery( 'remove', event.currentTarget ).packery('shiftLayout');
       // shiftLayout remaining item elements
       $('input').materialtags('add', event.currentTarget.innerText );
       $('.n-tag').val("");
     });
 
     $('input').on('beforeItemRemove', function(event) {
-      var $items = $('<div class="grid-item chip">'+event.item+'</div>');
+      var $items = $('<div class="grid-item chip returned">'+event.item+'</div>');
       // prepend items to grid
-      $grid.prepend( $items )
+      $(".returned-outter").show();
+      $grid_4.prepend( $items )
       // add and lay out newly prepended items
       .packery( 'prepended', $items );
     });
@@ -104,8 +196,8 @@ $(function(){
   };
 
   $( "#open-search" ).click(function() {
-    $( "#open-search" ).toggle();
-    $( ".search-outter" ).slideDown( "slow" );
+    $( "#starter" ).toggle();
+    $( "#function" ).slideDown( "slow" );
     openSearch();
   });
 
