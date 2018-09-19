@@ -80,3 +80,8 @@ label{
   color: grey;
   font-size: 15px;
 }
+
+footer.page-footer {
+    padding-top: 20px;
+    background-color: #828081;
+}
