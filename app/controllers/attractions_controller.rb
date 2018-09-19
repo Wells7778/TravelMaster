@@ -17,14 +17,11 @@ class AttractionsController < ApplicationController
       if flash[:show_id] #從Show action進來
         @way_check = 2
         @show = Attraction.find(flash[:show_id])
-        puts("!!!before")
-        puts(@attractions)
         @attractions.merge(Attraction.where(id: flash[:show_id]))
-        puts("+++++after")
-        puts(@attractions)
       #進入首頁方式3 Search action
       elsif flash[:search] #從Search action進來
         @way_check = 3
+        #以下兩個參數是Search的結果，再看後端要怎摸樣吐景點回來，複寫 @attractions 即可
         @search_tags = flash[:search]["tags"]
         @search_location = flash[:search]["location"]
       end
