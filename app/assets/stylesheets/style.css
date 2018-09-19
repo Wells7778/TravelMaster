@@ -1,0 +1,96 @@
+.grid-css{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 64px;
+}
+
+.grid-item{ 
+
+}
+
+.input-outter{
+	text-align: left;
+	max-width: 800px;
+}
+
+.materialize-tags .chip .material-icons{
+	cursor: pointer;
+  float: right;
+  font-size: 16px;
+  line-height: 32px;
+  padding-left: 8px;
+}
+
+.n-tag{
+	display: inline !important;
+}
+
+.tags-outter{
+	text-align: left;
+	min-height: 72px;
+}
+
+.tags-outter span{
+	position: absolute;
+	padding-top: 30px;
+	font-size: 14px;
+	color: #606060;
+}
+
+#function{
+	background-color: #fff;
+}
+
+.grid-item.chip.vibe{
+	background-color: #F4F4F4;
+	border: 1px solid #E37222;
+}
+
+.grid-item.chip.traffic{
+	background-color: #F4F4F4;
+	border: 1px solid #07889B;
+}
+
+.grid-item.chip.time{
+	background-color: #F4F4F4;
+	border: 1px solid #C09F80;
+}
+
+.grid-item.chip.returned{
+	background-color: #FEDCD2;
+}
+
+.main-input .submit{
+	display: block !important;
+}
+
+#search_location{
+	display: block !important;
+}
+
+.main-input{
+	text-align: left;
+}
+
+label{
+	margin-bottom: -10px;
+}
+
+::placeholder {
+  color: grey;
+  font-size: 15px;
+}
+
+footer.page-footer {
+    padding-top: 20px;
+    background-color: #828081;
+}
+
+.devise-btn-div {
+	padding: 24px 24px;
+	text-align: center;
+}
+
+.devise-btn {
+	min-width: 250px;
+}

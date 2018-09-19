@@ -1,7 +1,19 @@
+
+<div class="section gray">
+  <div class="container">
+
+    <div class="card">
+      <div class="card-content">
+
 <% @attraction.categories.each do |category| %>
   <p><%= category.tag_name %></p>
 <% end %>
-<%= @attraction.name %>
+<h5><%= @attraction.name %></h5>
 <img src="<%= @attraction.image %>" alt="">
-<%= @attraction.description %>
-<%= @attraction.address %>
+<p><b>描述</b><%= @attraction.description %></p>
+<p><b>地址</b><%= @attraction.address %></p>
+
+</div>
+</div>
+</div>
+</div>

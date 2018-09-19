@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :attractions, only: [:index, :show]
+  resources :attractions, only: [:index, :show] do
+    collection do
+      post :search
+    end
+  end
   root "attractions#index"
 
   # routes for admin
