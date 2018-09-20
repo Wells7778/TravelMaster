@@ -3,12 +3,12 @@ class Admin::AttractionsController < Admin::BaseController
   before_action :set_categories, only: [:show, :edit]
 
   def index
-    @categories = Category.all
+    @categories = Category.all.includes(:attractions)
     if params[:category_id]
       @category = Category.find(params[:category_id])
-      @attractions = @category.attractions
+      @attractions = @category.attractions.includes(:categories)
     else
-      @attractions = Attraction.all
+      @attractions = Attraction.all.includes(:categories)
     end
   end
 

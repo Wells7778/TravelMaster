@@ -2,13 +2,218 @@
 <html>
   <head>
     <title>TravelMaster</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%= csrf_meta_tags %>
-
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/materialize/0.98.0/js/materialize.min.js"></script>
+    <%= stylesheet_link_tag    'application', media: 'all'%>
+    <%= javascript_include_tag 'application'%>
   </head>
 
   <body>
+
+    <header>
+    <!-- Navbar and Header -->
+    <nav class="nav-extended">
+      <div class="nav-background">
+        <div id="nav-bg-img" class="pattern active" style="background-image: url(<%= asset_path 'city.jpg' %>)"></div>
+      </div>
+      <div class="nav-wrapper container">
+        <%= link_to root_path, class:"brand-logo" do %>
+          <i class="material-icons">landscape</i>Travel Master
+        <% end %>
+
+        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+          <li id="mainnav-1" class="">
+            <%= link_to root_path do %>
+              Spots
+            <% end %>
+          </li>
+          <% if current_user && current_user.role=="admin" %>
+          <li class="">
+            <%= link_to admin_root_path do %>
+              後台
+            <% end %>
+          </li>
+          <%end %>
+          <li><a href="#">Feeds</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Docs</a></li>
+
+          <li><a class='dropdown-button' href='#' data-activates='feature-dropdown' data-belowOrigin="true" data-constrainWidth="false">會員功能<i class="material-icons right">arrow_drop_down</i></a></li>
+        </ul>
+        <!-- Dropdown Structure -->
+        <ul id='feature-dropdown' class='dropdown-content'>
+          <% if current_user %>
+              <li><%= link_to('登出', destroy_user_session_path, method: :delete) %></li>
+              <li><%= link_to('修改密碼', edit_user_registration_path) %></li>
+            <% else %>
+              <li><%= link_to('註冊', new_user_registration_path) %></li>
+              <li><%= link_to('登入', new_user_session_path) %></li>
+          <% end %>
+        </ul>
+
+        <div class="nav-header center">
+          <h1 id="nav-header-h1" >歡迎來到 Travel Master</h1>
+          <div id="nav-header-tag" class="tagline">找不到好玩的地方嗎？怎麼可能！</div>
+        </div>
+      </div>
+    </nav>
+
+    <ul class="side-nav" id="nav-mobile">
+      <li id="sidenav-1" class="">
+        <%= link_to root_path do %>
+          <i class="material-icons">landscape</i>Spots
+        <% end %>
+      </li>
+      <li><a href="#"><i class="material-icons">brightness_3</i>Feeds</a></li>
+      <li><a href="#"><i class="material-icons">edit</i>Blog</a></li>
+      <li><a href="#"><i class="material-icons">school</i>Docs</a></li>
+      <% if current_user %>
+          <li><%= link_to destroy_user_session_path, method: :delete  do %>
+            <i class="material-icons">fullscreen</i>登出<%end%>
+          </li>
+          <li><%= link_to edit_user_registration_path do %>
+            <i class="material-icons">fullscreen</i>修改密碼<%end%>
+          </li>
+        <% else %>
+          <li><%= link_to new_user_registration_path do %>
+            <i class="material-icons">fullscreen</i>註冊<%end%>
+          </li>
+          <li><%= link_to new_user_session_path do %>
+            <i class="material-icons">fullscreen</i>登入<%end%>
+          </li>
+      <% end %>
+    </ul>
+    </header>
+
     <%= yield %>
+
+    <footer class="page-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col l12">
+            <h5 class="white-text">Travel Master</h5>
+            <p class="grey-text text-lighten-4">
+              <ul style="padding-left: 24px;">
+                <li class="grey-text text-lighten-3">不知道去哪裡好玩？有哪些主題？</li>
+                <li class="grey-text text-lighten-3">想去些不同地方散步，卻懶得找資料?</li>
+                <li class="grey-text text-lighten-3">Travel Master為你解決！</li>
+                <li class="grey-text text-lighten-3">多元主題性的分類，快速瀏覽目標，同時設定交通時間範圍！</li>
+              </ul>
+            </p>
+          </div>
+          <!--
+          <div class="col l4 offset-l2 s12">
+
+            <h5 class="white-text"></h5>
+            <ul>
+              <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+            </ul>
+          </div>
+          -->
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">
+        © 2018 Copyright Text
+
+        </div>
+      </div>
+    </footer>
+
+<%= javascript_tag do %>
+  $(function(){
+
+    <%if notice %>
+      Materialize.toast('<%= notice %>', 4000)
+    <% end %>
+    <%if alert %>
+      Materialize.toast('<%= alert %>', 4000)
+    <% end %>
+
+  })
+<% end %>
+
+<script>
+
+$(document).on("turbolinks:load", function(){
+
+  // Home
+  $('.carousel:not(.carousel-slider)').carousel({
+    dist: 0,
+    padding: 10
+  });
+  $('.carousel.carousel-slider').carousel({
+    fullWidth: true,
+    indicators: true,
+    onCycleTo: function(el) {
+      $('.nav-background img').removeClass('active');
+      $('.nav-background img').eq(el.index()).addClass('active');
+    }
+  });
+
+ // Navbar
+  $(".button-collapse").sideNav();
+  var categories = $('nav .categories-container');
+  if (categories.length) {
+    categories.pushpin({ top: categories.offset().top });
+    var $links = categories.find('li');
+    $links.each(function() {
+      var $link = $(this);
+      $link.on('click', function() {
+        $links.removeClass('active');
+        $link.addClass('active');
+        var hash = $link.find('a').first()[0].hash.substr(1);
+        var $galleryItems = $('.gallery .gallery-item');
+
+        $galleryItems.stop().addClass('gallery-filter').fadeIn(100);
+
+        if (hash !== 'all') {
+          var $galleryFilteredOut = $galleryItems.not('.' + hash).not('.all');
+          $galleryFilteredOut.removeClass('gallery-filter').hide();
+        }
+
+        // transition layout
+        $masonry.masonry({
+          transitionDuration: '.3s'
+        });
+        // only animate on layout
+        $masonry.one( 'layoutComplete', function( event, items ) {
+          $masonry.masonry({
+            transitionDuration: 0
+          });
+        });
+        setTimeout(function() {
+
+        $masonry.masonry('layout');
+        }, 1000);
+      });
+    });
+  }
+
+
+  // Contact Form Icon
+  $("form .form-control").focus(function() {
+    $(this).siblings("label").first().children("i").first().css({"color": "#aaa", "left": 0});
+  });
+  $("form .form-control").blur(function() {
+    $(this).siblings("label").first().children("i").first().css({"color": "transparent", "left": "-20px"});
+  });
+
+
+}); // end of document ready
+
+
+</script>
+
   </body>
 </html>

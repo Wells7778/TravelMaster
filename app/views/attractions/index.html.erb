@@ -1,0 +1,289 @@
+
+<div id="starter" class="section">
+  <div class="function-trigger center">
+    <div id="open-search" class="btn">開始旅程</div>
+  </div>
+</div>
+
+<div class="test">
+  <% if @test %>
+  <h3>搜尋結果</h3>
+  <%= @test %>
+  <%end %>
+</div>
+
+<div id="function" class="section" style="display: none;">
+  <div class="container">
+
+    <div class="search-outter center">
+
+      <div class="vibe-outter tags-outter">
+        <span>心情分類</span>
+        <div class="grid-1 grid-css">
+          <span></span>
+        </div>
+      </div>
+      <div class="time-outter tags-outter">
+        <span>旅程時間</span>
+        <div class="grid-2 grid-css">
+          <span></span>
+        </div>
+      </div>
+      <div class="traffic-outter tags-outter">
+        <span>交通工具</span>
+        <div class="grid-3 grid-css">
+          <span></span>
+        </div>
+      </div>
+      <div class="returned-outter tags-outter" style="display: none;">
+        <span>待選區</span>
+        <div class="grid-4 grid-css">
+        </div>
+      </div>
+
+      <div class="input-outter">
+        <label for="tags-input" class="active">景點標的</label>
+        <input id="#tags-input" class="typeahead" type="text" data-role="materialtags">
+      </div>
+
+      <div class="input-outter">
+        <%= form_tag("/attractions/search", method: "post", class: "main-input") do %>
+          <label for="search[location]" class="active">出發位置</label>
+          <%= text_field_tag 'search[location]' %>
+          <%= hidden_field 'search', 'tags'%>
+          <%= submit_tag "送出", class: "btn submit" %>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="portfolio" class="section gray">
+  <div class="container message">
+    <div class="center">
+      <% if @way_check == 1%>
+        <h5>您所在的分類是<%=@category.tag_name%></h5>
+      <% elsif @way_check == 3%>
+        <h5>您所選擇的標籤是<%=@search_tags%>，出發地點是<%=@search_location%></h5>
+      <%end%>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="center">
+      <% if @way_check == 1%>
+        <h4>分類景點</h4>
+      <% elsif @way_check == 3%>
+        <h4>為您推薦</h4>
+      <%else%>
+        <h4>精選景點</h4>
+      <%end%>
+      
+    </div>
+
+    <div class="gallery row">
+
+    <% if @attractions && @attractions.length>0 %>
+      <% @attractions.each do |spot| %>
+      <%= render partial: "spot", locals: {id:spot.id,name: spot.name,address: spot.address,description: spot.description}%>
+      <%end%>
+    <% else %>
+      不好意思，沒有搜尋結果，請重新嘗試！
+    <%end%>
+
+    </div>
+  </div>
+</div><!-- /.container -->
+
+
+<%= javascript_tag do %>
+  $(function(){
+
+  <%#客製 layout 的變數%>
+  $("#mainnav-1").addClass('active');
+  $("#sidenav-1").addClass('active');
+
+  $("#nav-bg-img").css("background-image","url(<%= asset_path 'rock.jpg' %>)");
+  $("#nav-header-h1").text("想出門走走？馬上開始");
+  $("#nav-header-tag").text("找尋景點好幫手");
+
+  <% if @show #以controller show進入 %>
+    $(function(){$('#<%=@show.id%>').galleryExpand('open');})
+  <%end%>
+
+  <%#讀取TAGS %>
+
+  <% @vibe_tags.each do |vibe| %>
+    $(".grid-1 span").after('<div class="grid-item chip vibe"><%=vibe%></div>');
+  <%end%>
+
+  <% @time_tags.each do |time| %>
+    $(".grid-2 span").after('<div class="grid-item chip time"><%=time%></div>');
+  <%end%>
+
+  <% @traffic_tags.each do |traffic| %>
+    $(".grid-3 span").after('<div class="grid-item chip traffic"><%=traffic%></div>');
+  <%end%>
+
+  })
+<% end %>
+
+<script>
+
+$(function(){
+
+  //openSearch時 開啟.packery模組 並設定tag的選取、移位等
+
+  function openSearch() { //tag initialize
+    var $grid_1 = $('.grid-1').packery({
+      itemSelector: '.grid-item',
+      // columnWidth helps with drop positioning
+      gutter: 10,
+      columnWidth: 11,
+    });
+    $grid_1.find('.grid-item').each( function( i, gridItem ) {
+      var draggie = new Draggabilly( gridItem );
+      // bind drag events to Packery
+      $grid_1.packery( 'bindDraggabillyEvents', draggie );
+    });
+
+    var $grid_2 = $('.grid-2').packery({
+      itemSelector: '.grid-item',
+      // columnWidth helps with drop positioning
+      gutter: 10,
+      columnWidth: 11,
+    });
+    $grid_2.find('.grid-item').each( function( i, gridItem ) {
+      var draggie = new Draggabilly( gridItem );
+      // bind drag events to Packery
+      $grid_2.packery( 'bindDraggabillyEvents', draggie );
+    });
+
+    var $grid_3 = $('.grid-3').packery({
+      itemSelector: '.grid-item',
+      // columnWidth helps with drop positioning
+      gutter: 10,
+      columnWidth: 11,
+    });
+    $grid_3.find('.grid-item').each( function( i, gridItem ) {
+      var draggie = new Draggabilly( gridItem );
+      // bind drag events to Packery
+      $grid_3.packery( 'bindDraggabillyEvents', draggie );
+    });
+
+    var $grid_4 = $('.grid-4').packery({
+      itemSelector: '.grid-item',
+      // columnWidth helps with drop positioning
+      gutter: 10,
+      columnWidth: 11,
+    });
+    $grid_4.find('.grid-item').each( function( i, gridItem ) {
+      var draggie = new Draggabilly( gridItem );
+      // bind drag events to Packery
+      $grid_4.packery( 'bindDraggabillyEvents', draggie );
+    });
+
+    $grid_1.on( 'click', '.vibe.grid-item', function( event ) {
+      $grid_1.packery( 'remove', event.currentTarget ).packery('shiftLayout');
+      // shiftLayout remaining item elements
+      $('input').materialtags('add', event.currentTarget.innerText );
+      $('.n-tag').val("");
+    });
+
+    $grid_2.on( 'click', '.time.grid-item', function( event ) {
+      $grid_2.packery( 'remove', event.currentTarget ).packery('shiftLayout');
+      // shiftLayout remaining item elements
+      $('input').materialtags('add', event.currentTarget.innerText );
+      $('.n-tag').val("");
+    });
+
+    $grid_3.on( 'click', '.traffic.grid-item', function( event ) {
+      $grid_3.packery( 'remove', event.currentTarget ).packery('shiftLayout');
+      // shiftLayout remaining item elements
+      $('input').materialtags('add', event.currentTarget.innerText );
+      $('.n-tag').val("");
+    });
+
+    $grid_4.on( 'click', '.returned.grid-item', function( event ) {
+      $grid_4.packery( 'remove', event.currentTarget ).packery('shiftLayout');
+      // shiftLayout remaining item elements
+      $('input').materialtags('add', event.currentTarget.innerText );
+      $('.n-tag').val("");
+    });
+
+    $('input').on('beforeItemRemove', function(event) {
+      var $items = $('<div class="grid-item chip returned">'+event.item+'</div>');
+      // prepend items to grid
+      $(".returned-outter").show();
+      $grid_4.prepend( $items )
+      // add and lay out newly prepended items
+      .packery( 'prepended', $items );
+    });
+  };
+
+  //開始旅程按鈕 啟動openSearch()
+
+  $( "#open-search" ).click(function() {
+    $( "#starter" ).toggle();
+    $( "#function" ).slideDown( "slow" );
+    openSearch();
+  });
+
+  //送出表單時的click 進行資料清洗
+
+  $( ".main-input .submit" ).click(function() {
+    //tags從materialtags 的功能來讀取值
+    $("#search_tags").val($("input").materialtags('items')[1]);
+    //$("#search_location").val(x);
+    //安全因素 被chrome擋掉了 沒辦法測試
+  });
+  //以下是geolocation的程式碼 先不用 
+  var x="False";
+  function getLocation()
+    {
+    if (navigator.geolocation)
+      {
+      navigator.geolocation.getCurrentPosition(showPosition);
+      }
+    else{x="False";}
+    }
+  function showPosition(position)
+    {
+    x=[position.coords.latitude,position.coords.longitude];  
+    }
+
+  //gallery-expand 也就是點景點 會跳出來的特效
+  //從這邊直接改URL 需配合controller與galleryExpand.js
+
+  var onShow = function(el) {
+    history.pushState({},"","/attractions/"+el.attr('id'));
+    //消除的部分寫在galleryExpand.js
+  };
+
+  $('.gallery-expand').galleryExpand({
+    onShow: onShow,
+  });
+
+  //card排版功能
+
+  var $masonry = $('.gallery');
+  $masonry.masonry({
+    // set itemSelector so .grid-sizer is not used in layout
+    itemSelector: '.gallery-item',
+    // use element for option
+    columnWidth: '.gallery-item',
+  });
+
+  // layout Masonry after each image loads
+  $masonry.imagesLoaded(function() {
+    $masonry.masonry('layout');
+  });
+
+  //添加placeholder
+  $(".n-tag").attr("placeholder", "自行輸入或點選上方標籤");
+  $("#search_location").attr("placeholder", "輸入出發地址");
+
+}); // end of document ready
+
+</script>
