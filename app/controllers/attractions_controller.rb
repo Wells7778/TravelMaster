@@ -2,10 +2,9 @@ class AttractionsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_tags
 
-
   def index
     @categories = Category.all
-    # @attractions = Attraction.order("created_at").limit(5) #attractions以熱門景點為基礎
+    @attractions = Attraction.order("created_at").limit(6) #attractions以熱門景點為基礎
 
     #進入首頁方式1 分類
     if params[:category_id]
@@ -29,7 +28,6 @@ class AttractionsController < ApplicationController
         @attractions = @list.attractions
       end
     end
-
   end
 
   def show
@@ -69,7 +67,6 @@ class AttractionsController < ApplicationController
   end
 
   private
-
     def attraction_params
       params.require(:attraction).permit(:name, :image, :description, :address, :lat, :lng, category_ids: [])
     end
@@ -83,6 +80,4 @@ class AttractionsController < ApplicationController
       @vibe_tags = Attraction::VIBE
       @time_tags = Attraction::TRAVELTIME.keys
     end
-
-
 end
