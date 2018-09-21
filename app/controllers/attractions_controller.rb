@@ -39,6 +39,19 @@ class AttractionsController < ApplicationController
     redirect_to root_path
   end
 
+  def like
+    @attraction = Attraction.find(params[:id])
+    @attraction.likes.create!(user: current_user)
+    redirect_back(fallback_location: root_path)  # 導回上一頁
+  end
+
+  def unlike
+    @attraction = Attraction.find(params[:id])
+    likes = Like.where(attraction: @attraction, user: current_user)
+    likes.destroy_all
+    redirect_back(fallback_location: root_path)
+  end
+
   private
 
     def attraction_params
