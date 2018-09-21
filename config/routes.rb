@@ -1,11 +1,18 @@
 Rails.application.routes.draw do
   devise_for :users
+  root "attractions#index"
+
   resources :attractions, only: [:index, :show] do
     collection do
       post :search
     end
+
+    member do
+      post :like
+      post :unlike
+    end
   end
-  root "attractions#index"
+
 
   # routes for admin
   namespace :admin do
