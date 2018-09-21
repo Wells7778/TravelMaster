@@ -14,7 +14,7 @@ class Attraction < ApplicationRecord
               "SCOOTER" => "bicycling",
               "WALK" => "walking"
   }
-  VIBE = ["情侶","家庭","戶外","低消費","刺激","散步","宗教", "restaurant"]
+  VIBE = Category.pluck(:tag_name)
   TRAVELTIME = { "半小時" => 1800,
                  "一小時" => 3600,
                  "兩小時" => 7200,
