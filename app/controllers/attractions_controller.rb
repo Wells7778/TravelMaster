@@ -49,7 +49,7 @@ class AttractionsController < ApplicationController
     @attraction = Attraction.find(params[:id])
     likes = Like.where(attraction: @attraction, user: current_user)
     likes.destroy_all
-    redirect_back(fallback_location: root_path)
+    redirect_back(fallback_location: root_path) # 導回上一頁
   end
 
   private

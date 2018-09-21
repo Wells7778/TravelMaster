@@ -11,13 +11,14 @@
         <h3><%= name %></h3>
         <span class="price"><%= address %></span>
       </div>
+
       <p class="description">
-        <%= description %></p>
+        <%= description %>   
 
+      <%= link_to 'Like', like_attraction_path(Attraction.find(id)), method: :post %>
+      <%= link_to 'Unlike', unlike_attraction_path(Attraction.find(id)), method: :post %>
 
-      <%= link_to 'Like', like_attraction_path(@attraction), method: :post %>
-      <%= link_to 'Unlike', unlike_attraction_path(@attraction), method: :post %>
-
+      </p>
 
       <div class="carousel-wrapper">
         <div class="carousel">
