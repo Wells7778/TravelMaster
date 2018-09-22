@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :attractions, only: [:index, :show] do
+    resources :comments, except: [:index, :destroy]
     collection do
       post :search
     end
