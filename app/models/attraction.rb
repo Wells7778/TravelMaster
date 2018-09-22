@@ -10,5 +10,9 @@ class Attraction < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :liked_users, through: :likes, source: :user
 
+  def is_liked?(user)
+    self.liked_users.include?(user)
+  end
+
   validates_presence_of :name, :image, :description, :address
 end

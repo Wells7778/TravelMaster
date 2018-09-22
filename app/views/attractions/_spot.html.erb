@@ -15,8 +15,7 @@
       <p class="description">
         <%= description %>   
 
-      <%= link_to 'Like', like_attraction_path(Attraction.find(id)), method: :post %>
-      <%= link_to 'Unlike', unlike_attraction_path(Attraction.find(id)), method: :post %>
+      
 
       </p>
 
@@ -31,7 +30,13 @@
       </div>
     </div>
     <div class="gallery-action">
-      <a class="btn-floating btn-large waves-effect waves-light"><i class="material-icons">favorite</i></a>
+      <a class="btn-floating btn-large waves-effect waves-light"><i class="material-icons">
+      <% if Attraction.find(id).is_liked?(current_user) %>
+      <%= link_to 'Unlike', unlike_attraction_path(Attraction.find(id)), method: :post %>
+      <% else %>
+      <%= link_to 'Like', like_attraction_path(Attraction.find(id)), method: :post %>
+      <% end %>
+      </i></a>
     </div>
   </div>
 </div>
