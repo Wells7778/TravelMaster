@@ -3,5 +3,5 @@ class Comment < ApplicationRecord
   belongs_to :user
   serialize :images, JSON
 
-  mount_uploader :images, AvatarUploader
+  mount_uploaders :images, AvatarUploader
 end

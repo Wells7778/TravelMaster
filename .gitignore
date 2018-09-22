@@ -22,7 +22,7 @@
 
 .byebug_history
 /config/map.yml
-
+/public/uploads
 #cap
 Capfile
 config/deploy.rb
