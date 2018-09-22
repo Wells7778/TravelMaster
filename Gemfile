@@ -45,6 +45,8 @@ group :development, :test do
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
   gem 'sqlite3'
+  gem 'capistrano-rails'
+  gem 'capistrano-passenger'
 end
 
 group :development do
@@ -61,3 +63,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'devise'
 gem 'rest-client'
+gem 'carrierwave'
