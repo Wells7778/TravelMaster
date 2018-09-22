@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root "attractions#index"
 
   resources :attractions, only: [:index, :show] do
+    resources :comments, only: [:create, :destroy]
     collection do
       post :search
     end
