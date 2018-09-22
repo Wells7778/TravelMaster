@@ -1,6 +1,9 @@
 class CommentsController < ApplicationController
   before_action :set_attraction
-  before_action :set_comment, only: [:edit, :update]
+  before_action :set_comment, only: [:show, :edit, :update]
+  def show
+  end
+
   def new
     @comment = @attraction.comments.new
   end

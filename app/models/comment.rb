@@ -4,4 +4,7 @@ class Comment < ApplicationRecord
   serialize :images, JSON
 
   mount_uploaders :images, AvatarUploader
+
+  scope :passed, -> { where(status: "passed")}
+
 end
