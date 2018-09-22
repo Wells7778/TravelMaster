@@ -11,6 +11,9 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :liked_attractions, through: :likes, source: :attraction
 
+  # comments的多對多關聯
+  has_many :comments
+
   ROLE = {
     normal: "一般用戶",
     admin: "管理者"
