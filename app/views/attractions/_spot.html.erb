@@ -9,10 +9,15 @@
     <div class="gallery-body">
       <div class="title-wrapper">
         <h3><%= name %></h3>
+        <h3>旅行時間<%= list.list_attractions.where(attraction_id: id).first.duration if list %></h3>
         <span class="price"><%= address %></span>
+        <% if list %>
+          <a href="https://www.google.com.tw/maps/dir/<%= list.origin_lat %>,<%= list.origin_lng %>/<%= lat %>,<%= lng %>" target="_blank">Google Map</a>
+        <% end %>
       </div>
       <p class="description">
-        <%= description %></p>
+        <%= description %>
+      </p>
       <div class="carousel-wrapper">
         <div class="carousel">
           <a class="carousel-item" href="#one!"><img src="http://placehold.it/300x200"></a>
@@ -22,6 +27,7 @@
           <a class="carousel-item" href="#five!"><img src="http://placehold.it/300x200"></a>
         </div>
       </div>
+      <div id="map"></div>
     </div>
     <div class="gallery-action">
       <a class="btn-floating btn-large waves-effect waves-light"><i class="material-icons">favorite</i></a>

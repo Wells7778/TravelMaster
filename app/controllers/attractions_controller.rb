@@ -59,8 +59,8 @@ class AttractionsController < ApplicationController
       @list.origin_lng = @lat_lng['lng']
     end
     if @list.save
-      @list.search_attraction(@vibe_tag).map{|e| e[:attraction_id]}.each do |id|
-        @list.list_attractions.create(attraction_id: id)
+      @list.search_attraction(@vibe_tag).each do |result|
+        @list.list_attractions.create(attraction_id: result[:attraction_id], duration: result[:travel_text])
       end
     end
     redirect_to root_path
