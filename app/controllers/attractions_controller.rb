@@ -30,6 +30,8 @@ class AttractionsController < ApplicationController
   end
 
   def show
+    @restaurant = Restaurant.find(params[:id])
+    @comment = Comment.new
     flash[:show_id] = params[:id] #用來傳遞變數
     redirect_to root_path
   end

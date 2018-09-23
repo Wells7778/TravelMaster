@@ -13,9 +13,12 @@
       </div>
 
       <p class="description">
-        <%= description %>   
+        <%= description %> 
+        <%= form_for [@attraction, @comment] do |f| %>
+        <%= f.text_area :content, placeholder: "在此留言" %>
+        <%=f.submit %>
+        <%= f.button "Cancel", type: :reset %>
 
-      
 
       </p>
 
