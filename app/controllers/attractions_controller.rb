@@ -5,8 +5,8 @@ class AttractionsController < ApplicationController
   
   def index
     @categories = Category.all
-    @attractions = Attraction.order("created_at").limit(5) #attractions以熱門景點為基礎
-
+    @attractions = Attraction.includes(:comments).order("created_at").limit(6) #attractions以熱門景點為基礎
+    
     #進入首頁方式1 分類
     if params[:category_id]
       @way_check = 1 #用來搭配view 顯示 避免出錯
@@ -26,11 +26,11 @@ class AttractionsController < ApplicationController
         @search_location = flash[:search]["location"]
       end
     end
-
   end
 
+
   def show
-    @restaurant = Restaurant.find(params[:id])
+    @attraction = Attraction.find(params[:id])
     @comment = Comment.new
     flash[:show_id] = params[:id] #用來傳遞變數
     redirect_to root_path

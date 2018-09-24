@@ -84,9 +84,9 @@
 
     <div class="gallery row">
 
-    <% if @attractions && @attractions.length>0 %>
+    <% if @attractions && @attractions.size>0 %>
       <% @attractions.each do |spot| %>
-      <%= render partial: "spot", locals: {id:spot.id,name: spot.name,address: spot.address,description: spot.description}%>
+      <%= render partial: "spot", locals: {id:spot.id,name: spot.name,address: spot.address,description: spot.description, attraction: spot, comment: @comment }%>
       <%end%>
     <% else %>
       不好意思，沒有搜尋結果，請重新嘗試！
