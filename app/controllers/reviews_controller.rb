@@ -3,6 +3,7 @@ class ReviewsController < ApplicationController
   before_action :set_review, only: [:index, :show, :edit, :update]
 
   def index
+    @reviews = Review.where(status: "passed")
   end
 
   def show
@@ -19,7 +20,7 @@ class ReviewsController < ApplicationController
       flash[:notice] = "新增投稿成功，等待審核"
       redirect_to attraction_path(@attraction)
     else
-      flash[:alert] = @reivew.errors.full_messages.to_sentence
+      flash[:alert] = @review.errors.full_messages.to_sentence
       render :new
     end
   end
@@ -48,7 +49,7 @@ class ReviewsController < ApplicationController
     @review = Review.find_by(id: params[:id])
   end
 
-  def comment_params
+  def review_params
     params.require(:review).permit(:content, :suggestion, {images: []})
   end
 end
