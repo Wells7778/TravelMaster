@@ -2,7 +2,7 @@
   景點
   <%= attraction.name %>
 </h5>
-<%= form_for [attraction, comment] do |f| %>
+<%= form_for comment, url: attraction_reviews_path do |f| %>
   <%= f.text_area :content, placeholder: "請輸入景點遊記" %>
   <%= f.file_field :images, multiple: true, id: "imagesInput" %>
   <div id="preview_imgs" style="width:100%; height: 300px; overflow:scroll;">
