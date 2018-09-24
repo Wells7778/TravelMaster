@@ -50,6 +50,6 @@ class ReviewsController < ApplicationController
   end
 
   def review_params
-    params.require(:review).permit(:content, :suggestion, {images: []})
+    params.require(:review).permit(:title, :content, :suggestion, {images: []})
   end
 end
