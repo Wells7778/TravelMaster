@@ -119,3 +119,25 @@ label {
 	color: grey !important;
 	font-size: 1rem !important;
 }
+
+.reviews-card {
+	max-height: 120px;
+	overflow: hidden;
+}
+
+.review-cards-wrapper .reviews-card .card-content{
+	text-decoration:none;
+	color: black;
+}
+
+.review-cards-wrapper .reviews-card .card-content p{
+	font-size: 18px;
+}
+
+.review-cards-wrapper .reviews-card .card-image {
+	max-width: 150px;
+}
+
+.review-cards-wrapper .reveiws-card .card-image img{
+	object-fit: cover;
+}
