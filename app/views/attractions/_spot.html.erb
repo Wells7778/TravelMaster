@@ -16,28 +16,47 @@
         <% end %>
       </div>
       <p class="description">
-        <%= description %>
-      </p>
-      <div class="carousel-wrapper">
-        <div class="carousel">
-          <a class="carousel-item" href="#one!"><img src="http://placehold.it/300x200"></a>
-          <a class="carousel-item" href="#two!"><img src="http://placehold.it/300x200"></a>
-          <a class="carousel-item" href="#three!"><img src="http://placehold.it/300x200"></a>
-          <a class="carousel-item" href="#four!"><img src="http://placehold.it/300x200"></a>
-          <a class="carousel-item" href="#five!"><img src="http://placehold.it/300x200"></a>
-        </div>
+        <%= description %></p>
+
+      <div class="spot-reviews-title">
+        <h5 style="display: inline-block;">精選遊記</h5>
+        <%= link_to "我要投稿", new_attraction_review_path(attraction_id: id), target: :_blank, class: "btn btn-small"  if !current_user.has_review?(id) %>
+        <%= link_to "再次投稿", new_attraction_review_path(attraction_id: id), target: :_blank, class: "btn btn-small"  if current_user.has_passed_review?(id) %>
+        <%= link_to "投稿審核中", "#", class: "btn disabled"  if current_user.has_pending_review?(id) %>
       </div>
-      <div id="map"></div>
-
-      <%= link_to "我要投稿", new_attraction_comment_path(attraction_id: id), class: "btn"  if !current_user.has_comment?(id) %>
-      <%= link_to "再次投稿", new_attraction_comment_path(attraction_id: id), class: "btn"  if current_user.has_passed_comment?(id) %>
-      <%= link_to "等待審核", "#", class: "btn"  if current_user.has_pending_comment?(id) %>
-      <% if comments %>
-        <% comments.each do |comment| %>
-          <%= link_to "觀賞遊記", attraction_comment_path(attraction_id: id, id: comment.id), class: "btn" %>
+      
+      <div class="row " id="spot-reviews">
+        <% if reviews.length>0 %>
+        <div class="col s11 offset-m1 m8 review-cards-wrapper">
+            <% reviews.each do |review| %>
+            <div class="card horizontal reviews-card">
+              <div class="card-image">
+                <% if review.images.length>0 %>
+                  <%= image_tag review.images.first %>
+                <%end%>
+              </div>
+              <%= link_to attraction_review_path(review.attraction, review), target: :_blank do %>
+                <div class="card-stacked">
+                  <div class="card-content">
+                    <p>
+                      [<%= review.attraction.name%>]- <%= review.title%>
+                    </p>
+                    <label>
+                      <%=review.user.name%>建立於<%=time_ago_in_words review.updated_at %>
+                    </label>
+                  </div>
+              </div>
+              <%end%>
+            </div>
+            <%end %>
+        </div>
+        <% else %>
+        <p>尚未有遊記發布</p>
         <% end %>
-      <% end %>
+      </div>
 
+      <h5>討論留言區</h5>
+    
     </div>
     <div class="gallery-action">
       <a class="btn-floating btn-large waves-effect waves-light"><i class="material-icons">favorite</i></a>

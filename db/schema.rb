@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180923164854) do
+ActiveRecord::Schema.define(version: 20180924091644) do
 
   create_table "attractions", force: :cascade do |t|
     t.string "name", null: false
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20180923164854) do
     t.integer "categoey_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "introduction"
+    t.text "indroduction"
     t.string "region"
   end
 
@@ -35,17 +35,6 @@ ActiveRecord::Schema.define(version: 20180923164854) do
   create_table "categories_attractions", force: :cascade do |t|
     t.integer "category_id"
     t.integer "attraction_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "comments", force: :cascade do |t|
-    t.text "content"
-    t.text "images"
-    t.string "suggestion"
-    t.string "status", default: "pending", null: false
-    t.integer "attraction_id"
-    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -66,6 +55,18 @@ ActiveRecord::Schema.define(version: 20180923164854) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.text "content"
+    t.text "images"
+    t.string "suggestion"
+    t.string "status", default: "pending", null: false
+    t.integer "attraction_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "title"
   end
 
   create_table "users", force: :cascade do |t|

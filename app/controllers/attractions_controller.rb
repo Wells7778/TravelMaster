@@ -4,7 +4,7 @@ class AttractionsController < ApplicationController
 
   def index
     @categories = Category.all
-    @attractions = Attraction.includes(:comments).order("created_at").limit(6) #attractions以熱門景點為基礎
+    @attractions = Attraction.includes(:reviews).order("created_at").limit(6) #attractions以熱門景點為基礎
 
     #進入首頁方式1 分類
     if params[:category_id]
@@ -25,7 +25,7 @@ class AttractionsController < ApplicationController
         @search_location = flash[:search]["location"]
         # 搜尋結果直接存在list裏
         @list = current_user.lists.last
-        @attractions = @list.attractions.includes(:comments)
+        @attractions = @list.attractions.includes(:reviews)
       end
     end
   end
@@ -64,6 +64,12 @@ class AttractionsController < ApplicationController
       end
     end
     redirect_to root_path
+  end
+
+  def mytrips
+  end
+
+  def about
   end
 
   private
