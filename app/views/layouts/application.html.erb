@@ -27,7 +27,7 @@
           <i class="material-icons">landscape</i>Travel Master
         <% end %>
 
-        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        <a href="#" data-activates="nav-mobile" class="button-collapse btn-floating btn-large waves-effect waves-light grey"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
           <li id="mainnav-1" class="">
             <%= link_to root_path do %>
@@ -60,8 +60,8 @@
         <!-- Dropdown Structure -->
         <ul id='feature-dropdown' class='dropdown-content'>
           <% if current_user %>
-              <li><%= link_to('登出', destroy_user_session_path, method: :delete) %></li>
               <li><%= link_to('修改密碼', edit_user_registration_path) %></li>
+              <li><%= link_to('登出', destroy_user_session_path, method: :delete) %></li>
             <% else %>
               <li><%= link_to('註冊', new_user_registration_path) %></li>
               <li><%= link_to('登入', new_user_session_path) %></li>
@@ -83,12 +83,12 @@
       </li>
       <li id="sidenav-2" class="">
         <%= link_to reviews_path do %>
-          <i class="material-icons">edit</i>Reviews
+          <i class="material-icons">book</i>Reviews
         <% end %>
       </li>
       <li id="sidenav-3" class="">
         <%= link_to mytrips_path do %>
-          <i class="material-icons">brightness_3</i>Mytrips
+          <i class="material-icons">history</i>Mytrips
         <% end %>
       </li>
       <li id="sidenav-4" class="">
@@ -97,24 +97,24 @@
       <% if current_user && current_user.role=="admin" %>
       <li class="">
         <%= link_to admin_root_path do %>
-          後台
+          <i class="material-icons">computer</i>後台
         <% end %>
       </li>
       <%end %>
 
       <% if current_user %>
-          <li><%= link_to destroy_user_session_path, method: :delete  do %>
-            <i class="material-icons">fullscreen</i>登出<%end%>
-          </li>
           <li><%= link_to edit_user_registration_path do %>
-            <i class="material-icons">fullscreen</i>修改密碼<%end%>
+            <i class="material-icons">edit</i>修改密碼<%end%>
+          </li>
+          <li><%= link_to destroy_user_session_path, method: :delete  do %>
+            <i class="material-icons">exit_to_app</i>登出<%end%>
           </li>
         <% else %>
           <li><%= link_to new_user_registration_path do %>
-            <i class="material-icons">fullscreen</i>註冊<%end%>
+            <i class="material-icons">edit</i>註冊<%end%>
           </li>
           <li><%= link_to new_user_session_path do %>
-            <i class="material-icons">fullscreen</i>登入<%end%>
+            <i class="material-icons">exit_to_app</i>登入<%end%>
           </li>
       <% end %>
     </ul>
@@ -173,7 +173,7 @@
 
 <script>
 
-$(document).on("turbolinks:load", function(){
+$( document ).ready(function(){
 
   // Home
   $('.carousel:not(.carousel-slider)').carousel({
@@ -191,52 +191,6 @@ $(document).on("turbolinks:load", function(){
 
  // Navbar
   $(".button-collapse").sideNav();
-  var categories = $('nav .categories-container');
-  if (categories.length) {
-    categories.pushpin({ top: categories.offset().top });
-    var $links = categories.find('li');
-    $links.each(function() {
-      var $link = $(this);
-      $link.on('click', function() {
-        $links.removeClass('active');
-        $link.addClass('active');
-        var hash = $link.find('a').first()[0].hash.substr(1);
-        var $galleryItems = $('.gallery .gallery-item');
-
-        $galleryItems.stop().addClass('gallery-filter').fadeIn(100);
-
-        if (hash !== 'all') {
-          var $galleryFilteredOut = $galleryItems.not('.' + hash).not('.all');
-          $galleryFilteredOut.removeClass('gallery-filter').hide();
-        }
-
-        // transition layout
-        $masonry.masonry({
-          transitionDuration: '.3s'
-        });
-        // only animate on layout
-        $masonry.one( 'layoutComplete', function( event, items ) {
-          $masonry.masonry({
-            transitionDuration: 0
-          });
-        });
-        setTimeout(function() {
-
-        $masonry.masonry('layout');
-        }, 1000);
-      });
-    });
-  }
-
-
-  // Contact Form Icon
-  $("form .form-control").focus(function() {
-    $(this).siblings("label").first().children("i").first().css({"color": "#aaa", "left": 0});
-  });
-  $("form .form-control").blur(function() {
-    $(this).siblings("label").first().children("i").first().css({"color": "transparent", "left": "-20px"});
-  });
-
 
 }); // end of document ready
 
