@@ -141,3 +141,12 @@ label {
 .review-cards-wrapper .reveiws-card .card-image img{
 	object-fit: cover;
 }
+
+#show-review p{
+	padding-top: 24px;
+}
+
+#show-review img{
+	max-width: 90%;
+	border-radius: 24px;
+}
