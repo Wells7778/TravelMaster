@@ -7,4 +7,6 @@ class Review < ApplicationRecord
 
   scope :passed, -> { where(status: "passed")}
 
+  #validates :title, :content, :images, presence: true
+
 end
