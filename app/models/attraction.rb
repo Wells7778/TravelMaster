@@ -9,7 +9,6 @@ class Attraction < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :comment_users, through: :comments, source: :user
 
-
   validates_presence_of :name, :image, :description, :address
 
   TRAFFIC = { "BUS" => "bus",
