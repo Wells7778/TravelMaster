@@ -34,6 +34,19 @@
               Spots
             <% end %>
           </li>
+          <li id="mainnav-2" class="">
+            <%= link_to reviews_path do %>
+              Reviews
+            <% end %>
+          </li>
+          <li id="mainnav-3" class="">
+            <%= link_to mytrips_path do %>
+              Mytrips
+            <% end %>
+          </li>
+          <li id="mainnav-4" class="">
+            <a href="#">About</a>
+          </li>
           <% if current_user && current_user.role=="admin" %>
           <li class="">
             <%= link_to admin_root_path do %>
@@ -41,9 +54,6 @@
             <% end %>
           </li>
           <%end %>
-          <li><a href="#">Feeds</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Docs</a></li>
 
           <li><a class='dropdown-button' href='#' data-activates='feature-dropdown' data-belowOrigin="true" data-constrainWidth="false">會員功能<i class="material-icons right">arrow_drop_down</i></a></li>
         </ul>
@@ -71,9 +81,27 @@
           <i class="material-icons">landscape</i>Spots
         <% end %>
       </li>
-      <li><a href="#"><i class="material-icons">brightness_3</i>Feeds</a></li>
-      <li><a href="#"><i class="material-icons">edit</i>Blog</a></li>
-      <li><a href="#"><i class="material-icons">school</i>Docs</a></li>
+      <li id="sidenav-2" class="">
+        <%= link_to reviews_path do %>
+          <i class="material-icons">edit</i>Reviews
+        <% end %>
+      </li>
+      <li id="sidenav-3" class="">
+        <%= link_to mytrips_path do %>
+          <i class="material-icons">brightness_3</i>Mytrips
+        <% end %>
+      </li>
+      <li id="sidenav-4" class="">
+        <a href="#"><i class="material-icons">school</i>About</a>
+      </li>
+      <% if current_user && current_user.role=="admin" %>
+      <li class="">
+        <%= link_to admin_root_path do %>
+          後台
+        <% end %>
+      </li>
+      <%end %>
+
       <% if current_user %>
           <li><%= link_to destroy_user_session_path, method: :delete  do %>
             <i class="material-icons">fullscreen</i>登出<%end%>
