@@ -5,13 +5,13 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :lists, dependent: :destroy
-  has_many :comments, dependent: :destroy
-  has_many :comment_attractions, through: :comments, source: :attraction do
+  has_many :reviews, dependent: :destroy
+  has_many :review_attractions, through: :reviews, source: :attraction do
     def passed
-      where("comments.status = ?", "passed")
+      where("reviews.status = ?", "passed")
     end
     def pending
-      where("comments.status = ?", "pending")
+      where("reviews.status = ?", "pending")
     end
   end
 
@@ -23,17 +23,17 @@ class User < ApplicationRecord
     self.role == "admin"
   end
 
-  def has_comment?(id)
+  def has_review?(id)
     attraction = set_attraction(id)
-    self.comment_attractions.include?(attraction)
+    self.review_attractions.include?(attraction)
   end
-  def has_passed_comment?(id)
+  def has_passed_review?(id)
     attraction = set_attraction(id)
-    self.comment_attractions.passed.include?(attraction)
+    self.review_attractions.passed.include?(attraction)
   end
-  def has_pending_comment?(id)
+  def has_pending_review?(id)
     attraction = set_attraction(id)
-    self.comment_attractions.pending.include?(attraction)
+    self.review_attractions.pending.include?(attraction)
   end
   def set_attraction(id)
     Attraction.find_by(id: id)

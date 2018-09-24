@@ -1,7 +1,7 @@
 <h5 style="padding-top: 20px;padding-bottom: 12px;">
   景點名稱：<%=attraction.name %>
 </h5>
-<%= form_for comment, url: attraction_reviews_path do |f| %>
+<%= form_for review, url: attraction_reviews_path do |f| %>
   <div class="input-field">
     <label for="content">遊記：詳細過程、時間、價格等注意事項</label>
     <%= f.text_area :content, placeholder: "越詳細越有幫助！", class:"materialize-textarea" %>
@@ -19,7 +19,7 @@
   <div id="preview_imgs" style="width:100%; min-height: 50px; margin-bottom: 12px;">
     <p>目前沒有圖片</p>
     <% if type && type == "edit" %>
-      <% comment.images.each do |image| %>
+      <% review.images.each do |image| %>
         <%= image_tag image, width: "300", height: "200" %>
       <% end %>
     <% end %>

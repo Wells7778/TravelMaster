@@ -1,0 +1,5 @@
+<h5><%= @review.attraction.name %></h5>
+<p><%= @review.content %></p>
+<% @review.images.each do |image| %>
+  <%= image_tag image, width: "500" %>
+<% end %>
