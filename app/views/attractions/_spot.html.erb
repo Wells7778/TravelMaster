@@ -9,9 +9,11 @@
     <div class="gallery-body">
       <div class="title-wrapper">
         <h3><%= name %></h3>
-        <span class="price">
-          <a href="<%= "https://www.google.com.tw/maps/place/#{address}" %>" target="_blank"><%= address %><i class="material-icons">place</i>(點我導航) </a>
-          </span>
+        <h3>旅行時間<%= list.list_attractions.where(attraction_id: id).first.duration if list %></h3>
+        <span class="price"><%= address %></span>
+        <% if list %>
+          <a href="https://www.google.com.tw/maps/dir/<%= list.origin_lat %>,<%= list.origin_lng %>/<%= lat %>,<%= lng %>" target="_blank">Google Map</a>
+        <% end %>
       </div>
       <p class="description">
         <%= description %></p>
@@ -52,15 +54,9 @@
         <p>尚未有遊記發布</p>
         <% end %>
       </div>
-      
-      
-      
 
-      <div class="center">
-
-      </div>
       <h5>討論留言區</h5>
-
+    
     </div>
     <div class="gallery-action">
       <a class="btn-floating btn-large waves-effect waves-light"><i class="material-icons">favorite</i></a>

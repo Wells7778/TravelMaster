@@ -82,7 +82,11 @@
                                               name: spot.name,
                                               image: spot.image,
                                               address: spot.address,
+
+                                              lat: spot.lat,
+                                              lng: spot.lng,
                                               description: spot.description,
+                                              list: @list,
                                               reviews: spot.reviews.passed } %>
         <% end %>
       <% else %>

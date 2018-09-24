@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20180924091644) do
     t.integer "attraction_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "duration"
   end
 
   create_table "lists", force: :cascade do |t|
