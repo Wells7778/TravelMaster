@@ -1,0 +1,28 @@
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>景點名稱</th>
+      <th>上傳照片張數</th>
+      <th>Vision 辨識地點名稱</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @reviews.each do |review| %>
+      <tr>
+        <td><%= review.title %></td>
+        <td><%= review.attraction.name %></td>
+        <td><%= review.images.size %></td>
+        <td></td>
+        <td>
+          <%= form_tag admin_review_path(review), method: :patch do %>
+            <%= select_tag :status, options_for_select(Review::STATUS.map(&:reverse), review.status) %>
+            <%= submit_tag "Update" %>
+          <% end %>
+          <%= link_to "delete", admin_review_path(review), class: "btn", method: :delete, data: { confirm: "Are You Sure?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
