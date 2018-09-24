@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   get "/reviews", to:"reviews#index"
   get "/mytrips", to: "attractions#mytrips"
+  get "/about", to: "attractions#about"
 
   # routes for admin
   namespace :admin do

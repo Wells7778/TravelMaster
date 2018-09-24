@@ -66,6 +66,12 @@ class AttractionsController < ApplicationController
     redirect_to root_path
   end
 
+  def mytrips
+  end
+
+  def about
+  end
+
   private
     def attraction_params
       params.require(:attraction).permit(:name, :image, :description, :address, :lat, :lng, category_ids: [])

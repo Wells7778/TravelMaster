@@ -45,7 +45,9 @@
             <% end %>
           </li>
           <li id="mainnav-4" class="">
-            <a href="#">About</a>
+            <%= link_to about_path do %>
+              About
+            <% end %>
           </li>
           <% if current_user && current_user.role=="admin" %>
           <li class="">
@@ -92,7 +94,9 @@
         <% end %>
       </li>
       <li id="sidenav-4" class="">
-        <a href="#"><i class="material-icons">school</i>About</a>
+        <%= link_to about_path do %>
+          <i class="material-icons">school</i>About
+        <% end %>
       </li>
       <% if current_user && current_user.role=="admin" %>
       <li class="">
