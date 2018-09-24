@@ -13,7 +13,9 @@
 		  	<% @reviews.each do |review| %>
 		    <div class="card horizontal reviews-card">
 		      <div class="card-image">
-		        <img src="https://lorempixel.com/400/400/nature/6">
+		      	<% if review.images.length>0 %>
+		        	<%= image_tag review.images.first %>
+		        <%end%>
 		      </div>
 		      <%= link_to attraction_review_path(review.attraction, review) do %>
 			      <div class="card-stacked">
