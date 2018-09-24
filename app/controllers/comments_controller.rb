@@ -5,6 +5,7 @@ class CommentsController < ApplicationController
 
 
   def create
+    @attraction = Attraction.find(params[:attraction_id])
     @comment = @attraction.comments.build(comment_params)
     @comment.user = current_user
     @comment.save!
