@@ -285,6 +285,45 @@ $(function(){
   $(".n-tag").attr("placeholder", "自行輸入或點選上方標籤");
   $("#search_location").attr("placeholder", "輸入出發地址");
 
+  //ajax
+  function addUlikeBtn(id){
+    var unlikeBtn = '<a href="#" class="btn-unlike btn-floating btn-large waves-effect waves-light active"><i class="material-icons">backspace</i></a>'
+    $("#like-action-"+id).html(unlikeBtn);
+  };
+
+  function addLikeBtn(id){
+    var likeBtn = '<a href="#" class="btn-like btn-floating btn-large waves-effect waves-light active"><i class="material-icons">favorite</i></a>'
+    $("#like-action-"+id).html(likeBtn);
+  };
+
+
+  $(".like-action").on("click",".btn-like", function(event) {
+    event.preventDefault();
+    var id = event.target.parentNode.parentNode.id.slice(12,);
+    $.ajax({
+      url: id+"/like",
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        addUlikeBtn(id);
+        Materialize.toast('成功收藏', 4000);
+      }
+    });
+  });
+  $(".like-action").on("click",".btn-unlike", function(event) {
+    event.preventDefault();
+    var id = event.target.parentNode.parentNode.id.slice(12,);
+    $.ajax({
+      url: id+"/unlike",
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        addLikeBtn(id);
+        Materialize.toast('取消收藏', 4000);
+      }
+    });
+  });
+
 }); // end of document ready
 
 </script>

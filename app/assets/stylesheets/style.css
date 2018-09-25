@@ -98,3 +98,7 @@ footer.page-footer {
 .btn-like {
 	background-color: #4db6ac !important;
 }
+
+.btn-unlike {
+	background-color: #757575 !important;
+}

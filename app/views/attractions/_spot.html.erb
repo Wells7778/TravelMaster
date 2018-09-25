@@ -34,15 +34,11 @@
         </div>
       </div>
     </div>
-    <div class="gallery-action">
+    <div id="like-action-<%=id%>" class="like-action gallery-action">
       <% if Attraction.find(id).is_liked?(current_user) %>
-        <%= link_to unlike_attraction_path(Attraction.find(id)), method: :post, class:"btn-floating btn-large waves-effect waves-light" do%>
-          <i class="material-icons">backspace</i>
-        <%end%>
+        <a href="#" class="btn-unlike btn-floating btn-large waves-effect waves-light"><i class="material-icons">backspace</i></a>
       <% else %>
-        <%= link_to like_attraction_path(Attraction.find(id)), method: :post, class:"btn-like btn-floating btn-large waves-effect waves-light" do%>
-          <i class="material-icons">favorite</i>
-        <%end%>
+        <a href="#" class="btn-like btn-floating btn-large waves-effect waves-light"><i class="material-icons">favorite</i></a>
       <% end %>
     </div>
   </div>
