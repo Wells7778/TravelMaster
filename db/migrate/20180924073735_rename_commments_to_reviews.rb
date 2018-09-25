@@ -1,4 +1,4 @@
-class RenameCommentsToReviews < ActiveRecord::Migration[5.1]
+class RenameCommmentsToReviews < ActiveRecord::Migration[5.1]
   def self.up
     rename_table :commments, :reviews
     #為了解重複的migration 調整這邊的co"mmm"ents
