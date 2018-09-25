@@ -1,0 +1,22 @@
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>景點名稱</th>
+      <th>上傳照片張數</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @reviews.each do |review| %>
+      <tr>
+        <td><%= review.title %></td>
+        <td><%= review.attraction.name %></td>
+        <td><%= review.images.size %></td>
+        <td>
+          <%= link_to "Show", admin_review_path(review), class: "btn" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
