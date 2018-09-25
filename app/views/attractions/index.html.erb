@@ -87,7 +87,8 @@
                                               lng: spot.lng,
                                               description: spot.description,
                                               list: @list,
-                                              reviews: spot.reviews.passed } %>
+                                              reviews: spot.reviews.passed,
+                                              categories: spot.categories } %>
         <% end %>
       <% else %>
         不好意思，沒有搜尋結果，請重新嘗試！
@@ -314,11 +315,14 @@ $(function(){
   });
 
   //comment ajax
-  function addComment(a_id,c_id,c_content,c_user){
+  function addComment(a_id,c_id,c_content,c_user,visited){
     var todo = document.createElement("tr");
     todo.id = "comment-"+c_id;
     $(todo).html($("#comment-template").html());
     $(todo).find(".c_content").html(c_content);
+    if (visited == true) {
+      $(todo).find(".c_content").append('<span class="new badge blue" data-badge-caption="visted"></span>')
+    }
     $(todo).find(".c_user_time").html(c_user+" (just now)"+'<a href="#" class="comment-delete">delete</a>');
     $("#comment-tbody-"+a_id).append(todo);
   }
@@ -338,7 +342,7 @@ $(function(){
       },
       success: function(data) {
       Materialize.toast('留言成功', 4000);
-      addComment(id,data["c_id"],data["c_content"],data["c_user"]);
+      addComment(id,data["c_id"],data["c_content"],data["c_user"],data["visited"]);
       }
     });
   });

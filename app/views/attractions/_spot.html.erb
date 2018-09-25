@@ -18,6 +18,16 @@
 
       <p class="description">
         <%= description %></p>
+      <div class="spot-show-tags">
+        <label>
+          景點標籤：
+          <% categories.each do |c|%>
+          <%= c.tag_name%>
+          <%=","%>
+          <%end%>
+        </label>
+      </div>
+      <hr style="max-width: 600px; margin-top: 24px;margin-bottom: 24px;">
 
       <div class="spot-reviews-title">
         <h5 style="display: inline-block;">精選遊記</h5>
@@ -68,7 +78,7 @@
   </div>
 </form>
 
-<table class="highlight bordered">
+<table class="highlight bordered responsive-table">
   <thead>
     <tr>
         <th>留言</th>
@@ -78,8 +88,13 @@
   <tbody id="comment-tbody-<%=id%>" class="comment-tbody">
     <% comments.each do |c| %>
     <tr id="comment-<%=c.id%>">
-      <td><%=c.content%></td>
-      <td><%= c.user.name %> (<%=time_ago_in_words c.updated_at %>ago)
+      <td><p><%=c.content%></p>
+        <% if current_user.has_passed_review?(id) %>
+          <span class="new badge blue" data-badge-caption="visted"></span>
+        <%end%>
+      </td>
+      <td>
+        <%= c.user.name %> (<%=time_ago_in_words c.updated_at %>ago)
         <% if current_user == c.user %>
           <a href="#" class="comment-delete">delete</a>
         <%end%>
@@ -88,7 +103,12 @@
     <%end %>
   </tbody>
 </table>
+<div style="height: 120px; width: 120px; background-color: white;">
     </div>
+
+
+</div>
+
     <div id="like-action-<%=id%>" class="like-action gallery-action">
       <% if Attraction.find(id).is_liked?(current_user) %>
         <a href="#" class="btn-unlike btn-floating btn-large waves-effect waves-light"><i class="material-icons">backspace</i></a>
@@ -98,3 +118,4 @@
     </div>
   </div>
 </div>
+

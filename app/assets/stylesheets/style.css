@@ -82,6 +82,7 @@ label{
 }
 
 footer.page-footer {
+		margin-top: 120px;
     padding-top: 20px;
     background-color: #828081;
 }
@@ -182,6 +183,24 @@ label {
 
 #spot-reviews p{
 	margin-bottom: 36px;
+}
+
+.responsive-table{
+	background-color: #fff;
+	width:100%; 
+}
+
+.responsive-table td{
+	max-width: 100%;
+}
+
+.responsive-table td p{
+	display: inline-block;
+	max-width: 80%;
+	margin-top: 0;
+	margin-bottom: 0;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
 }
 
 .short-text{
