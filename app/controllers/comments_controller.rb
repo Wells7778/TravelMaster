@@ -4,7 +4,8 @@ class CommentsController < ApplicationController
     @comment = Comment.new(comment_params)
     @comment.user = current_user
     @comment.save!
-    render :json => {:c_content =>@comment.content, :c_id => @comment.id, :c_user => current_user.name }
+    @visited = current_user.has_passed_review?(comment_params[:attraction_id])
+    render :json => {:c_content =>@comment.content, :c_id => @comment.id, :c_user => current_user.name, :visited => @visited }
     #redirect_to attraction_path(@attraction)
   end
 
