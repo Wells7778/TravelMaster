@@ -93,6 +93,20 @@
       <% else %>
         不好意思，沒有搜尋結果，請重新嘗試！
       <% end %>
+      <% if @show %>
+        <% spot = @show %>
+        <%= render partial: "spot", locals: { id:spot.id,
+                                              name: spot.name,
+                                              image: spot.image,
+                                              address: spot.address,
+                                              comments: spot.comments,
+                                              lat: spot.lat,
+                                              lng: spot.lng,
+                                              description: spot.description,
+                                              list: @list,
+                                              reviews: spot.reviews.passed,
+                                              categories: spot.categories } %>
+      <% end%>
     </div>
   </div>
 </div><!-- /.container -->
@@ -109,8 +123,8 @@
     $("#nav-header-h1").text("想出門走走？馬上開始");
     $("#nav-header-tag").text("找尋景點好幫手");
 
-    <% if @show #以controller show進入 %>
-      $(function(){$('#<%= @show.id %>').galleryExpand('open');})
+    <% if @way_check == 2 #以controller show進入 %>
+      $(function(){$('#<%= @show_id %>').galleryExpand('open');})
     <% end %>
 
     <%#讀取TAGS %>

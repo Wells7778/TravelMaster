@@ -16,8 +16,11 @@ class AttractionsController < ApplicationController
       #進入首頁方式2 Show action
       if flash[:show_id] #從Show action進來
         @way_check = 2
-        @show = Attraction.find(flash[:show_id])
-        @attractions.merge(Attraction.where(id: flash[:show_id]))
+        @show_id = flash[:show_id]
+        if @attractions.include?(Attraction.find(flash[:show_id])) ==false
+          @show = Attraction.find(flash[:show_id])
+        end
+        #@attractions.merge(Attraction.where(id: flash[:show_id]))
       #進入首頁方式3 Search action
       elsif flash[:search] #從Search action進來
         @way_check = 3
