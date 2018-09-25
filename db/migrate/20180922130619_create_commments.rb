@@ -1,4 +1,4 @@
-class CreateComments < ActiveRecord::Migration[5.1]
+class CreateCommments < ActiveRecord::Migration[5.1]
   def change
     create_table :commments do |t|
     #為了解重複的migration 調整這邊的co"mmm"ents
