@@ -14,4 +14,23 @@ class Review < ApplicationRecord
     passed: '通過',
     reject: '審核退回'
   }
+
+  def detect_landmark
+    project_id = 'alphacampdemoday2'
+    vision = Google::Cloud::Vision.new project: project_id
+    avatars = self.images
+    img_path = []
+    avatars.each do |avatar|
+      img_path.push(avatar.file.path)
+    end
+    puts img_path
+    @result = []
+    img_path.each do |path|
+      image = vision.image path
+      landmark = image.landmark
+      @result << landmark.description if landmark
+    end
+    return @result
+  end
+
 end
