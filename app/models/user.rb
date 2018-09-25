@@ -12,6 +12,7 @@ class User < ApplicationRecord
 
   # comments的多對多關聯
   has_many :comments
+  has_many :commented_attractions, through: :comments, source: :attraction
 
   has_many :reviews, dependent: :destroy
   has_many :review_attractions, through: :reviews, source: :attraction do
