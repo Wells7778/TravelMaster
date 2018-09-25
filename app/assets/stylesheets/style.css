@@ -183,3 +183,10 @@ label {
 #spot-reviews p{
 	margin-bottom: 36px;
 }
+
+.short-text{
+	max-width: 300px;
+	overflow:hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}

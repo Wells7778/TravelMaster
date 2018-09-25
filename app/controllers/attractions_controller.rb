@@ -86,6 +86,9 @@ class AttractionsController < ApplicationController
   end
 
   def mytrips
+    @favorites = current_user.liked_attractions
+    @reviews = current_user.reviews
+    @commented = current_user.commented_attractions
   end
 
   def about
