@@ -110,8 +110,9 @@ footer.page-footer {
 	padding: 4px 4px;
 	border-radius: 12px;
 	float: right;
+}
 
-.imageInputWarpper {
+.imageInputWarpper{
 	padding-top: 88px;
 }
 
@@ -181,5 +182,4 @@ label {
 
 #spot-reviews p{
 	margin-bottom: 36px;
-
 }

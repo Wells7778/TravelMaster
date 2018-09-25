@@ -1,6 +1,7 @@
 class CreateComments < ActiveRecord::Migration[5.1]
   def change
-    create_table :comments do |t|
+    create_table :commments do |t|
+    #為了解重複的migration 調整這邊的co"mmm"ents
       t.text :content
       t.text :images
       t.string :suggestion
