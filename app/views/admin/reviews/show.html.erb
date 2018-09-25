@@ -1,0 +1,14 @@
+<h1>投稿標題：<%= @review.title %></h1>
+<h5>投稿內容：<%= @review.content %></h5>
+<% @review.images.each do |image| %>
+  <%= image_tag image, width: "300", height: "200" %>
+<% end %>
+
+<h4>Google辨識景點結果：<%= @result.join(",") %></h4>
+
+<h4><%= "建議分類：#{@review.suggestion}" if @review.suggestion %></h4>
+<%= form_tag admin_review_path(@review), method: :patch do %>
+  <%= select_tag :status, options_for_select(Review::STATUS.map(&:reverse), @review.status ) %>
+  <%= submit_tag "送出審核結果", class: "btn" %>
+<% end %>
+<%= link_to "刪除此投稿", admin_review_path(@review), class: "btn", method: :delete, data: { confirm: "Are You Sure?" } %>
