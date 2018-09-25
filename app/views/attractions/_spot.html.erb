@@ -32,11 +32,15 @@
         <th>作者</th>
     </tr>
   </thead>
-  <tbody id="comment-tbody-<%=id%>">
+  <tbody id="comment-tbody-<%=id%>" class="comment-tbody">
     <% comments.each do |c| %>
     <tr id="comment-<%=c.id%>">
       <td><%=c.content%></td>
-      <td><%= c.user.name %> (<%=time_ago_in_words c.updated_at %>ago)</td>
+      <td><%= c.user.name %> (<%=time_ago_in_words c.updated_at %>ago)
+        <% if current_user == c.user %>
+          <a href="#" class="comment-delete">delete</a>
+        <%end%>
+      </td>
     </tr>
     <%end %>
   </tbody>

@@ -8,6 +8,12 @@ class CommentsController < ApplicationController
     #redirect_to attraction_path(@attraction)
   end
 
+  def destroy
+    @comment = Comment.find(comment_params[:attraction_id])
+    @comment.destroy
+    render :json => {:c_id => @comment.id}
+  end
+
   private
 
   def comment_params

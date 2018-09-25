@@ -329,7 +329,7 @@ $(function(){
     todo.id = "comment-"+c_id;
     $(todo).html($("#comment-template").html());
     $(todo).find(".c_content").html(c_content);
-    $(todo).find(".c_user_time").html(c_user+" (just now)");
+    $(todo).find(".c_user_time").html(c_user+" (just now)"+'<a href="#" class="comment-delete">delete</a>');
     $("#comment-tbody-"+a_id).append(todo);
   }
 
@@ -352,6 +352,26 @@ $(function(){
       }
     });
   });
+
+  $(".comment-tbody").on("click",".comment-delete",function(event){
+    event.preventDefault();
+    var id = event.target.parentNode.parentNode.id.slice(8,);
+    $.ajax({
+      url: "destroy_comment",
+      method: "POST",
+      dataType: "json",
+      data: {
+        comment:{  
+          attraction_id: id,
+        }
+      },
+      success: function(data) {
+      Materialize.toast('刪除成功', 4000);
+      event.target.parentNode.parentNode.remove();
+      }
+    })
+
+  })
 
 }); // end of document ready
 
