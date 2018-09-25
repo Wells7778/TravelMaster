@@ -16,16 +16,17 @@
         <%= description %>   </p>
 
 <form>
-  <label>Add new comment</label>
-  <div class="input-group">
-    <input type="text_area" id="new-comment-<%=id%>" class="form-control" />
-    <div class="input-group-addon">
-      <button id="create-comment-<%=id%>" class="create-comment my-btn my-btn-transparent">Create</button>
-    </div>
+  
+  <div class="input-field inline" style="min-width: 400px;">
+    <label for="new-comment-<%=id%>">留言</label>
+    <input type="text" id="new-comment-<%=id%>">
+  </div>
+  <div class="input-field inline">
+    <button id="create-comment-<%=id%>" class="create-comment btn">Create<i class="material-icons right">send</i></button>
   </div>
 </form>
 
-<table class="highlight">
+<table class="highlight bordered">
   <thead>
     <tr>
         <th>留言</th>

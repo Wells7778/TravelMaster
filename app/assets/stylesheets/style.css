@@ -102,3 +102,12 @@ footer.page-footer {
 .btn-unlike {
 	background-color: #757575 !important;
 }
+
+.comment-tbody .comment-delete{
+	text-decoration: none;
+	color: #984B43;
+	border: 1px solid #984B43;
+	padding: 4px 4px;
+	border-radius: 12px;
+	float: right;
+}
