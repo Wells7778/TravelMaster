@@ -94,3 +94,7 @@ footer.page-footer {
 .devise-btn {
 	min-width: 250px;
 }
+
+.btn-like {
+	background-color: #4db6ac !important;
+}
