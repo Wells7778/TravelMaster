@@ -18,6 +18,16 @@
 
       <p class="description">
         <%= description %></p>
+      <div class="spot-show-tags">
+        <label>
+          景點標籤：
+          <% categories.each do |c|%>
+          <%= c.tag_name%>
+          <%=","%>
+          <%end%>
+        </label>
+      </div>
+      <hr style="max-width: 600px; margin-top: 24px;margin-bottom: 24px;">
 
       <div class="spot-reviews-title">
         <h5 style="display: inline-block;">精選遊記</h5>
@@ -88,7 +98,12 @@
     <%end %>
   </tbody>
 </table>
+<div style="height: 120px; width: 120px; background-color: white;">
     </div>
+
+
+</div>
+
     <div id="like-action-<%=id%>" class="like-action gallery-action">
       <% if Attraction.find(id).is_liked?(current_user) %>
         <a href="#" class="btn-unlike btn-floating btn-large waves-effect waves-light"><i class="material-icons">backspace</i></a>
@@ -98,3 +113,4 @@
     </div>
   </div>
 </div>
+
