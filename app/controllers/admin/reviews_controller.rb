@@ -4,6 +4,11 @@ class Admin::ReviewsController < Admin::BaseController
     @reviews = Review.all
   end
 
+  def show
+    @review = Review.find_by(id: params[:id])
+    @result = @review.detect_landmark
+  end
+
   def update
     @review = Review.find_by(id: params[:id])
     @review.update(status: params[:status])

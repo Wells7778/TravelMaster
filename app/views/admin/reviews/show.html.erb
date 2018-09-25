@@ -1,0 +1,13 @@
+<h1><%= @review.title %></h1>
+<p><%= @review.content %></p>
+<% @review.images.each do |image| %>
+  <%= image_tag image, width: "300", height: "200" %>
+<% end %>
+
+<h4><%= @result.join(",") %></h4>
+
+<%= form_tag admin_review_path(@review), method: :patch do %>
+  <%= select_tag :status, options_for_select(Review::STATUS.map(&:reverse), @review.status) %>
+  <%= submit_tag "Update", class: "btn" %>
+<% end %>
+<%= link_to "Delete", admin_review_path(@review), class: "btn", method: :delete, data: { confirm: "Are You Sure?" } %>
