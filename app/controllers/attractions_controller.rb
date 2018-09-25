@@ -87,7 +87,7 @@ class AttractionsController < ApplicationController
 
   def mytrips
     @favorites = current_user.liked_attractions
-    @reviews = current_user.reviews
+    @reviews = current_user.reviews.where(status: "passed")
     @commented = current_user.commented_attractions.distinct
   end
 

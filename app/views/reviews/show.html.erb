@@ -3,7 +3,11 @@
 
     <div class="card">
       <div class="card-content">
-				<h5>[<%= @review.attraction.name %>]- <%= @review.title%></h5>
+				<h5>
+          <%= link_to attraction_path(@review.attraction), target: :_blank do %>
+          [<%= @review.attraction.name %>]
+          <%end%>
+          - <%= @review.title%></h5>
 				<%=@review.user.name%>建立於<%=time_ago_in_words @review.updated_at %>
 				<p><%= @review.content %></p>
 				<div class="review-images center">
