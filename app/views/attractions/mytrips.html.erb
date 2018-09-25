@@ -13,7 +13,7 @@
 		    <div class="card horizontal reviews-card">
 		      <div class="card-image">
 		      	<% if review.images.length>0 %>
-		        	<%= image_tag review.images.first.file.path %>
+		        	<%= image_tag review.images.first.url %>
 		        <%end%>
 		      </div>
 		      <%= link_to attraction_review_path(review.attraction, review) do %>
