@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     resources :categories
     resources :attractions
     resources :users, only: [:index, :update]
-
+    resources :reviews, only: [:index, :show, :update, :destroy]
     root "attractions#index"
   end
 end

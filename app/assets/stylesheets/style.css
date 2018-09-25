@@ -202,3 +202,10 @@ label {
 	overflow-wrap: break-word;
 	word-wrap: break-word;
 }
+
+.short-text{
+	max-width: 300px;
+	overflow:hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
