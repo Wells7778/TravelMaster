@@ -9,7 +9,9 @@
     <div class="gallery-body">
       <div class="title-wrapper">
         <h3><%= name %></h3>
-        <h3>旅行時間<%= list.list_attractions.where(attraction_id: id).first.duration if list %></h3>
+        <% if list %>
+          <h3>旅行時間<%= list.list_attractions.where(attraction_id: id).first.duration %></h3>
+        <% end %>
         <span class="price"><%= address %></span>
         <% if list %>
           <a href="https://www.google.com.tw/maps/dir/<%= list.origin_lat %>,<%= list.origin_lng %>/<%= lat %>,<%= lng %>" target="_blank">Google Map</a>
@@ -35,7 +37,7 @@
         <%= link_to "再次投稿", new_attraction_review_path(attraction_id: id), target: :_blank, class: "btn btn-small"  if current_user.has_passed_review?(id) %>
         <%= link_to "投稿審核中", "#", class: "btn disabled"  if current_user.has_pending_review?(id) %>
       </div>
-      
+
       <div class="row " id="spot-reviews">
         <% if reviews.length>0 %>
         <div class="col s11 offset-m1 m8 review-cards-wrapper">
