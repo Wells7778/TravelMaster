@@ -324,6 +324,31 @@ $(function(){
     });
   });
 
+  //comment ajax
+  $(".create-comment").on("click", function(event) {
+    event.preventDefault();
+    var id = event.target.id.slice(15,);
+    $.ajax({
+      url: "create_comment",
+      method: "POST",
+      dataType: "json",
+      data: {
+        comment:{  
+          attraction_id: id,
+          content: $("#new-comment-"+id).val()
+        }
+      },
+      success: function(data) {
+      Materialize.toast('留言成功', 4000);
+      var todo = document.createElement("tr");
+      todo.id = data["id"];
+      $(todo).html($("#todo-template").html());
+      $(todo).find(".title.my-font").html(data["title"]);
+      $("#todolist").append(todo);
+      }
+    });
+  });
+
 }); // end of document ready
 
 </script>

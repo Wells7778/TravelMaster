@@ -3,9 +3,10 @@ Rails.application.routes.draw do
   root "attractions#index"
 
   resources :attractions, only: [:index, :show] do
-    resources :comments, only: [:create, :destroy]
     collection do
       post :search
+      post :create_comment, to: "comments#create"
+      post :destroy_comment, to: "comments#destroy"
     end
 
     member do

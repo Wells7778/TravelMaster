@@ -16,11 +16,17 @@
         <%= description %>   </p>
 
 
-      <%= form_for [attraction, comment] do |f| %>
-      <%= f.text_area :content, placeholder: "在此留言" %>
-      <%=f.submit %>
-      <%= f.button "Cancel", type: :reset %>
-      <%end%>
+
+
+<form>
+  <label>Add new comment</label>
+  <div class="input-group">
+    <input type="text_area" id="new-comment-<%=id%>" class="form-control" />
+    <div class="input-group-addon">
+      <button id="create-comment-<%=id%>" class="create-comment my-btn my-btn-transparent">Create</button>
+    </div>
+  </div>
+</form>
 
 
 
