@@ -183,3 +183,21 @@ label {
 #spot-reviews p{
 	margin-bottom: 36px;
 }
+
+.responsive-table{
+	background-color: #fff;
+	width:100%; 
+}
+
+.responsive-table td{
+	max-width: 100%;
+}
+
+.responsive-table td p{
+	display: inline-block;
+	max-width: 80%;
+	margin-top: 0;
+	margin-bottom: 0;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+}

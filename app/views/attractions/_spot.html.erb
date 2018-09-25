@@ -78,7 +78,7 @@
   </div>
 </form>
 
-<table class="highlight bordered">
+<table class="highlight bordered responsive-table">
   <thead>
     <tr>
         <th>留言</th>
@@ -88,7 +88,7 @@
   <tbody id="comment-tbody-<%=id%>" class="comment-tbody">
     <% comments.each do |c| %>
     <tr id="comment-<%=c.id%>">
-      <td><%=c.content%>
+      <td><p><%=c.content%></p>
         <% if current_user.has_passed_review?(id) %>
           <span class="new badge blue" data-badge-caption="visted"></span>
         <%end%>
