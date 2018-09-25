@@ -86,7 +86,7 @@
 
     <% if @attractions && @attractions.size>0 %>
       <% @attractions.each do |spot| %>
-      <%= render partial: "spot", locals: {id:spot.id,name: spot.name,address: spot.address,description: spot.description, attraction: spot, comment: @comment }%>
+      <%= render partial: "spot", locals: {id:spot.id,name: spot.name,address: spot.address,description: spot.description, attraction: spot, comments: spot.comments }%>
       <%end%>
     <% else %>
       不好意思，沒有搜尋結果，請重新嘗試！
@@ -296,7 +296,6 @@ $(function(){
     $("#like-action-"+id).html(likeBtn);
   };
 
-
   $(".like-action").on("click",".btn-like", function(event) {
     event.preventDefault();
     var id = event.target.parentNode.parentNode.id.slice(12,);
@@ -325,6 +324,15 @@ $(function(){
   });
 
   //comment ajax
+  function addComment(a_id,c_id,c_content,c_user){
+    var todo = document.createElement("tr");
+    todo.id = "comment-"+c_id;
+    $(todo).html($("#comment-template").html());
+    $(todo).find(".c_content").html(c_content);
+    $(todo).find(".c_user_time").html(c_user+" (just now)");
+    $("#comment-tbody-"+a_id).append(todo);
+  }
+
   $(".create-comment").on("click", function(event) {
     event.preventDefault();
     var id = event.target.id.slice(15,);
@@ -340,15 +348,16 @@ $(function(){
       },
       success: function(data) {
       Materialize.toast('留言成功', 4000);
-      var todo = document.createElement("tr");
-      todo.id = data["id"];
-      $(todo).html($("#todo-template").html());
-      $(todo).find(".title.my-font").html(data["title"]);
-      $("#todolist").append(todo);
+      addComment(id,data["c_id"],data["c_content"],data["c_user"]);
       }
     });
   });
 
 }); // end of document ready
 
+</script>
+
+<script type="text/template" id="comment-template">
+  <td class="c_content"></td>
+  <td class="c_user_time"></td>
 </script>
