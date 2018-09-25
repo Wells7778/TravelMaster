@@ -1,7 +1,7 @@
 <div id="<%= id %>" class="col l4 m6 s12 gallery-item gallery-expand gallery-filter polygon">
   <div class="gallery-curve-wrapper">
     <a class="gallery-cover gray">
-      <%= image_tag "400x300.png" %>
+      <%= image_tag image %>
     </a>
     <div class="gallery-header">
       <span><%= name %></span>
@@ -9,14 +9,56 @@
     <div class="gallery-body">
       <div class="title-wrapper">
         <h3><%= name %></h3>
+        <h3>旅行時間<%= list.list_attractions.where(attraction_id: id).first.duration if list %></h3>
         <span class="price"><%= address %></span>
+        <% if list %>
+          <a href="https://www.google.com.tw/maps/dir/<%= list.origin_lat %>,<%= list.origin_lng %>/<%= lat %>,<%= lng %>" target="_blank">Google Map</a>
+        <% end %>
       </div>
 
       <p class="description">
-        <%= description %>   </p>
+        <%= description %></p>
 
+      <div class="spot-reviews-title">
+        <h5 style="display: inline-block;">精選遊記</h5>
+        <%= link_to "我要投稿", new_attraction_review_path(attraction_id: id), target: :_blank, class: "btn btn-small"  if !current_user.has_review?(id) %>
+        <%= link_to "再次投稿", new_attraction_review_path(attraction_id: id), target: :_blank, class: "btn btn-small"  if current_user.has_passed_review?(id) %>
+        <%= link_to "投稿審核中", "#", class: "btn disabled"  if current_user.has_pending_review?(id) %>
+      </div>
+      
+      <div class="row " id="spot-reviews">
+        <% if reviews.length>0 %>
+        <div class="col s11 offset-m1 m8 review-cards-wrapper">
+            <% reviews.each do |review| %>
+            <div class="card horizontal reviews-card">
+              <div class="card-image">
+                <% if review.images.length>0 %>
+                  <%= image_tag review.images.first %>
+                <%end%>
+              </div>
+              <%= link_to attraction_review_path(review.attraction, review), target: :_blank do %>
+                <div class="card-stacked">
+                  <div class="card-content">
+                    <p>
+                      [<%= review.attraction.name%>]- <%= review.title%>
+                    </p>
+                    <label>
+                      <%=review.user.name%>建立於<%=time_ago_in_words review.updated_at %>
+                    </label>
+                  </div>
+              </div>
+              <%end%>
+            </div>
+            <%end %>
+
+        </div>
+        <% else %>
+        <p>尚未有遊記發布</p>
+        <% end %>
+      </div>
+
+      <h5>討論留言區</h5>
 <form>
-  
   <div class="input-field inline" style="min-width: 400px;">
     <label for="new-comment-<%=id%>">留言</label>
     <input type="text" id="new-comment-<%=id%>">
@@ -46,16 +88,6 @@
     <%end %>
   </tbody>
 </table>
-
-      <div class="carousel-wrapper">
-        <div class="carousel">
-          <a class="carousel-item" href="#one!"><img src="http://placehold.it/300x200"></a>
-          <a class="carousel-item" href="#two!"><img src="http://placehold.it/300x200"></a>
-          <a class="carousel-item" href="#three!"><img src="http://placehold.it/300x200"></a>
-          <a class="carousel-item" href="#four!"><img src="http://placehold.it/300x200"></a>
-          <a class="carousel-item" href="#five!"><img src="http://placehold.it/300x200"></a>
-        </div>
-      </div>
     </div>
     <div id="like-action-<%=id%>" class="like-action gallery-action">
       <% if Attraction.find(id).is_liked?(current_user) %>

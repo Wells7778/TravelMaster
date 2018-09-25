@@ -1,0 +1,32 @@
+<div id="show-review" class="section gray">
+  <div class="container">
+		
+    <div class="card">
+      <div class="card-content">
+				<h5>[<%= @review.attraction.name %>]- <%= @review.title%></h5>
+				<%=@review.user.name%>建立於<%=time_ago_in_words @review.updated_at %>
+				<p><%= @review.content %></p>
+				<div class="review-images center">
+					<% @review.images.each do |image| %>
+					  <%= image_tag image %>
+					<% end %>
+				</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<%= javascript_tag do %>
+  $(function(){
+
+    <%#客製 layout 的變數%>
+    $("#mainnav-2").addClass('active');
+    $("#sidenav-2").addClass('active');
+
+    $("#nav-bg-img").css("background-image","url(<%= asset_path 'map.jpeg' %>)");
+    $("#nav-header-h1").text("紀錄旅程點滴");
+    $("#nav-header-tag").text("幫助更多喜愛旅遊的人！");
+
+  })
+<% end %>

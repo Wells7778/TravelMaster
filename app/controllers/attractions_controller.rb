@@ -2,11 +2,11 @@ class AttractionsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_tags
 
-  
   def index
     @categories = Category.all
-    @attractions = Attraction.includes(:comments).order("created_at").limit(6) #attractions以熱門景點為基礎
+    @attractions = Attraction.includes(:reviews).order("created_at").limit(6) #attractions以熱門景點為基礎
     @comment = Comment.new
+
     #進入首頁方式1 分類
     if params[:category_id]
       @way_check = 1 #用來搭配view 顯示 避免出錯
@@ -24,6 +24,9 @@ class AttractionsController < ApplicationController
         #以下兩個參數是Search的結果，再看後端要怎摸樣吐景點回來，複寫 @attractions 即可
         @search_tags = flash[:search]["tags"]
         @search_location = flash[:search]["location"]
+        # 搜尋結果直接存在list裏
+        @list = current_user.lists.last
+        @attractions = @list.attractions.includes(:reviews)
       end
     end
   end
@@ -38,6 +41,32 @@ class AttractionsController < ApplicationController
 
   def search
     flash[:search] = search_params #用來傳遞變數
+    # 把前端拿回來的tag分類
+    # 景點分類屬於Array格式，所以先宣告
+    @vibe_tag = []
+    search_params[:tags].split(",").each do |tag|
+      @travel_tag = Attraction::TRAFFIC[tag] if Attraction::TRAFFIC.has_key?(tag)
+      @vibe_tag << tag if Attraction::VIBE.include?(tag)
+      @travel_time = Attraction::TRAVELTIME[tag] if Attraction::TRAVELTIME.has_key?(tag)
+    end
+    # 預設開車、旅行時間一小時
+    @travel_tag ||= "driving"
+    @travel_time ||= 3600
+    @list = current_user.lists.build(origin: search_params[:location], travel_time: @travel_time, travel_mode: @travel_tag)
+    # 呼叫method geocode把地址轉為經緯度
+    @lat_lng = @list.geocode
+    if @lat_lng.nil?
+      flash[:alert] = "無法找到出發地點"
+      redirect_to root_path
+    else
+      @list.origin_lat = @lat_lng['lat']
+      @list.origin_lng = @lat_lng['lng']
+    end
+    if @list.save
+      @list.search_attraction(@vibe_tag).each do |result|
+        @list.list_attractions.create(attraction_id: result[:attraction_id], duration: result[:travel_text])
+      end
+    end
     redirect_to root_path
   end
 
@@ -56,8 +85,13 @@ class AttractionsController < ApplicationController
     #redirect_back(fallback_location: root_path) # 導回上一頁
   end
 
-  private
+  def mytrips
+  end
 
+  def about
+  end
+
+  private
     def attraction_params
       params.require(:attraction).permit(:name, :image, :description, :address, :lat, :lng, category_ids: [])
     end
@@ -67,10 +101,8 @@ class AttractionsController < ApplicationController
     end
 
     def set_tags #把我們要的TAG都放在這邊
-      @traffic_tags = ["BUS","MRT","CAR","SCOOTER"]
-      @vibe_tags = ["情侶","家庭","戶外","低消費","刺激","散步","宗教"]
-      @time_tags = ["2-3hours","6-8hours","一整天","週末二日"]
+      @traffic_tags = Attraction::TRAFFIC.keys
+      @vibe_tags = Attraction::VIBE
+      @time_tags = Attraction::TRAVELTIME.keys
     end
-
-
 end

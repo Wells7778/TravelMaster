@@ -1,4 +1,3 @@
-
 <div id="starter" class="section">
   <div class="function-trigger center">
     <div id="open-search" class="btn">開始旅程</div>
@@ -14,9 +13,7 @@
 
 <div id="function" class="section" style="display: none;">
   <div class="container">
-
     <div class="search-outter center">
-
       <div class="vibe-outter tags-outter">
         <span>心情分類</span>
         <div class="grid-1 grid-css">
@@ -40,12 +37,10 @@
         <div class="grid-4 grid-css">
         </div>
       </div>
-
       <div class="input-outter">
         <label for="tags-input" class="active">景點標的</label>
         <input id="#tags-input" class="typeahead" type="text" data-role="materialtags">
       </div>
-
       <div class="input-outter">
         <%= form_tag("/attractions/search", method: "post", class: "main-input") do %>
           <label for="search[location]" class="active">出發位置</label>
@@ -54,7 +49,6 @@
           <%= submit_tag "送出", class: "btn submit" %>
         <% end %>
       </div>
-
     </div>
   </div>
 </div>
@@ -62,36 +56,42 @@
 <div id="portfolio" class="section gray">
   <div class="container message">
     <div class="center">
-      <% if @way_check == 1%>
-        <h5>您所在的分類是<%=@category.tag_name%></h5>
+      <% if @way_check == 1 %>
+        <h5>您所在的分類是<%= @category.tag_name %></h5>
       <% elsif @way_check == 3%>
-        <h5>您所選擇的標籤是<%=@search_tags%>，出發地點是<%=@search_location%></h5>
+        <h5>您所選擇的標籤是<%= @search_tags %>，出發地點是<%= @search_location %></h5>
       <%end%>
     </div>
   </div>
 
   <div class="container">
     <div class="center">
-      <% if @way_check == 1%>
+      <% if @way_check == 1 %>
         <h4>分類景點</h4>
-      <% elsif @way_check == 3%>
+      <% elsif @way_check == 3 %>
         <h4>為您推薦</h4>
-      <%else%>
+      <% else %>
         <h4>精選景點</h4>
-      <%end%>
-      
+      <% end %>
     </div>
 
     <div class="gallery row">
-
-    <% if @attractions && @attractions.size>0 %>
-      <% @attractions.each do |spot| %>
-      <%= render partial: "spot", locals: {id:spot.id,name: spot.name,address: spot.address,description: spot.description, attraction: spot, comments: spot.comments }%>
-      <%end%>
-    <% else %>
-      不好意思，沒有搜尋結果，請重新嘗試！
-    <%end%>
-
+      <% if @attractions && @attractions.size > 0 %>
+        <% @attractions.each do |spot| %>
+        <%= render partial: "spot", locals: { id:spot.id,
+                                              name: spot.name,
+                                              image: spot.image,
+                                              address: spot.address,
+                                              comments: spot.comments,
+                                              lat: spot.lat,
+                                              lng: spot.lng,
+                                              description: spot.description,
+                                              list: @list,
+                                              reviews: spot.reviews.passed } %>
+        <% end %>
+      <% else %>
+        不好意思，沒有搜尋結果，請重新嘗試！
+      <% end %>
     </div>
   </div>
 </div><!-- /.container -->
@@ -100,42 +100,38 @@
 <%= javascript_tag do %>
   $(function(){
 
-  <%#客製 layout 的變數%>
-  $("#mainnav-1").addClass('active');
-  $("#sidenav-1").addClass('active');
+    <%#客製 layout 的變數%>
+    $("#mainnav-1").addClass('active');
+    $("#sidenav-1").addClass('active');
 
-  $("#nav-bg-img").css("background-image","url(<%= asset_path 'rock.jpg' %>)");
-  $("#nav-header-h1").text("想出門走走？馬上開始");
-  $("#nav-header-tag").text("找尋景點好幫手");
+    $("#nav-bg-img").css("background-image","url(<%= asset_path 'rock.jpg' %>)");
+    $("#nav-header-h1").text("想出門走走？馬上開始");
+    $("#nav-header-tag").text("找尋景點好幫手");
 
-  <% if @show #以controller show進入 %>
-    $(function(){$('#<%=@show.id%>').galleryExpand('open');})
-  <%end%>
+    <% if @show #以controller show進入 %>
+      $(function(){$('#<%= @show.id %>').galleryExpand('open');})
+    <% end %>
 
-  <%#讀取TAGS %>
+    <%#讀取TAGS %>
 
-  <% @vibe_tags.each do |vibe| %>
-    $(".grid-1 span").after('<div class="grid-item chip vibe"><%=vibe%></div>');
-  <%end%>
+    <% @vibe_tags.each do |vibe| %>
+      $(".grid-1 span").after('<div class="grid-item chip vibe"><%= vibe %></div>');
+    <% end %>
 
-  <% @time_tags.each do |time| %>
-    $(".grid-2 span").after('<div class="grid-item chip time"><%=time%></div>');
-  <%end%>
+    <% @time_tags.each do |time| %>
+      $(".grid-2 span").after('<div class="grid-item chip time"><%= time %></div>');
+    <% end %>
 
-  <% @traffic_tags.each do |traffic| %>
-    $(".grid-3 span").after('<div class="grid-item chip traffic"><%=traffic%></div>');
-  <%end%>
-
+    <% @traffic_tags.each do |traffic| %>
+      $(".grid-3 span").after('<div class="grid-item chip traffic"><%= traffic %></div>');
+    <% end %>
 
   })
 <% end %>
 
 <script>
-
 $(function(){
-
   //openSearch時 開啟.packery模組 並設定tag的選取、移位等
-
   function openSearch() { //tag initialize
     var $grid_1 = $('.grid-1').packery({
       itemSelector: '.grid-item',
@@ -224,7 +220,6 @@ $(function(){
   };
 
   //開始旅程按鈕 啟動openSearch()
-
   $( "#open-search" ).click(function() {
     $( "#starter" ).toggle();
     $( "#function" ).slideDown( "slow" );
@@ -232,14 +227,13 @@ $(function(){
   });
 
   //送出表單時的click 進行資料清洗
-
   $( ".main-input .submit" ).click(function() {
     //tags從materialtags 的功能來讀取值
     $("#search_tags").val($("input").materialtags('items')[1]);
     //$("#search_location").val(x);
     //安全因素 被chrome擋掉了 沒辦法測試
   });
-  //以下是geolocation的程式碼 先不用 
+  //以下是geolocation的程式碼 先不用
   var x="False";
   function getLocation()
     {
@@ -251,21 +245,18 @@ $(function(){
     }
   function showPosition(position)
     {
-    x=[position.coords.latitude,position.coords.longitude];  
+    x=[position.coords.latitude,position.coords.longitude];
     }
 
   //gallery-expand 也就是點景點 會跳出來的特效
   //從這邊直接改URL 需配合controller與galleryExpand.js
-
   var onShow = function(el) {
     history.pushState({},"","/attractions/"+el.attr('id'));
     //消除的部分寫在galleryExpand.js
   };
-
   $('.gallery-expand').galleryExpand({
     onShow: onShow,
   });
-
   //card排版功能
 
   var $masonry = $('.gallery');
@@ -275,7 +266,6 @@ $(function(){
     // use element for option
     columnWidth: '.gallery-item',
   });
-
   // layout Masonry after each image loads
   $masonry.imagesLoaded(function() {
     $masonry.masonry('layout');

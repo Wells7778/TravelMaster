@@ -4,7 +4,10 @@ class Attraction < ApplicationRecord
   has_many :categories, through: :categories_attractions
   # list 多對多關聯
   has_many :list_attractions, dependent: :destroy
-  has_many :attractions, through: :list_attractions
+  has_many :lists, through: :list_attractions
+
+  has_many :reviews, dependent: :destroy
+  has_many :review_users, through: :reviews, source: :user
 
   # like 多對多關聯
   has_many :likes, dependent: :destroy
@@ -18,4 +21,17 @@ class Attraction < ApplicationRecord
   end
 
   validates_presence_of :name, :image, :description, :address
+
+  TRAFFIC = { "BUS" => "bus",
+              "MRT" => "subway",
+              "CAR" => "driving",
+              "SCOOTER" => "bicycling",
+              "WALK" => "walking"
+  }
+  VIBE = Category.pluck(:tag_name)
+  TRAVELTIME = { "半小時" => 1800,
+                 "一小時" => 3600,
+                 "兩小時" => 7200,
+                 "四小時" => 14400
+  }
 end

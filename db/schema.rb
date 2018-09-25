@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 20180925012402) do
     t.integer "attraction_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "duration"
   end
 
   create_table "lists", force: :cascade do |t|
@@ -69,6 +70,18 @@ ActiveRecord::Schema.define(version: 20180925012402) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.text "content"
+    t.text "images"
+    t.string "suggestion"
+    t.string "status", default: "pending", null: false
+    t.integer "attraction_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "title"
   end
 
   create_table "users", force: :cascade do |t|
