@@ -5,6 +5,14 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :lists, dependent: :destroy
+
+  # 「使用者按讚很多景點」的多對多關聯
+  has_many :likes, dependent: :destroy
+  has_many :liked_attractions, through: :likes, source: :attraction
+
+  # comments的多對多關聯
+  has_many :comments
+
   has_many :reviews, dependent: :destroy
   has_many :review_attractions, through: :reviews, source: :attraction do
     def passed

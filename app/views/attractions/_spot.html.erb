@@ -15,6 +15,7 @@
           <a href="https://www.google.com.tw/maps/dir/<%= list.origin_lat %>,<%= list.origin_lng %>/<%= lat %>,<%= lng %>" target="_blank">Google Map</a>
         <% end %>
       </div>
+
       <p class="description">
         <%= description %></p>
 
@@ -49,6 +50,7 @@
               <%end%>
             </div>
             <%end %>
+
         </div>
         <% else %>
         <p>尚未有遊記發布</p>
@@ -56,10 +58,43 @@
       </div>
 
       <h5>討論留言區</h5>
-    
+<form>
+  <div class="input-field inline" style="min-width: 400px;">
+    <label for="new-comment-<%=id%>">留言</label>
+    <input type="text" id="new-comment-<%=id%>">
+  </div>
+  <div class="input-field inline">
+    <button id="create-comment-<%=id%>" class="create-comment btn">Create<i class="material-icons right">send</i></button>
+  </div>
+</form>
+
+<table class="highlight bordered">
+  <thead>
+    <tr>
+        <th>留言</th>
+        <th>作者</th>
+    </tr>
+  </thead>
+  <tbody id="comment-tbody-<%=id%>" class="comment-tbody">
+    <% comments.each do |c| %>
+    <tr id="comment-<%=c.id%>">
+      <td><%=c.content%></td>
+      <td><%= c.user.name %> (<%=time_ago_in_words c.updated_at %>ago)
+        <% if current_user == c.user %>
+          <a href="#" class="comment-delete">delete</a>
+        <%end%>
+      </td>
+    </tr>
+    <%end %>
+  </tbody>
+</table>
     </div>
-    <div class="gallery-action">
-      <a class="btn-floating btn-large waves-effect waves-light"><i class="material-icons">favorite</i></a>
+    <div id="like-action-<%=id%>" class="like-action gallery-action">
+      <% if Attraction.find(id).is_liked?(current_user) %>
+        <a href="#" class="btn-unlike btn-floating btn-large waves-effect waves-light"><i class="material-icons">backspace</i></a>
+      <% else %>
+        <a href="#" class="btn-like btn-floating btn-large waves-effect waves-light"><i class="material-icons">favorite</i></a>
+      <% end %>
     </div>
   </div>
 </div>

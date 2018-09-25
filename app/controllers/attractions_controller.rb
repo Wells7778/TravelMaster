@@ -5,6 +5,7 @@ class AttractionsController < ApplicationController
   def index
     @categories = Category.all
     @attractions = Attraction.includes(:reviews).order("created_at").limit(6) #attractions以熱門景點為基礎
+    @comment = Comment.new
 
     #進入首頁方式1 分類
     if params[:category_id]
@@ -30,7 +31,10 @@ class AttractionsController < ApplicationController
     end
   end
 
+
   def show
+    @attraction = Attraction.find(params[:id])
+    @comment = Comment.new
     flash[:show_id] = params[:id] #用來傳遞變數
     redirect_to root_path
   end
@@ -64,6 +68,21 @@ class AttractionsController < ApplicationController
       end
     end
     redirect_to root_path
+  end
+
+  def like
+    @attraction = Attraction.find(params[:id])
+    @attraction.likes.create!(user: current_user)
+    render :json => { :id => @attraction.id }
+    #redirect_back(fallback_location: root_path)  # 導回上一頁
+  end
+
+  def unlike
+    @attraction = Attraction.find(params[:id])
+    likes = Like.where(attraction: @attraction, user: current_user)
+    likes.destroy_all
+    render :json => { :id => @attraction.id }
+    #redirect_back(fallback_location: root_path) # 導回上一頁
   end
 
   def mytrips

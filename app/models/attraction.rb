@@ -9,6 +9,17 @@ class Attraction < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_many :review_users, through: :reviews, source: :user
 
+  # like 多對多關聯
+  has_many :likes, dependent: :destroy
+  has_many :liked_users, through: :likes, source: :user
+
+  # comment 多對多關聯
+  has_many :comments
+
+  def is_liked?(user)
+    self.liked_users.include?(user)
+  end
+
   validates_presence_of :name, :image, :description, :address
 
   TRAFFIC = { "BUS" => "bus",

@@ -82,7 +82,7 @@
                                               name: spot.name,
                                               image: spot.image,
                                               address: spot.address,
-
+                                              comments: spot.comments,
                                               lat: spot.lat,
                                               lng: spot.lng,
                                               description: spot.description,
@@ -125,6 +125,7 @@
     <% @traffic_tags.each do |traffic| %>
       $(".grid-3 span").after('<div class="grid-item chip traffic"><%= traffic %></div>');
     <% end %>
+
   })
 <% end %>
 
@@ -273,5 +274,100 @@ $(function(){
   //添加placeholder
   $(".n-tag").attr("placeholder", "自行輸入或點選上方標籤");
   $("#search_location").attr("placeholder", "輸入出發地址");
+
+  //ajax
+  function addUlikeBtn(id){
+    var unlikeBtn = '<a href="#" class="btn-unlike btn-floating btn-large waves-effect waves-light active"><i class="material-icons">backspace</i></a>'
+    $("#like-action-"+id).html(unlikeBtn);
+  };
+
+  function addLikeBtn(id){
+    var likeBtn = '<a href="#" class="btn-like btn-floating btn-large waves-effect waves-light active"><i class="material-icons">favorite</i></a>'
+    $("#like-action-"+id).html(likeBtn);
+  };
+
+  $(".like-action").on("click",".btn-like", function(event) {
+    event.preventDefault();
+    var id = event.target.parentNode.parentNode.id.slice(12,);
+    $.ajax({
+      url: id+"/like",
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        addUlikeBtn(id);
+        Materialize.toast('成功收藏', 4000);
+      }
+    });
+  });
+  $(".like-action").on("click",".btn-unlike", function(event) {
+    event.preventDefault();
+    var id = event.target.parentNode.parentNode.id.slice(12,);
+    $.ajax({
+      url: id+"/unlike",
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        addLikeBtn(id);
+        Materialize.toast('取消收藏', 4000);
+      }
+    });
+  });
+
+  //comment ajax
+  function addComment(a_id,c_id,c_content,c_user){
+    var todo = document.createElement("tr");
+    todo.id = "comment-"+c_id;
+    $(todo).html($("#comment-template").html());
+    $(todo).find(".c_content").html(c_content);
+    $(todo).find(".c_user_time").html(c_user+" (just now)"+'<a href="#" class="comment-delete">delete</a>');
+    $("#comment-tbody-"+a_id).append(todo);
+  }
+
+  $(".create-comment").on("click", function(event) {
+    event.preventDefault();
+    var id = event.target.id.slice(15,);
+    $.ajax({
+      url: "create_comment",
+      method: "POST",
+      dataType: "json",
+      data: {
+        comment:{  
+          attraction_id: id,
+          content: $("#new-comment-"+id).val()
+        }
+      },
+      success: function(data) {
+      Materialize.toast('留言成功', 4000);
+      addComment(id,data["c_id"],data["c_content"],data["c_user"]);
+      }
+    });
+  });
+
+  $(".comment-tbody").on("click",".comment-delete",function(event){
+    event.preventDefault();
+    var id = event.target.parentNode.parentNode.id.slice(8,);
+    $.ajax({
+      url: "destroy_comment",
+      method: "POST",
+      dataType: "json",
+      data: {
+        comment:{  
+          attraction_id: id,
+        }
+      },
+      success: function(data) {
+      Materialize.toast('刪除成功', 4000);
+      event.target.parentNode.parentNode.remove();
+      }
+    })
+
+  })
+
 }); // end of document ready
+
+</script>
+
+<script type="text/template" id="comment-template">
+  <td class="c_content"></td>
+  <td class="c_user_time"></td>
 </script>
