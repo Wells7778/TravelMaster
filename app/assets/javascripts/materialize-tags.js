@@ -97,7 +97,6 @@ var checkStop = 0; //修正：function add 會重複新增div階層造成錯誤
         this.$label    = this.$element.parent().find('label');
 
         if (checkStop==0){ //修正對應
-            console.log("here");
             this.$element.before(this.$container);
         };
 
