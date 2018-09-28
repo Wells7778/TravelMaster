@@ -13,7 +13,7 @@
         <tr>
           <th>name</th>
           <th>description</th>
-          <th>address</th>
+          <th><%= sort_link(@ransack, :address, 'address', default_order: :desc) %></th>
           <th>category</th>
           <th>#</th>
         </tr>
