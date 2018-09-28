@@ -2,10 +2,21 @@ body{
 	font-family: 'Noto Sans TC','Noto Sans',sans-serif;;
 }
 
+.all-tags-container{
+	padding-bottom: 16px;
+}
+
 .grid-css{
-	padding-top: 10px;
-	padding-bottom: 10px;
+	padding-top: 0px;
+	padding-bottom: 8px;
 	padding-left: 64px;
+}
+
+/* clear fix */
+.grid-css:after {
+  content: '';
+  display: block;
+  clear: both;
 }
 
 .grid-item{ 
@@ -17,6 +28,10 @@ body{
 	max-width: 800px;
 }
 
+.materialize-tags{
+	padding: 0 0;
+}
+
 .materialize-tags .chip .material-icons{
 	cursor: pointer;
   float: right;
@@ -25,13 +40,15 @@ body{
   padding-left: 8px;
 }
 
-.n-tag{
+.materialize-tags input.n-tag{
+	margin: 0 0;
 	display: inline !important;
 }
 
 .tags-outter{
+	max-width: 800px;
 	text-align: left;
-	min-height: 72px;
+	min-height: 60px;
 }
 
 .tags-outter span{

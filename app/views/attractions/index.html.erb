@@ -14,27 +14,29 @@
 <div id="function" class="section" style="display: none;">
   <div class="container">
     <div class="search-outter center">
-      <div class="vibe-outter tags-outter">
-        <span>心情分類</span>
-        <div class="grid-1 grid-css">
-          <span></span>
+      <div class="all-tags-container">
+        <div class="vibe-outter tags-outter">
+          <span>心情分類</span>
+          <div class="grid-1 grid-css">
+            <span></span>
+          </div>
         </div>
-      </div>
-      <div class="time-outter tags-outter">
-        <span>旅程時間</span>
-        <div class="grid-2 grid-css">
-          <span></span>
+        <div class="time-outter tags-outter">
+          <span>旅程時間</span>
+          <div class="grid-2 grid-css">
+            <span></span>
+          </div>
         </div>
-      </div>
-      <div class="traffic-outter tags-outter">
-        <span>交通工具</span>
-        <div class="grid-3 grid-css">
-          <span></span>
+        <div class="traffic-outter tags-outter">
+          <span>交通工具</span>
+          <div class="grid-3 grid-css">
+            <span></span>
+          </div>
         </div>
-      </div>
-      <div class="returned-outter tags-outter" style="display: none;">
-        <span>待選區</span>
-        <div class="grid-4 grid-css">
+        <div class="returned-outter tags-outter" style="display: none;">
+          <span>待選區</span>
+          <div class="grid-4 grid-css">
+          </div>
         </div>
       </div>
       <div class="input-outter">
@@ -146,60 +148,40 @@
 
 <script>
 $(function(){
+  //gird參數設定
+  var gridSetUp = {
+      itemSelector: '.grid-item',
+      gutter: 1,
+      columnWidth: 1,
+    }
+  function draggie(i, gridItem, $grid){
+    var draggie = new Draggabilly( gridItem );
+    $grid.packery( 'bindDraggabillyEvents', draggie );
+  }
+
   //openSearch時 開啟.packery模組 並設定tag的選取、移位等
   function openSearch() { //tag initialize
-    var $grid_1 = $('.grid-1').packery({
-      itemSelector: '.grid-item',
-      // columnWidth helps with drop positioning
-      gutter: 10,
-      columnWidth: 11,
-    });
-    $grid_1.find('.grid-item').each( function( i, gridItem ) {
-      var draggie = new Draggabilly( gridItem );
-      // bind drag events to Packery
-      $grid_1.packery( 'bindDraggabillyEvents', draggie );
-    });
+    var $grid_1 = $('.grid-1').packery(gridSetUp);
+    $grid_1.find('.grid-item').each( function(i,gridItem){
+      draggie( i, gridItem, $grid_1 )});
 
-    var $grid_2 = $('.grid-2').packery({
-      itemSelector: '.grid-item',
-      // columnWidth helps with drop positioning
-      gutter: 10,
-      columnWidth: 11,
-    });
-    $grid_2.find('.grid-item').each( function( i, gridItem ) {
-      var draggie = new Draggabilly( gridItem );
-      // bind drag events to Packery
-      $grid_2.packery( 'bindDraggabillyEvents', draggie );
-    });
+    var $grid_2 = $('.grid-2').packery(gridSetUp);
+    $grid_2.find('.grid-item').each(function(i,gridItem){
+      draggie( i, gridItem, $grid_2 )});
 
-    var $grid_3 = $('.grid-3').packery({
-      itemSelector: '.grid-item',
-      // columnWidth helps with drop positioning
-      gutter: 10,
-      columnWidth: 11,
-    });
-    $grid_3.find('.grid-item').each( function( i, gridItem ) {
-      var draggie = new Draggabilly( gridItem );
-      // bind drag events to Packery
-      $grid_3.packery( 'bindDraggabillyEvents', draggie );
-    });
+    var $grid_3 = $('.grid-3').packery(gridSetUp);
+    $grid_3.find('.grid-item').each(function(i,gridItem){
+      draggie( i, gridItem, $grid_3 )});
 
-    var $grid_4 = $('.grid-4').packery({
-      itemSelector: '.grid-item',
-      // columnWidth helps with drop positioning
-      gutter: 10,
-      columnWidth: 11,
-    });
-    $grid_4.find('.grid-item').each( function( i, gridItem ) {
-      var draggie = new Draggabilly( gridItem );
-      // bind drag events to Packery
-      $grid_4.packery( 'bindDraggabillyEvents', draggie );
-    });
+    var $grid_4 = $('.grid-4').packery(gridSetUp);
+    $grid_4.find('.grid-item').each(function(i,gridItem){
+      draggie( i, gridItem, $grid_4 )});
 
     $grid_1.on( 'click', '.vibe.grid-item', function( event ) {
       $grid_1.packery( 'remove', event.currentTarget ).packery('shiftLayout');
       // shiftLayout remaining item elements
       $('input').materialtags('add', event.currentTarget.innerText );
+      $('.grid-1').packery();
       $('.n-tag').val("");
     });
 
@@ -207,6 +189,7 @@ $(function(){
       $grid_2.packery( 'remove', event.currentTarget ).packery('shiftLayout');
       // shiftLayout remaining item elements
       $('input').materialtags('add', event.currentTarget.innerText );
+      $('.grid-2').packery();
       $('.n-tag').val("");
     });
 
@@ -214,6 +197,7 @@ $(function(){
       $grid_3.packery( 'remove', event.currentTarget ).packery('shiftLayout');
       // shiftLayout remaining item elements
       $('input').materialtags('add', event.currentTarget.innerText );
+      $('.grid-3').packery();
       $('.n-tag').val("");
     });
 
@@ -221,6 +205,7 @@ $(function(){
       $grid_4.packery( 'remove', event.currentTarget ).packery('shiftLayout');
       // shiftLayout remaining item elements
       $('input').materialtags('add', event.currentTarget.innerText );
+      $('.grid-4').packery();
       $('.n-tag').val("");
     });
 
