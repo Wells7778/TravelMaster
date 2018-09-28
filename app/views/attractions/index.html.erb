@@ -148,7 +148,7 @@
 
 <script>
 $(function(){
-  //gird參數設定
+  //packery gird參數設定
   var gridSetUp = {
       itemSelector: '.grid-item',
       gutter: 1,
@@ -157,6 +157,12 @@ $(function(){
   function draggie(i, gridItem, $grid){
     var draggie = new Draggabilly( gridItem );
     $grid.packery( 'bindDraggabillyEvents', draggie );
+  }
+  function clickItem(event,$grid,itemClass){
+    $grid.packery( 'remove', event.currentTarget ).packery('shiftLayout');
+    $('input').materialtags('add', event.currentTarget.innerText );
+    $(itemClass).packery();
+    $('.n-tag').val("");
   }
 
   //openSearch時 開啟.packery模組 並設定tag的選取、移位等
@@ -178,35 +184,16 @@ $(function(){
       draggie( i, gridItem, $grid_4 )});
 
     $grid_1.on( 'click', '.vibe.grid-item', function( event ) {
-      $grid_1.packery( 'remove', event.currentTarget ).packery('shiftLayout');
-      // shiftLayout remaining item elements
-      $('input').materialtags('add', event.currentTarget.innerText );
-      $('.grid-1').packery();
-      $('.n-tag').val("");
+      clickItem(event,$grid_1,".grid-1");
     });
-
     $grid_2.on( 'click', '.time.grid-item', function( event ) {
-      $grid_2.packery( 'remove', event.currentTarget ).packery('shiftLayout');
-      // shiftLayout remaining item elements
-      $('input').materialtags('add', event.currentTarget.innerText );
-      $('.grid-2').packery();
-      $('.n-tag').val("");
+      clickItem(event,$grid_2,".grid-2");
     });
-
     $grid_3.on( 'click', '.traffic.grid-item', function( event ) {
-      $grid_3.packery( 'remove', event.currentTarget ).packery('shiftLayout');
-      // shiftLayout remaining item elements
-      $('input').materialtags('add', event.currentTarget.innerText );
-      $('.grid-3').packery();
-      $('.n-tag').val("");
+      clickItem(event,$grid_3,".grid-3");
     });
-
     $grid_4.on( 'click', '.returned.grid-item', function( event ) {
-      $grid_4.packery( 'remove', event.currentTarget ).packery('shiftLayout');
-      // shiftLayout remaining item elements
-      $('input').materialtags('add', event.currentTarget.innerText );
-      $('.grid-4').packery();
-      $('.n-tag').val("");
+      clickItem(event,$grid_4,".grid-4");
     });
 
     $('input').on('beforeItemRemove', function(event) {
@@ -363,8 +350,8 @@ $(function(){
       event.target.parentNode.parentNode.remove();
       }
     })
-
   })
+
 
 }); // end of document ready
 
