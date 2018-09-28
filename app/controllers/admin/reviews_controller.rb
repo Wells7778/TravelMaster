@@ -1,7 +1,8 @@
 class Admin::ReviewsController < Admin::BaseController
   before_action :set_review, except: :index
   def index
-    @reviews = Review.all
+    @ransack = Review.includes(:attraction).ransack(params[:q])
+    @reviews = @ransack.result(distinct: true).page(params[:page]).per(20)
   end
 
   def show

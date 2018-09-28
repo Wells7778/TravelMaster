@@ -4,14 +4,14 @@ class AttractionsController < ApplicationController
 
   def index
     @categories = Category.all
-    @attractions = Attraction.includes(:reviews).order("created_at").limit(6) #attractions以熱門景點為基礎
+    @attractions = Attraction.includes(:categories_attractions, :categories).order("created_at").limit(6) #attractions以熱門景點為基礎
     @comment = Comment.new
 
     #進入首頁方式1 分類
     if params[:category_id]
       @way_check = 1 #用來搭配view 顯示 避免出錯
       @category = Category.find(params[:category_id])
-      @attractions = @category.attractions
+      @attractions = @category.attractions.inclouds(:reviews)
     else
       #進入首頁方式2 Show action
       if flash[:show_id] #從Show action進來
@@ -29,7 +29,7 @@ class AttractionsController < ApplicationController
         @search_location = flash[:search]["location"]
         # 搜尋結果直接存在list裏
         @list = current_user.lists.last
-        @attractions = @list.attractions.includes(:reviews)
+        @attractions = @list.attractions.includes(:categories_attractions, :categories)
       end
     end
   end

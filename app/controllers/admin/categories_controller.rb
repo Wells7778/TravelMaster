@@ -2,7 +2,8 @@ class Admin::CategoriesController < Admin::BaseController
   before_action :set_category, only: [:update, :destroy]
 
   def index
-    @categories = Category.all
+    @ransack = Category.ransack(params[:q])
+    @categories = @ransack.result(distinct: true).page(params[:page]).per(20)
     if params[:id]
       @category = Category.find(params[:id])
     else

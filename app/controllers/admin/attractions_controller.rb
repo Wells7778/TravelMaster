@@ -3,13 +3,15 @@ class Admin::AttractionsController < Admin::BaseController
   before_action :set_categories, only: [:show, :edit]
 
   def index
-    @categories = Category.all.includes(:attractions)
+    @categories = Category.all
     if params[:category_id]
       @category = Category.find(params[:category_id])
-      @attractions = @category.attractions.includes(:categories)
+      @ransack = @category.attractions.includes(:categories).ransack(params[:q])
+      @attractions = @ransack.result(distinct: true).page(params[:page]).per(20)
     else
-      @attractions = Attraction.all.includes(:categories)
+      @ransack = Attraction.all.includes(:categories).ransack(params[:q])
     end
+    @attractions = @ransack.result(distinct: true).page(params[:page]).per(20)
   end
 
   def new
