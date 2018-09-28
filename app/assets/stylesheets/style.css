@@ -156,12 +156,17 @@ label {
 	font-size: 18px;
 }
 
-.review-cards-wrapper .reviews-card .card-image {
-	max-width: 150px;
+.review-cards-wrapper .reviews-card{
+	max-height: 120px;
+	overflow: hidden;
 }
 
-.review-cards-wrapper .reveiws-card .card-image img{
-	object-fit: cover;
+.review-cards-wrapper .reviews-card .card-image {
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	overflow: hidden;
+	max-width: 150px;
 }
 
 #show-review p{
