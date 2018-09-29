@@ -19,17 +19,18 @@
 
 <div class="section gray">
   <div class="container">
-
+<h5>景點呈現</h5>
     <div class="card">
       <div class="card-content">
-
+<h3><%= @attraction.name %></h3>
+<div>
 <% @attraction.categories.each do |category| %>
-  <p><%= category.tag_name %></p>
+  <div class="chip"><%= category.tag_name %></div>
 <% end %>
-<h5><%= @attraction.name %></h5>
-<img src="<%= @attraction.image %>" alt="">
-<p><b>描述</b><%= @attraction.description %></p>
+</div>
 <p><b>地址</b><%= @attraction.address %></p>
+<img src="<%= @attraction.image %>" alt="" class="responsive-img">
+<p><b>描述</b><%= @attraction.description %></p>
 
 </div>
 </div>
