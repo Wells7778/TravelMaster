@@ -258,3 +258,24 @@ label {
 #tags-modal-table td{
 	padding: 0px 4px;
 }
+
+nav.pagination{
+	padding-left: 24px;
+	padding-right: 24px;
+	background-color: #fff;
+	height: inherit;
+}
+
+nav.pagination span{
+	padding: 4px 8px;
+	border: 1px solid #DCDCDC;
+	margin-right: 12px;
+}
+
+nav.pagination span a{
+	color: black;
+}
+
+nav.pagination span.current, nav.pagination span.gap{
+	color: blue;
+}
