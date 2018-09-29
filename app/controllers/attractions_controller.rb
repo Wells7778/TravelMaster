@@ -34,7 +34,6 @@ class AttractionsController < ApplicationController
     end
   end
 
-
   def show
     @attraction = Attraction.find(params[:id])
     @comment = Comment.new

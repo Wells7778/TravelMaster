@@ -16,7 +16,7 @@
     <div class="search-outter center">
       <div class="all-tags-container">
         <div class="vibe-outter tags-outter">
-          <span>心情分類</span>
+          <span>熱門主題</span>
           <div class="grid-1 grid-css">
             <span></span>
           </div>
@@ -38,9 +38,10 @@
           <div class="grid-4 grid-css">
           </div>
         </div>
+        <a class="modal-trigger" href="#modal1">所有標籤</a>
       </div>
       <div class="input-outter">
-        <label for="tags-input" class="active">景點標的</label>
+        <label for="tags-input" class="active">標籤搜尋</label>
         <input id="tags-input" class="typehead-input" type="text" data-role="materialtags">
       </div>
       <div class="input-outter">
@@ -52,6 +53,46 @@
         <% end %>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Modal Structure -->
+<div id="modal1" class="modal bottom-sheet">
+  <div class="modal-content tags-modal">
+    <table id="tags-modal-table">
+      <thead>
+        <tr><th style="min-width: 80px;">分類</th><th>標籤 (點選自動加入搜尋)</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>主題</td>
+          <td>
+            <%@vibe_tags.each do |tag|%>
+              <div class="modal-tag chip vibe"><%= tag%></div>
+            <%end%>
+          </td>
+        </tr>
+        <tr>
+          <td>時間</td>
+          <td>
+            <%@time_tags.each do |tag|%>
+              <div class="modal-tag chip time"><%= tag%></div>
+            <%end%>
+          </td>
+        </tr>
+        <tr>
+          <td>交通</td>
+          <td>
+            <%@traffic_tags.each do |tag|%>
+              <div class="modal-tag chip traffic"><%= tag%></div>
+            <%end%>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <a class="modal-action modal-close waves-effect waves-green btn-flat">關閉</a>
   </div>
 </div>
 
@@ -167,6 +208,7 @@
 
 <script>
 $(function(){
+
   //packery gird參數設定
   var gridSetUp = {
       itemSelector: '.grid-item',
@@ -278,7 +320,7 @@ $(function(){
   });
 
   //添加placeholder
-  $(".n-tag").attr("placeholder", "自行輸入或點選上方標籤");
+  $(".n-tag").attr("placeholder", "自行輸入或點選主題標籤");
   $("#search_location").attr("placeholder", "輸入出發地址");
 
   //ajax
@@ -372,6 +414,7 @@ $(function(){
   })
 
   //typeahead
+  //https://github.com/twitter/typeahead.js
   //aheadTagFirst在上方存入
   var aheadTag = window.aheadTagFirst;
 
@@ -397,6 +440,15 @@ $(function(){
     $('.n-tag').typeahead('close');
     $('.tt-selectable').remove();
   });
+
+  //modal1 trigger
+  $('.modal').modal();
+
+  //所有標籤的modal
+  $("#tags-modal-table").on("click",".modal-tag",function(event){
+    $('input').materialtags('add', event.currentTarget.innerText );
+    Materialize.toast('加入搜尋列', 2000)
+  });  
 
 }); // end of document ready
 

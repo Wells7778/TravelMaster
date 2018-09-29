@@ -3,6 +3,7 @@ body{
 }
 
 .all-tags-container{
+	text-align: left;
 	padding-bottom: 16px;
 }
 
@@ -67,22 +68,22 @@ body{
 	background-color: #fff;
 }
 
-.grid-item.chip.vibe{
+.chip.vibe{
 	background-color: #F4F4F4;
 	border: 1px solid #E37222;
 }
 
-.grid-item.chip.traffic{
+.chip.traffic{
 	background-color: #F4F4F4;
 	border: 1px solid #07889B;
 }
 
-.grid-item.chip.time{
+.chip.time{
 	background-color: #F4F4F4;
 	border: 1px solid #C09F80;
 }
 
-.grid-item.chip.returned{
+.chip.returned{
 	background-color: #FEDCD2;
 }
 
@@ -239,4 +240,21 @@ label {
 	overflow:hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+}
+
+.modal .modal-content.tags-modal{
+	padding: 12px 48px;
+}
+
+.modal-tag{
+	cursor: pointer;
+}
+
+#tags-modal-table{
+	margin: 0 auto;
+	max-width: 900px;
+}
+
+#tags-modal-table td{
+	padding: 0px 4px;
 }
