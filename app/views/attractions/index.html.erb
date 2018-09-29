@@ -130,17 +130,36 @@
     <% end %>
 
     <%#讀取TAGS %>
+    window.aheadTagFirst = []; //aheadTagFirst傳入下一個script作typeAhead用
 
+    //每個tags給數量限制，多的則往typeAhead排列
+    <% i=0%>
+    <% m=0%>
+    <% n=0%>
     <% @vibe_tags.each do |vibe| %>
-      $(".grid-1 span").after('<div class="grid-item chip vibe"><%= vibe %></div>');
+      <% if i<10 %>
+        $(".grid-1 span").after('<div class="grid-item chip vibe"><%= vibe %></div>');
+      <% else %>
+        window.aheadTagFirst.push("<%= vibe %>");
+      <% end %>
+      <% i = i+1%>
     <% end %>
 
     <% @time_tags.each do |time| %>
-      $(".grid-2 span").after('<div class="grid-item chip time"><%= time %></div>');
+      <% if m<5 %>
+        $(".grid-2 span").after('<div class="grid-item chip time"><%= time %></div>');
+      <% else %>
+        window.aheadTagFirst.push("<%= time %>");
+      <% end %>
+      <% m=m+1 %>
     <% end %>
 
     <% @traffic_tags.each do |traffic| %>
-      $(".grid-3 span").after('<div class="grid-item chip traffic"><%= traffic %></div>');
+      <% if m<5 %>
+        $(".grid-3 span").after('<div class="grid-item chip traffic"><%= traffic %></div>');
+      <% else %>
+        window.aheadTagFirst.push("<%= traffic %>");
+      <% end %>
     <% end %>
 
   })
@@ -352,15 +371,14 @@ $(function(){
     })
   })
 
-  //typeahead測試
-
-  var aheadTag = ['測試一號','測試二號','三號測試'];
+  //typeahead
+  //aheadTagFirst在上方存入
+  var aheadTag = window.aheadTagFirst;
 
   // constructs the suggestion engine
   var aheadTag = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.whitespace,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    // `states` is an array of state names defined in "The Basics"
     local: aheadTag
   });
 
@@ -371,48 +389,14 @@ $(function(){
     name: 'aheadTag',
     source: aheadTag
   });
-  /*
-  $('.n-tag').bind('typeahead:open', function(ev, suggestion) {
-    $(".input-outter").on("click",".tt-menu",function(event){
-      $('.n-tag').bind('typeahead:open', function(ev, suggestion) {
-    //$('.tt-input').val("");
-      console.log("001");
-      $('.n-tag').typeahead('close');
-      $('.tt-selectable').remove();
-    
-    //$('.n-tag').typeahead('close');
-    });
-    })
-    //$('.tt-input').val("");
-    //$('.n-tag').typeahead('close');
-    //$('.tt-selectable').remove();
-    //$('.n-tag').typeahead('close');
-  });*/
 
+  //typeAhead與tags的互動處理
   $(".input-outter").on("change click",".tt-menu",function(event){
-
+    $('input').materialtags('add', $('.tt-input').val() );
     $('.tt-input').val("");
-    console.log("001");
     $('.n-tag').typeahead('close');
     $('.tt-selectable').remove();
-  
-  //$('.n-tag').typeahead('close');
   });
-
-  /*
-  $('.n-tag').bind('typeahead:close', function(ev, suggestion) {
-    //$('.tt-input').val("");
-    $('.n-tag').typeahead('close');
-    $('.tt-selectable').remove();
-    console.log("@@");
-    //$('.n-tag').typeahead('close');
-      //$('.n-tag').bind('typeahead:open', function(ev, suggestion) {
-    //$('.tt-input').val("");
-      //$('.n-tag').typeahead('close');
-    
-    //$('.n-tag').typeahead('close');
-    //});
-  });*/
 
 }); // end of document ready
 
