@@ -46,6 +46,9 @@ GEM
     bcrypt (3.1.12)
     bindex (0.5.0)
     builder (3.2.3)
+    bullet (5.7.6)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.11.0)
     byebug (10.0.2)
     capistrano (3.10.1)
       airbrussh (>= 1.0.0)
@@ -137,6 +140,18 @@ GEM
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
     jwt (2.1.0)
+    kaminari (1.1.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.1.1)
+      kaminari-activerecord (= 1.1.1)
+      kaminari-core (= 1.1.1)
+    kaminari-actionview (1.1.1)
+      actionview
+      kaminari-core (= 1.1.1)
+    kaminari-activerecord (1.1.1)
+      activerecord
+      kaminari-core (= 1.1.1)
+    kaminari-core (1.1.1)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -195,6 +210,11 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (12.3.1)
+    ransack (2.0.1)
+      actionpack (>= 5.0)
+      activerecord (>= 5.0)
+      activesupport (>= 5.0)
+      i18n
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
@@ -253,6 +273,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.5)
+    uniform_notifier (1.11.0)
     warden (1.2.7)
       rack (>= 1.0)
     web-console (3.7.0)
@@ -270,6 +291,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bullet
   byebug
   capistrano-passenger
   capistrano-rails
@@ -280,10 +302,12 @@ DEPENDENCIES
   figaro
   google-cloud-vision
   jbuilder (~> 2.5)
+  kaminari
   listen (>= 3.0.5, < 3.2)
   mysql2 (< 0.5)
   puma (~> 3.7)
   rails (~> 5.1.6)
+  ransack
   rest-client
   sass-rails (~> 5.0)
   selenium-webdriver

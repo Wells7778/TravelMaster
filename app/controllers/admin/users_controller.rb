@@ -1,6 +1,7 @@
 class Admin::UsersController < Admin::BaseController
   def index
-    @users = User.all
+    @ransack = User.ransack(params[:q])
+    @users = @ransack.result(distinct: true).page(params[:page]).per(20)
   end
 
   def update

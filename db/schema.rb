@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180925012402) do
+ActiveRecord::Schema.define(version: 20180928142730) do
 
   create_table "attractions", force: :cascade do |t|
     t.string "name", null: false
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20180925012402) do
     t.integer "categoey_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "indroduction"
+    t.text "introduction"
     t.string "region"
   end
 
@@ -37,6 +37,8 @@ ActiveRecord::Schema.define(version: 20180925012402) do
     t.integer "attraction_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["attraction_id"], name: "index_categories_attractions_on_attraction_id"
+    t.index ["category_id"], name: "index_categories_attractions_on_category_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -45,6 +47,9 @@ ActiveRecord::Schema.define(version: 20180925012402) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["attraction_id", "user_id"], name: "index_comments_on_attraction_id_and_user_id"
+    t.index ["attraction_id"], name: "index_comments_on_attraction_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "likes", force: :cascade do |t|
@@ -52,6 +57,9 @@ ActiveRecord::Schema.define(version: 20180925012402) do
     t.integer "attraction_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["attraction_id", "user_id"], name: "index_likes_on_attraction_id_and_user_id"
+    t.index ["attraction_id"], name: "index_likes_on_attraction_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
   create_table "list_attractions", force: :cascade do |t|
@@ -60,6 +68,8 @@ ActiveRecord::Schema.define(version: 20180925012402) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "duration"
+    t.index ["attraction_id"], name: "index_list_attractions_on_attraction_id"
+    t.index ["list_id"], name: "index_list_attractions_on_list_id"
   end
 
   create_table "lists", force: :cascade do |t|
@@ -70,6 +80,7 @@ ActiveRecord::Schema.define(version: 20180925012402) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.index ["user_id"], name: "index_lists_on_user_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -82,6 +93,9 @@ ActiveRecord::Schema.define(version: 20180925012402) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "title"
+    t.index ["attraction_id", "user_id"], name: "index_reviews_on_attraction_id_and_user_id"
+    t.index ["attraction_id"], name: "index_reviews_on_attraction_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
