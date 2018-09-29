@@ -1,3 +1,11 @@
+<div class="section">
+  <div class="container">
+
+    <h5>後台-使用者列表</h5>
+
+    <div class="card">
+      <div class="card-content">
+
 <table>
   <thead>
     <tr>
@@ -12,12 +20,29 @@
         <td><%= user.name %></td>
         <td><%= user.email %></td>
         <td>
-          <%= form_tag admin_user_path(user), method: :patch do %>
+          <%= form_tag admin_user_path(user), method: :patch, class:"admin_user_form" do %>
             <%= select_tag :role, options_for_select(User::ROLE.map(&:reverse), user.role) %>
-            <%= submit_tag "Update" %>
+            <%= submit_tag "Update", class:"btn"%>
           <% end %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
+<%= paginate @users %>
+</div>
+</div>
+</div>
+</div>
+
+<%= javascript_tag do %>
+  $(function(){
+
+    <%#客製 layout 的變數%>
+
+    $("#nav-bg-img").css("background-image","url(<%= asset_path 'backend.jpg' %>)");
+    $("#nav-header-h1").text("神聖的管理殿堂");
+    $("#nav-header-tag").text("");
+
+  })
+<% end %>

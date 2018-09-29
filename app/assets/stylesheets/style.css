@@ -286,3 +286,8 @@ form.new_attraction [type="checkbox"]+label {
 	padding-left: 24px;
 	margin-right: 24px;
 }
+
+.admin_user_form select{
+	width: 100px;
+	display: inline-block;
+}
