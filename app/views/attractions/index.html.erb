@@ -62,31 +62,34 @@
   <div class="modal-content tags-modal">
     <table id="tags-modal-table">
       <thead>
-        <tr><th style="min-width: 80px;">分類</th><th>標籤 (點選自動加入搜尋)</th></tr>
+        <tr>
+          <th style="min-width: 80px;">分類</th>
+          <th>標籤 (點選自動加入搜尋)</th>
+        </tr>
       </thead>
       <tbody>
         <tr>
           <td>主題</td>
           <td>
-            <%@vibe_tags.each do |tag|%>
-              <div class="modal-tag chip vibe"><%= tag%></div>
-            <%end%>
+            <% @vibe_tags.each do |tag| %>
+              <div class="modal-tag chip vibe"><%= tag %></div>
+            <% end %>
           </td>
         </tr>
         <tr>
           <td>時間</td>
           <td>
-            <%@time_tags.each do |tag|%>
-              <div class="modal-tag chip time"><%= tag%></div>
-            <%end%>
+            <% @time_tags.each do |tag| %>
+              <div class="modal-tag chip time"><%= tag %></div>
+            <% end %>
           </td>
         </tr>
         <tr>
           <td>交通</td>
           <td>
-            <%@traffic_tags.each do |tag|%>
-              <div class="modal-tag chip traffic"><%= tag%></div>
-            <%end%>
+            <%@traffic_tags.each do |tag| %>
+              <div class="modal-tag chip traffic"><%= tag %></div>
+            <% end %>
           </td>
         </tr>
       </tbody>
@@ -102,7 +105,7 @@
     <div class="center">
       <% if @way_check == 1 %>
         <h5>您所在的分類是<%= @category.tag_name %></h5>
-      <% elsif @way_check == 3%>
+      <% elsif @way_check == 3 %>
         <h5>您所選擇的標籤是<%= @search_tags %>，出發地點是<%= @search_location %></h5>
       <%end%>
     </div>
@@ -150,7 +153,7 @@
                                               list: @list,
                                               reviews: spot.reviews.passed,
                                               categories: spot.categories } %>
-      <% end%>
+      <% end %>
     </div>
   </div>
 </div><!-- /.container -->
@@ -175,33 +178,34 @@
     window.aheadTagFirst = []; //aheadTagFirst傳入下一個script作typeAhead用
 
     //每個tags給數量限制，多的則往typeAhead排列
-    <% i=0%>
-    <% m=0%>
-    <% n=0%>
+    <% i = 0 %>
+    <% m = 0 %>
+    <% n = 0 %>
     <% @vibe_tags.each do |vibe| %>
-      <% if i<10 %>
+      <% if i < 10 %>
         $(".grid-1 span").after('<div class="grid-item chip vibe"><%= vibe %></div>');
       <% else %>
         window.aheadTagFirst.push("<%= vibe %>");
       <% end %>
-      <% i = i+1%>
+      <% i = i + 1%>
     <% end %>
 
     <% @time_tags.each do |time| %>
-      <% if m<5 %>
+      <% if m < 5 %>
         $(".grid-2 span").after('<div class="grid-item chip time"><%= time %></div>');
       <% else %>
         window.aheadTagFirst.push("<%= time %>");
       <% end %>
-      <% m=m+1 %>
+      <% m = m + 1 %>
     <% end %>
 
     <% @traffic_tags.each do |traffic| %>
-      <% if m<5 %>
+      <% if n < 5 %>
         $(".grid-3 span").after('<div class="grid-item chip traffic"><%= traffic %></div>');
       <% else %>
         window.aheadTagFirst.push("<%= traffic %>");
       <% end %>
+      <% n = n + 1 %>
     <% end %>
 
   })
@@ -366,35 +370,39 @@ $(function(){
 
   //comment ajax
   function addComment(a_id,c_id,c_content,c_user,visited){
-    var todo = document.createElement("tr");
-    todo.id = "comment-"+c_id;
-    $(todo).html($("#comment-template").html());
-    $(todo).find(".c_content").html(c_content);
+    var comment = document.createElement("tr");
+    comment.id = "comment-"+c_id;
+    $(comment).html($("#comment-template").html());
+    $(comment).find(".c_content").html(c_content);
     if (visited == true) {
-      $(todo).find(".c_content").append('<span class="new badge blue" data-badge-caption="visted"></span>')
+      $(comment).find(".c_content").append('<span class="new badge blue" data-badge-caption="visted"></span>')
     }
-    $(todo).find(".c_user_time").html(c_user+" (just now)"+'<a href="#" class="comment-delete">delete</a>');
-    $("#comment-tbody-"+a_id).append(todo);
+    $(comment).find(".c_user_time").html(c_user+" (just now)"+'<a href="#" class="comment-delete">刪除</a>');
+    $("#comment-tbody-"+a_id).append(comment);
   }
 
   $(".create-comment").on("click", function(event) {
     event.preventDefault();
     var id = event.target.id.slice(15,);
-    $.ajax({
-      url: "create_comment",
-      method: "POST",
-      dataType: "json",
-      data: {
-        comment:{
-          attraction_id: id,
-          content: $("#new-comment-"+id).val()
+    if ($("#new-comment-" + id).val().trim() === "") {
+      Materialize.toast('請輸入留言內容', 4000);
+    } else {
+      $.ajax({
+        url: "create_comment",
+        method: "POST",
+        dataType: "json",
+        data: {
+          comment:{
+            attraction_id: id,
+            content: $("#new-comment-" + id).val()
+          }
+        },
+        success: function(data) {
+        Materialize.toast('留言成功', 4000);
+        addComment(id,data["c_id"],data["c_content"],data["c_user"],data["visited"]);
         }
-      },
-      success: function(data) {
-      Materialize.toast('留言成功', 4000);
-      addComment(id,data["c_id"],data["c_content"],data["c_user"],data["visited"]);
-      }
-    });
+      });
+    }
   });
 
   $(".comment-tbody").on("click",".comment-delete",function(event){
