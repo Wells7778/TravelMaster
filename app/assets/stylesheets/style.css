@@ -259,6 +259,8 @@ label {
 	padding: 0px 4px;
 }
 
+/* 以下後台CSS */
+
 nav.pagination{
 	padding-left: 24px;
 	padding-right: 24px;
@@ -278,4 +280,9 @@ nav.pagination span a{
 
 nav.pagination span.current, nav.pagination span.gap{
 	color: blue;
+}
+
+form.new_attraction [type="checkbox"]+label {
+	padding-left: 24px;
+	margin-right: 24px;
 }

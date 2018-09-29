@@ -6,7 +6,7 @@
   <%= f.text_field :image %>
 
   <%= f.label :description, "description" %>
-  <%= f.text_area :description %>
+  <%= f.text_area :description, style:"min-height: 150px;"%>
 
   <%= f.label :address, "address" %>
   <%= f.text_field :address %>
@@ -17,8 +17,9 @@
   <%= f.label :lng, "lng" %>
   <%= f.number_field :lng %>
 
-  <h5>Category</h5>
-  <%= f.collection_check_boxes :category_ids, Category.all, :id, :tag_name, {}, {multiple: true} %>
-
-  <%= f.submit %>
+  <span style="display: block;">主題標籤</span>
+  <%= f.collection_check_boxes :category_ids, Category.all, :id, :tag_name, {}, {multiple: true, class:"new_attraction_checkbox"} %>
+  <div class="center">
+    <%= f.submit class:"btn devise-btn" %>
+  </div>
 <% end %>
