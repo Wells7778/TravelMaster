@@ -43,12 +43,14 @@ class AttractionsController < ApplicationController
 
   def search
     flash[:search] = search_params #用來傳遞變數
-    # 把前端拿回來的tag分類
-    # 景點分類屬於Array格式，所以先宣告
-    if search_params[:location].blank?
-      flash[:alert] = "請輸入出發地點"
-      redirect_to root_path
+    # 如果無法取得裝置經緯度且為輸入地址就跳出無法搜尋
+    if search_params[:location].blank? && search_params[:geo_location].blank?
+      redirect_to root_path, alert: "找不到出發地點"
     else
+      # 如果沒輸入起始地則使用裝置經緯度當作起始地
+      origin = search_params[:location].blank? ? "我的位置" : search_params[:location]
+      # 把前端拿回來的tag分類
+      # 景點分類屬於Array格式，所以先宣告
       @vibe_tag = []
       search_params[:tags].split(",").each do |tag|
         @travel_tag = Attraction::TRAFFIC[tag] if Attraction::TRAFFIC.has_key?(tag)
@@ -58,15 +60,14 @@ class AttractionsController < ApplicationController
       # 預設開車、旅行時間一小時
       @travel_tag ||= "driving"
       @travel_time ||= 3600
-      @list = current_user.lists.build(origin: search_params[:location], travel_time: @travel_time, travel_mode: @travel_tag)
+      @list = current_user.lists.build(origin: origin, travel_time: @travel_time, travel_mode: @travel_tag)
       # 呼叫method geocode把地址轉為經緯度
-      @lat_lng = @list.geocode
-      if @lat_lng.nil?
-        flash[:alert] = "無法找到出發地點"
-        redirect_to root_path
+      if @list.geocode.nil?
+        @list.origin_lat = search_params[:geo_location].split(",").first.to_f
+        @list.origin_lng = search_params[:geo_location].split(",").last.to_f
       else
-        @list.origin_lat = @lat_lng['lat']
-        @list.origin_lng = @lat_lng['lng']
+        @list.origin_lat = @list.geocode['lat']
+        @list.origin_lng = @list.geocode['lng']
       end
       if @list.save
         @list.search_attraction(@vibe_tag).each do |result|
@@ -107,7 +108,7 @@ class AttractionsController < ApplicationController
     end
 
     def search_params
-      params.require(:search).permit(:location, :tags)
+      params.require(:search).permit(:location, :tags, :geo_location)
     end
 
     def set_tags #把我們要的TAG都放在這邊

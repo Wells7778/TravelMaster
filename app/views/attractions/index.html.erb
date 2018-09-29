@@ -48,7 +48,8 @@
         <%= form_tag("/attractions/search", method: "post", class: "main-input") do %>
           <label for="search[location]" class="active">出發位置</label>
           <%= text_field_tag 'search[location]' %>
-          <%= hidden_field 'search', 'tags'%>
+          <%= hidden_field 'search', 'tags' %>
+          <%= hidden_field 'search', 'geo_location' %>
           <%= submit_tag "送出", class: "btn submit" %>
         <% end %>
       </div>
@@ -281,20 +282,19 @@ $(function(){
     //$("#search_location").val(x);
     //安全因素 被chrome擋掉了 沒辦法測試
   });
-  //以下是geolocation的程式碼 先不用
-  var x="False";
-  function getLocation()
-    {
-    if (navigator.geolocation)
-      {
-      navigator.geolocation.getCurrentPosition(showPosition);
+  //以下是geolocation的程式碼
+  $( document ).ready(function () {
+    var x = $("#search_geo_location");
+    (function () {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(setPosition);
       }
-    else{x="False";}
+    })();
+    function setPosition(position) {
+      var location = [ position.coords.latitude,position.coords.longitude ]
+      $(x).val(location);
     }
-  function showPosition(position)
-    {
-    x=[position.coords.latitude,position.coords.longitude];
-    }
+  });
 
   //gallery-expand 也就是點景點 會跳出來的特效
   //從這邊直接改URL 需配合controller與galleryExpand.js
@@ -382,7 +382,7 @@ $(function(){
       method: "POST",
       dataType: "json",
       data: {
-        comment:{  
+        comment:{
           attraction_id: id,
           content: $("#new-comment-"+id).val()
         }
@@ -402,7 +402,7 @@ $(function(){
       method: "POST",
       dataType: "json",
       data: {
-        comment:{  
+        comment:{
           attraction_id: id,
         }
       },
@@ -448,7 +448,7 @@ $(function(){
   $("#tags-modal-table").on("click",".modal-tag",function(event){
     $('input').materialtags('add', event.currentTarget.innerText );
     Materialize.toast('加入搜尋列', 2000)
-  });  
+  });
 
 }); // end of document ready
 
