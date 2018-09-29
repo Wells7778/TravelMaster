@@ -22,16 +22,18 @@ class Attraction < ApplicationRecord
 
   validates_presence_of :name, :image, :description, :address
 
-  TRAFFIC = { "BUS" => "bus",
-              "MRT" => "subway",
-              "CAR" => "driving",
-              "SCOOTER" => "bicycling",
-              "WALK" => "walking"
+  TRAFFIC = { "公車" => "bus",
+              "捷運" => "subway",
+              "開車" => "driving",
+              "單車" => "bicycling",
+              "步行" => "walking"
   }
   VIBE = Category.pluck(:tag_name)
   TRAVELTIME = { "半小時" => 1800,
                  "一小時" => 3600,
                  "兩小時" => 7200,
-                 "四小時" => 14400
+                 "三小時" => 10800,
+                 "四小時" => 14400,
+                 "五小時" => 18000
   }
 end

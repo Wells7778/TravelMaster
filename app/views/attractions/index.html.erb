@@ -50,7 +50,7 @@
           <%= text_field_tag 'search[location]' %>
           <%= hidden_field 'search', 'tags' %>
           <%= hidden_field 'search', 'geo_location' %>
-          <%= submit_tag "送出", class: "btn submit" %>
+          <%= submit_tag "送出", class: "btn submit", id: "search_submit" %>
         <% end %>
       </div>
     </div>
@@ -282,9 +282,11 @@ $(function(){
     //$("#search_location").val(x);
     //安全因素 被chrome擋掉了 沒辦法測試
   });
+
   //以下是geolocation的程式碼
   $( document ).ready(function () {
     var x = $("#search_geo_location");
+    $("input#search_submit").attr("disabled", true);
     (function () {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(setPosition);
@@ -293,6 +295,7 @@ $(function(){
     function setPosition(position) {
       var location = [ position.coords.latitude,position.coords.longitude ]
       $(x).val(location);
+      $("input#search_submit").removeAttr("disabled");
     }
   });
 
