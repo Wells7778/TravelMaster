@@ -1,17 +1,70 @@
-<h1>投稿標題：<%= @review.title %></h1>
-<h5>投稿內容：<%= @review.content %></h5>
+<div class="row">
+  <div class="col s12">
+    <ul class="tabs">
+      <li class="tab col s6">
+        <%= link_to "後台-遊記首頁", admin_reviews_path, target:"_self"%>
+      </li>
+      <li class="tab col s6 disabled">
+        <a style="cursor: not-allowed;" class="active" >後台-遊記審核/查看</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div class="card">
+      <div class="card-content">
+
+<table>
+	<thead><tr><th style="min-width: 100px;">內容</th><th>提交</th></tr></thead>
+	<tbody>
+		<tr>
+			<td>標題</td>
+			<td><%= @review.title %></td>
+		</tr>
+		<tr>
+			<td>內容</td>
+			<td><%= @review.content %></td>
+		</tr>
+		<tr>
+			<td>建議分類？</td>
+			<td>
+				<% if @review.suggestion=="" %>
+					(無)
+				<% else %>
+					<%= @review.suggestion %>
+				<% end %>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
 <% @review.images.each do |image| %>
-  <%= image_tag image, width: "300", height: "200" %>
+  <%= image_tag image, class:"responsive-img", style:"padding: 24px 24px;" %>
 <% end %>
 
-<h4>Google辨識景點結果：<%= @result.join(",") %></h4>
+<div class="api-result">
+	<p>Google API辨識景點：
+		<% if @result.length == 0%>
+			辨識失敗
+		<% else %>
+			<%= @result.join(",") %>
+		<% end %>	
+	</p>
+</div>
 
-<h4><%= "建議分類：#{@review.suggestion}" if @review.suggestion %></h4>
-<%= form_tag admin_review_path(@review), method: :patch do %>
+<%= form_tag admin_review_path(@review), method: :patch, class:"review_audit_form" do %>
+	<span>審核選項</span>
   <%= select_tag :status, options_for_select(Review::STATUS.map(&:reverse), @review.status ) %>
   <%= submit_tag "送出審核結果", class: "btn" %>
+  <%= link_to "刪除此投稿", admin_review_path(@review), class: "btn red", method: :delete, data: { confirm: "Are You Sure?" } %>
 <% end %>
-<%= link_to "刪除此投稿", admin_review_path(@review), class: "btn", method: :delete, data: { confirm: "Are You Sure?" } %>
+
+</div>
+</div>
+</div>
+</div>
 
 <%= javascript_tag do %>
   $(function(){
