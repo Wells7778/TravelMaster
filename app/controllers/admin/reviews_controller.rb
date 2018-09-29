@@ -1,7 +1,9 @@
 class Admin::ReviewsController < Admin::BaseController
   before_action :set_review, except: :index
   def index
-    @ransack = Review.includes(:attraction).ransack(params[:q])
+    @pending_reviews = Review.where(status:"pending")
+
+    @ransack = Review.where(status:"passed").includes(:attraction).ransack(params[:q])
     @reviews = @ransack.result(distinct: true).page(params[:page]).per(20)
   end
 
