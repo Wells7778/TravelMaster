@@ -41,7 +41,7 @@
       </div>
       <div class="input-outter">
         <label for="tags-input" class="active">景點標的</label>
-        <input id="#tags-input" class="typeahead" type="text" data-role="materialtags">
+        <input id="tags-input" class="typehead-input" type="text" data-role="materialtags">
       </div>
       <div class="input-outter">
         <%= form_tag("/attractions/search", method: "post", class: "main-input") do %>
@@ -352,6 +352,67 @@ $(function(){
     })
   })
 
+  //typeahead測試
+
+  var aheadTag = ['測試一號','測試二號','三號測試'];
+
+  // constructs the suggestion engine
+  var aheadTag = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.whitespace,
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    // `states` is an array of state names defined in "The Basics"
+    local: aheadTag
+  });
+
+  $('.n-tag').typeahead({
+    hint: true
+  },
+  {
+    name: 'aheadTag',
+    source: aheadTag
+  });
+  /*
+  $('.n-tag').bind('typeahead:open', function(ev, suggestion) {
+    $(".input-outter").on("click",".tt-menu",function(event){
+      $('.n-tag').bind('typeahead:open', function(ev, suggestion) {
+    //$('.tt-input').val("");
+      console.log("001");
+      $('.n-tag').typeahead('close');
+      $('.tt-selectable').remove();
+    
+    //$('.n-tag').typeahead('close');
+    });
+    })
+    //$('.tt-input').val("");
+    //$('.n-tag').typeahead('close');
+    //$('.tt-selectable').remove();
+    //$('.n-tag').typeahead('close');
+  });*/
+
+  $(".input-outter").on("change click",".tt-menu",function(event){
+
+    $('.tt-input').val("");
+    console.log("001");
+    $('.n-tag').typeahead('close');
+    $('.tt-selectable').remove();
+  
+  //$('.n-tag').typeahead('close');
+  });
+
+  /*
+  $('.n-tag').bind('typeahead:close', function(ev, suggestion) {
+    //$('.tt-input').val("");
+    $('.n-tag').typeahead('close');
+    $('.tt-selectable').remove();
+    console.log("@@");
+    //$('.n-tag').typeahead('close');
+      //$('.n-tag').bind('typeahead:open', function(ev, suggestion) {
+    //$('.tt-input').val("");
+      //$('.n-tag').typeahead('close');
+    
+    //$('.n-tag').typeahead('close');
+    //});
+  });*/
 
 }); // end of document ready
 
