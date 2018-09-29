@@ -325,12 +325,12 @@ $(function(){
 
   //ajax
   function addUlikeBtn(id){
-    var unlikeBtn = '<a href="#" class="btn-unlike btn-floating btn-large waves-effect waves-light active"><i class="material-icons">backspace</i></a>'
+    var unlikeBtn = '<a title="取消收藏" href="#" class="btn-unlike btn-floating btn-large waves-effect waves-light active"><i class="material-icons">favorite_border</i></a>'
     $("#like-action-"+id).html(unlikeBtn);
   };
 
   function addLikeBtn(id){
-    var likeBtn = '<a href="#" class="btn-like btn-floating btn-large waves-effect waves-light active"><i class="material-icons">favorite</i></a>'
+    var likeBtn = '<a title="收藏景點" href="#" class="btn-like btn-floating btn-large waves-effect waves-light active"><i class="material-icons">favorite</i></a>'
     $("#like-action-"+id).html(likeBtn);
   };
 

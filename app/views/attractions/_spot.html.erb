@@ -111,9 +111,9 @@
 
     <div id="like-action-<%=id%>" class="like-action gallery-action">
       <% if Attraction.find(id).is_liked?(current_user) %>
-        <a href="#" class="btn-unlike btn-floating btn-large waves-effect waves-light"><i class="material-icons">backspace</i></a>
+        <a title="取消收藏" href="#" class="btn-unlike btn-floating btn-large waves-effect waves-light"><i class="material-icons">favorite_border</i></a>
       <% else %>
-        <a href="#" class="btn-like btn-floating btn-large waves-effect waves-light"><i class="material-icons">favorite</i></a>
+        <a title="收藏景點" href="#" class="btn-like btn-floating btn-large waves-effect waves-light"><i class="material-icons">favorite</i></a>
       <% end %>
     </div>
   </div>
