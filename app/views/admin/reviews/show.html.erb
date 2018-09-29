@@ -12,3 +12,14 @@
   <%= submit_tag "送出審核結果", class: "btn" %>
 <% end %>
 <%= link_to "刪除此投稿", admin_review_path(@review), class: "btn", method: :delete, data: { confirm: "Are You Sure?" } %>
+
+<%= javascript_tag do %>
+  $(function(){
+
+    <%#客製 layout 的變數%>
+    $("#nav-bg-img").css("background-image","url(<%= asset_path 'backend.jpg' %>)");
+    $("#nav-header-h1").text("神聖的管理殿堂");
+    $("#nav-header-tag").text("後台");
+
+  })
+<% end %>
