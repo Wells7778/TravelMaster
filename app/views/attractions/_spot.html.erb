@@ -43,10 +43,8 @@
         <div class="col s11 offset-m1 m8 review-cards-wrapper">
             <% reviews.each do |review| %>
             <div class="card horizontal reviews-card">
-              <div class="card-image">
-                <% if review.images.length>0 %>
-                  <%= image_tag review.images.first %>
-                <%end%>
+              <div class="card-image" style="background-image: url('<%= image_path(review.images.first) %>')">
+                <img src="" alt="" style="width: 300px;height: 300px;">
               </div>
               <%= link_to attraction_review_path(review.attraction, review), target: :_blank do %>
                 <div class="card-stacked">
@@ -113,9 +111,9 @@
 
     <div id="like-action-<%=id%>" class="like-action gallery-action">
       <% if Attraction.find(id).is_liked?(current_user) %>
-        <a href="#" class="btn-unlike btn-floating btn-large waves-effect waves-light"><i class="material-icons">backspace</i></a>
+        <a title="取消收藏" href="#" class="btn-unlike btn-floating btn-large waves-effect waves-light"><i class="material-icons">favorite_border</i></a>
       <% else %>
-        <a href="#" class="btn-like btn-floating btn-large waves-effect waves-light"><i class="material-icons">favorite</i></a>
+        <a title="收藏景點" href="#" class="btn-like btn-floating btn-large waves-effect waves-light"><i class="material-icons">favorite</i></a>
       <% end %>
     </div>
   </div>

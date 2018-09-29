@@ -12,10 +12,8 @@
 	  	<% if @reviews && @reviews.length>0 %>
 		  	<% @reviews.each do |review| %>
 		    <div class="card horizontal reviews-card">
-		      <div class="card-image">
-		      	<% if review.images.length>0 %>
-		        	<%= image_tag review.images.first %>
-		        <%end%>
+		      <div class="card-image" style="background-image: url('<%= image_path(review.images.first) %>')">
+		      	<img src="" alt="" style="width: 300px;height: 300px;">
 		      </div>
 		      <%= link_to attraction_review_path(review.attraction, review) do %>
 			      <div class="card-stacked">

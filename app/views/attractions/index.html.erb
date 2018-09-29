@@ -14,32 +14,35 @@
 <div id="function" class="section" style="display: none;">
   <div class="container">
     <div class="search-outter center">
-      <div class="vibe-outter tags-outter">
-        <span>心情分類</span>
-        <div class="grid-1 grid-css">
-          <span></span>
+      <div class="all-tags-container">
+        <div class="vibe-outter tags-outter">
+          <span>熱門主題</span>
+          <div class="grid-1 grid-css">
+            <span></span>
+          </div>
         </div>
-      </div>
-      <div class="time-outter tags-outter">
-        <span>旅程時間</span>
-        <div class="grid-2 grid-css">
-          <span></span>
+        <div class="time-outter tags-outter">
+          <span>旅程時間</span>
+          <div class="grid-2 grid-css">
+            <span></span>
+          </div>
         </div>
-      </div>
-      <div class="traffic-outter tags-outter">
-        <span>交通工具</span>
-        <div class="grid-3 grid-css">
-          <span></span>
+        <div class="traffic-outter tags-outter">
+          <span>交通工具</span>
+          <div class="grid-3 grid-css">
+            <span></span>
+          </div>
         </div>
-      </div>
-      <div class="returned-outter tags-outter" style="display: none;">
-        <span>待選區</span>
-        <div class="grid-4 grid-css">
+        <div class="returned-outter tags-outter" style="display: none;">
+          <span>待選區</span>
+          <div class="grid-4 grid-css">
+          </div>
         </div>
+        <a class="modal-trigger" href="#modal1">所有標籤</a>
       </div>
       <div class="input-outter">
-        <label for="tags-input" class="active">景點標的</label>
-        <input id="#tags-input" class="typeahead" type="text" data-role="materialtags">
+        <label for="tags-input" class="active">標籤搜尋</label>
+        <input id="tags-input" class="typehead-input" type="text" data-role="materialtags">
       </div>
       <div class="input-outter">
         <%= form_tag("/attractions/search", method: "post", class: "main-input") do %>
@@ -50,6 +53,46 @@
         <% end %>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Modal Structure -->
+<div id="modal1" class="modal bottom-sheet">
+  <div class="modal-content tags-modal">
+    <table id="tags-modal-table">
+      <thead>
+        <tr><th style="min-width: 80px;">分類</th><th>標籤 (點選自動加入搜尋)</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>主題</td>
+          <td>
+            <%@vibe_tags.each do |tag|%>
+              <div class="modal-tag chip vibe"><%= tag%></div>
+            <%end%>
+          </td>
+        </tr>
+        <tr>
+          <td>時間</td>
+          <td>
+            <%@time_tags.each do |tag|%>
+              <div class="modal-tag chip time"><%= tag%></div>
+            <%end%>
+          </td>
+        </tr>
+        <tr>
+          <td>交通</td>
+          <td>
+            <%@traffic_tags.each do |tag|%>
+              <div class="modal-tag chip traffic"><%= tag%></div>
+            <%end%>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <a class="modal-action modal-close waves-effect waves-green btn-flat">關閉</a>
   </div>
 </div>
 
@@ -128,17 +171,36 @@
     <% end %>
 
     <%#讀取TAGS %>
+    window.aheadTagFirst = []; //aheadTagFirst傳入下一個script作typeAhead用
 
+    //每個tags給數量限制，多的則往typeAhead排列
+    <% i=0%>
+    <% m=0%>
+    <% n=0%>
     <% @vibe_tags.each do |vibe| %>
-      $(".grid-1 span").after('<div class="grid-item chip vibe"><%= vibe %></div>');
+      <% if i<10 %>
+        $(".grid-1 span").after('<div class="grid-item chip vibe"><%= vibe %></div>');
+      <% else %>
+        window.aheadTagFirst.push("<%= vibe %>");
+      <% end %>
+      <% i = i+1%>
     <% end %>
 
     <% @time_tags.each do |time| %>
-      $(".grid-2 span").after('<div class="grid-item chip time"><%= time %></div>');
+      <% if m<5 %>
+        $(".grid-2 span").after('<div class="grid-item chip time"><%= time %></div>');
+      <% else %>
+        window.aheadTagFirst.push("<%= time %>");
+      <% end %>
+      <% m=m+1 %>
     <% end %>
 
     <% @traffic_tags.each do |traffic| %>
-      $(".grid-3 span").after('<div class="grid-item chip traffic"><%= traffic %></div>');
+      <% if m<5 %>
+        $(".grid-3 span").after('<div class="grid-item chip traffic"><%= traffic %></div>');
+      <% else %>
+        window.aheadTagFirst.push("<%= traffic %>");
+      <% end %>
     <% end %>
 
   })
@@ -146,82 +208,53 @@
 
 <script>
 $(function(){
+
+  //packery gird參數設定
+  var gridSetUp = {
+      itemSelector: '.grid-item',
+      gutter: 1,
+      columnWidth: 1,
+    }
+  function draggie(i, gridItem, $grid){
+    var draggie = new Draggabilly( gridItem );
+    $grid.packery( 'bindDraggabillyEvents', draggie );
+  }
+  function clickItem(event,$grid,itemClass){
+    $grid.packery( 'remove', event.currentTarget ).packery('shiftLayout');
+    $('input').materialtags('add', event.currentTarget.innerText );
+    $(itemClass).packery();
+    $('.n-tag').val("");
+  }
+
   //openSearch時 開啟.packery模組 並設定tag的選取、移位等
   function openSearch() { //tag initialize
-    var $grid_1 = $('.grid-1').packery({
-      itemSelector: '.grid-item',
-      // columnWidth helps with drop positioning
-      gutter: 10,
-      columnWidth: 11,
-    });
-    $grid_1.find('.grid-item').each( function( i, gridItem ) {
-      var draggie = new Draggabilly( gridItem );
-      // bind drag events to Packery
-      $grid_1.packery( 'bindDraggabillyEvents', draggie );
-    });
+    var $grid_1 = $('.grid-1').packery(gridSetUp);
+    $grid_1.find('.grid-item').each( function(i,gridItem){
+      draggie( i, gridItem, $grid_1 )});
 
-    var $grid_2 = $('.grid-2').packery({
-      itemSelector: '.grid-item',
-      // columnWidth helps with drop positioning
-      gutter: 10,
-      columnWidth: 11,
-    });
-    $grid_2.find('.grid-item').each( function( i, gridItem ) {
-      var draggie = new Draggabilly( gridItem );
-      // bind drag events to Packery
-      $grid_2.packery( 'bindDraggabillyEvents', draggie );
-    });
+    var $grid_2 = $('.grid-2').packery(gridSetUp);
+    $grid_2.find('.grid-item').each(function(i,gridItem){
+      draggie( i, gridItem, $grid_2 )});
 
-    var $grid_3 = $('.grid-3').packery({
-      itemSelector: '.grid-item',
-      // columnWidth helps with drop positioning
-      gutter: 10,
-      columnWidth: 11,
-    });
-    $grid_3.find('.grid-item').each( function( i, gridItem ) {
-      var draggie = new Draggabilly( gridItem );
-      // bind drag events to Packery
-      $grid_3.packery( 'bindDraggabillyEvents', draggie );
-    });
+    var $grid_3 = $('.grid-3').packery(gridSetUp);
+    $grid_3.find('.grid-item').each(function(i,gridItem){
+      draggie( i, gridItem, $grid_3 )});
 
-    var $grid_4 = $('.grid-4').packery({
-      itemSelector: '.grid-item',
-      // columnWidth helps with drop positioning
-      gutter: 10,
-      columnWidth: 11,
-    });
-    $grid_4.find('.grid-item').each( function( i, gridItem ) {
-      var draggie = new Draggabilly( gridItem );
-      // bind drag events to Packery
-      $grid_4.packery( 'bindDraggabillyEvents', draggie );
-    });
+    var $grid_4 = $('.grid-4').packery(gridSetUp);
+    $grid_4.find('.grid-item').each(function(i,gridItem){
+      draggie( i, gridItem, $grid_4 )});
 
     $grid_1.on( 'click', '.vibe.grid-item', function( event ) {
-      $grid_1.packery( 'remove', event.currentTarget ).packery('shiftLayout');
-      // shiftLayout remaining item elements
-      $('input').materialtags('add', event.currentTarget.innerText );
-      $('.n-tag').val("");
+      clickItem(event,$grid_1,".grid-1");
     });
-
     $grid_2.on( 'click', '.time.grid-item', function( event ) {
-      $grid_2.packery( 'remove', event.currentTarget ).packery('shiftLayout');
-      // shiftLayout remaining item elements
-      $('input').materialtags('add', event.currentTarget.innerText );
-      $('.n-tag').val("");
+      clickItem(event,$grid_2,".grid-2");
     });
-
     $grid_3.on( 'click', '.traffic.grid-item', function( event ) {
-      $grid_3.packery( 'remove', event.currentTarget ).packery('shiftLayout');
-      // shiftLayout remaining item elements
-      $('input').materialtags('add', event.currentTarget.innerText );
-      $('.n-tag').val("");
+      clickItem(event,$grid_3,".grid-3");
     });
-
     $grid_4.on( 'click', '.returned.grid-item', function( event ) {
-      $grid_4.packery( 'remove', event.currentTarget ).packery('shiftLayout');
-      // shiftLayout remaining item elements
-      $('input').materialtags('add', event.currentTarget.innerText );
-      $('.n-tag').val("");
+      clickItem(event,$grid_4,".grid-4");
     });
 
     $('input').on('beforeItemRemove', function(event) {
@@ -287,17 +320,17 @@ $(function(){
   });
 
   //添加placeholder
-  $(".n-tag").attr("placeholder", "自行輸入或點選上方標籤");
+  $(".n-tag").attr("placeholder", "自行輸入或點選主題標籤");
   $("#search_location").attr("placeholder", "輸入出發地址");
 
   //ajax
   function addUlikeBtn(id){
-    var unlikeBtn = '<a href="#" class="btn-unlike btn-floating btn-large waves-effect waves-light active"><i class="material-icons">backspace</i></a>'
+    var unlikeBtn = '<a title="取消收藏" href="#" class="btn-unlike btn-floating btn-large waves-effect waves-light active"><i class="material-icons">favorite_border</i></a>'
     $("#like-action-"+id).html(unlikeBtn);
   };
 
   function addLikeBtn(id){
-    var likeBtn = '<a href="#" class="btn-like btn-floating btn-large waves-effect waves-light active"><i class="material-icons">favorite</i></a>'
+    var likeBtn = '<a title="收藏景點" href="#" class="btn-like btn-floating btn-large waves-effect waves-light active"><i class="material-icons">favorite</i></a>'
     $("#like-action-"+id).html(likeBtn);
   };
 
@@ -378,8 +411,44 @@ $(function(){
       event.target.parentNode.parentNode.remove();
       }
     })
-
   })
+
+  //typeahead
+  //https://github.com/twitter/typeahead.js
+  //aheadTagFirst在上方存入
+  var aheadTag = window.aheadTagFirst;
+
+  // constructs the suggestion engine
+  var aheadTag = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.whitespace,
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    local: aheadTag
+  });
+
+  $('.n-tag').typeahead({
+    hint: true
+  },
+  {
+    name: 'aheadTag',
+    source: aheadTag
+  });
+
+  //typeAhead與tags的互動處理
+  $(".input-outter").on("change click",".tt-menu",function(event){
+    $('input').materialtags('add', $('.tt-input').val() );
+    $('.tt-input').val("");
+    $('.n-tag').typeahead('close');
+    $('.tt-selectable').remove();
+  });
+
+  //modal1 trigger
+  $('.modal').modal();
+
+  //所有標籤的modal
+  $("#tags-modal-table").on("click",".modal-tag",function(event){
+    $('input').materialtags('add', event.currentTarget.innerText );
+    Materialize.toast('加入搜尋列', 2000)
+  });  
 
 }); // end of document ready
 

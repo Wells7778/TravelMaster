@@ -1571,7 +1571,7 @@
                 this._checkLanguageDirection();
             },
             resetInputValue: function resetInputValue() {
-                this.setInputValue(this.query);
+                this.setInputValue(this.$input.val());
             },
             getHint: function getHint() {
                 return this.$hint.val();

@@ -1,7 +1,23 @@
+body{
+	font-family: 'Noto Sans TC','Noto Sans',sans-serif;;
+}
+
+.all-tags-container{
+	text-align: left;
+	padding-bottom: 16px;
+}
+
 .grid-css{
-	padding-top: 10px;
-	padding-bottom: 10px;
+	padding-top: 0px;
+	padding-bottom: 8px;
 	padding-left: 64px;
+}
+
+/* clear fix */
+.grid-css:after {
+  content: '';
+  display: block;
+  clear: both;
 }
 
 .grid-item{ 
@@ -13,6 +29,15 @@
 	max-width: 800px;
 }
 
+.materialize-tags{
+	padding: 0 0;
+}
+
+.materialize-tags .chip{
+	margin-top: 6px;
+	margin-bottom: 2px;
+}
+
 .materialize-tags .chip .material-icons{
 	cursor: pointer;
   float: right;
@@ -21,13 +46,15 @@
   padding-left: 8px;
 }
 
-.n-tag{
+.materialize-tags input.n-tag{
+	margin: 0 0;
 	display: inline !important;
 }
 
 .tags-outter{
+	max-width: 800px;
 	text-align: left;
-	min-height: 72px;
+	min-height: 60px;
 }
 
 .tags-outter span{
@@ -41,22 +68,22 @@
 	background-color: #fff;
 }
 
-.grid-item.chip.vibe{
+.chip.vibe{
 	background-color: #F4F4F4;
 	border: 1px solid #E37222;
 }
 
-.grid-item.chip.traffic{
+.chip.traffic{
 	background-color: #F4F4F4;
 	border: 1px solid #07889B;
 }
 
-.grid-item.chip.time{
+.chip.time{
 	background-color: #F4F4F4;
 	border: 1px solid #C09F80;
 }
 
-.grid-item.chip.returned{
+.chip.returned{
 	background-color: #FEDCD2;
 }
 
@@ -152,12 +179,17 @@ label {
 	font-size: 18px;
 }
 
-.review-cards-wrapper .reviews-card .card-image {
-	max-width: 150px;
+.review-cards-wrapper .reviews-card{
+	max-height: 120px;
+	overflow: hidden;
 }
 
-.review-cards-wrapper .reveiws-card .card-image img{
-	object-fit: cover;
+.review-cards-wrapper .reviews-card .card-image {
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	overflow: hidden;
+	max-width: 150px;
 }
 
 #show-review p{
@@ -208,4 +240,21 @@ label {
 	overflow:hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+}
+
+.modal .modal-content.tags-modal{
+	padding: 12px 48px;
+}
+
+.modal-tag{
+	cursor: pointer;
+}
+
+#tags-modal-table{
+	margin: 0 auto;
+	max-width: 900px;
+}
+
+#tags-modal-table td{
+	padding: 0px 4px;
 }
