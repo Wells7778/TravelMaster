@@ -32,6 +32,11 @@ body{
 	padding: 0 0;
 }
 
+.materialize-tags .chip{
+	margin-top: 6px;
+	margin-bottom: 2px;
+}
+
 .materialize-tags .chip .material-icons{
 	cursor: pointer;
   float: right;
