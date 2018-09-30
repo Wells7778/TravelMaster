@@ -106,7 +106,7 @@
       <% if @way_check == 1 %>
         <h5>您所在的分類是<%= @category.tag_name %></h5>
       <% elsif @way_check == 3 %>
-        <h5>您所選擇的標籤是<%= @search_tags %>，出發地點是<%= @search_location %></h5>
+        <h5>您所選擇的標籤是<%= @search_tags.present? ? @search_tags.join(",") : "未輸入" %>，出發地點是<%= @search_location %></h5>
       <%end%>
     </div>
   </div>

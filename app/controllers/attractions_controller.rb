@@ -12,6 +12,12 @@ class AttractionsController < ApplicationController
       @way_check = 1 #用來搭配view 顯示 避免出錯
       @category = Category.find(params[:category_id])
       @attractions = @category.attractions.inclouds(:reviews)
+    elsif params[:list_id]
+      @list = List.find_by(id: params[:list_id])
+      @way_check = 3
+      @search_tags = @list.travel_tag
+      @search_location = @list.origin
+      @attractions = @list.attractions.includes(:categories_attractions, :categories)
     else
       #進入首頁方式2 Show action
       if flash[:show_id] #從Show action進來
@@ -60,7 +66,7 @@ class AttractionsController < ApplicationController
       # 預設開車、旅行時間一小時
       @travel_tag ||= "driving"
       @travel_time ||= 3600
-      @list = current_user.lists.build(origin: origin, travel_time: @travel_time, travel_mode: @travel_tag)
+      @list = current_user.lists.build(origin: origin, travel_time: @travel_time, travel_mode: @travel_tag, travel_tag: @vibe_tag)
       # 呼叫method geocode把地址轉為經緯度
       if @list.geocode.nil?
         @list.origin_lat = search_params[:geo_location].split(",").first.to_f
@@ -97,6 +103,7 @@ class AttractionsController < ApplicationController
     @favorites = current_user.liked_attractions
     @reviews = current_user.reviews.passed
     @commented = current_user.commented_attractions.distinct
+    @lists = current_user.lists.order("created_at desc").limit(5)
   end
 
   def about
