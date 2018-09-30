@@ -1,6 +1,7 @@
 class ReviewsController < ApplicationController
   before_action :set_attraction, except: [:new_one, :new_cone_create]
   before_action :set_review, only: [:index, :show, :edit, :update]
+  before_action :set_all_names, only: [:new_one]
 
   def index
     @reviews = Review.where(status: "passed")
@@ -28,10 +29,12 @@ class ReviewsController < ApplicationController
         redirect_to reviews_path
       else
         flash[:alert] = @review.errors.full_messages.to_sentence
+        set_all_names
         render :new_one
       end
     else
       flash[:alert] = "景點讀取失敗"
+      set_all_names
       render :new_one
     end
   end
@@ -78,6 +81,13 @@ class ReviewsController < ApplicationController
 
   def new_one_params
     params.require(:review).permit(:attraction_name, :title, :content, :suggestion, {images: []})
+  end
+
+  def set_all_names
+    @all_names = []
+    Attraction.all.each do |a|
+      @all_names << a.name
+    end
   end
 
 end
