@@ -51,11 +51,7 @@
             <% end %>
           </li>
           <% if current_user && current_user.role=="admin" %>
-          <li class="">
-            <%= link_to admin_root_path do %>
-              後台
-            <% end %>
-          </li>
+          <li><a class='dropdown-button' href='#' data-activates='admin-dropdown' data-belowOrigin="true" data-constrainWidth="false">後台<i class="material-icons right">arrow_drop_down</i></a></li>
           <%end %>
 
           <li><a class='dropdown-button' href='#' data-activates='feature-dropdown' data-belowOrigin="true" data-constrainWidth="false">會員功能<i class="material-icons right">arrow_drop_down</i></a></li>
@@ -69,6 +65,13 @@
               <li><%= link_to('註冊', new_user_registration_path) %></li>
               <li><%= link_to('登入', new_user_session_path) %></li>
           <% end %>
+        </ul>
+        <!-- Dropdown Structure -->
+        <ul id='admin-dropdown' class='dropdown-content'>
+          <li><%= link_to('後台-景點', admin_attractions_path) %></li>
+          <li><%= link_to('後台-用戶', admin_users_path) %></li>
+          <li><%= link_to('後台-遊記', admin_reviews_path) %></li>
+          <li><%= link_to('後台-主題', admin_categories_path) %></li>
         </ul>
 
         <div class="nav-header center">
@@ -101,8 +104,23 @@
       </li>
       <% if current_user && current_user.role=="admin" %>
       <li class="">
-        <%= link_to admin_root_path do %>
-          <i class="material-icons">computer</i>後台
+        <%= link_to admin_attractions_path do %>
+          <i class="material-icons">computer</i>後台-景點
+        <% end %>
+      </li>
+      <li class="">
+        <%= link_to admin_users_path do %>
+          <i class="material-icons">computer</i>後台-用戶
+        <% end %>
+      </li>
+      <li class="">
+        <%= link_to admin_reviews_path do %>
+          <i class="material-icons">computer</i>後台-遊記
+        <% end %>
+      </li>
+      <li class="">
+        <%= link_to admin_categories_path do %>
+          <i class="material-icons">computer</i>後台-主題
         <% end %>
       </li>
       <%end %>

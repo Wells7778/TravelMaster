@@ -1,13 +1,35 @@
-<div id="" class="section gray">
-  <div class="container">
+<div class="row">
+  <div class="col s12">
+    <ul class="tabs">
+      <li class="tab col s3">
+        <%= link_to "後台-景點首頁", admin_attractions_path, target:"_self" %>
+      </li>
+      <li class="tab col s3">
+        <%= link_to "後台-景點新增", new_admin_attraction_path, target:"_self" %>
+      </li>
+      <li class="tab col s3 disabled">
+        <a style="cursor: not-allowed;">後台-景點編輯</a>
+      </li>
+      <li class="tab col s3 disabled">
+        <a style="cursor: not-allowed;">後台-景點呈現</a>
+      </li>
+    </ul>
+  </div>
+</div>
 
+<div class="section">
+  <div class="container">
     <ul>
-      <li><%= link_to "All", admin_attractions_path, class: "nav-link" %></li>
+      <li><%= link_to "All", admin_attractions_path, class: "chip" %></li>
       <% @categories.each do |category| %>
-        <li><%= link_to category.tag_name, admin_attractions_path(category_id: category.id) %></li>
+        <li style="display: inline-block;"><%= link_to category.tag_name, admin_attractions_path(category_id: category.id),class:"chip" %></li>
       <% end %>
     </ul>
-    <%= link_to "新增景點", new_admin_attraction_path %>
+    <%if @category %>
+      <h5>您所選取的類別：<%=@category.tag_name%></h5>
+    <%else%>
+      <h5>您所選取的類別：所有</h5>
+    <%end%>
     <table>
       <thead>
         <tr>
@@ -38,5 +60,17 @@
         <% end %>
       </tbody>
     </table>
+    <%= paginate @attractions %>
   </div>
 </div>
+
+<%= javascript_tag do %>
+  $(function(){
+
+    <%#客製 layout 的變數%>
+    $("#nav-bg-img").css("background-image","url(<%= asset_path 'backend.jpg' %>)");
+    $("#nav-header-h1").text("神聖的管理殿堂");
+    $("#nav-header-tag").text("後台");
+
+  })
+<% end %>

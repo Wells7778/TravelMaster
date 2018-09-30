@@ -1,9 +1,13 @@
+<div class="section">
+  <div class="container">
+    <h5>後台-主題管理</h5>
+    <div class="card">
+      <div class="card-content">
+        
+
     <%= form_for [:admin, @category] do |f| %>
-      <%= f.text_field :tag_name, placeholder: "Category Name" %>
-      <%= f.submit %>
-      <% if @category.errors.any? %>
-        <%= @category.errors.full_messages.to_sentence %>
-      <% end %>
+      <%= f.text_field :tag_name, placeholder: "Category Name", style:"max-width: 400px;" %>
+      <%= f.submit class:"btn", style:"margin-left:36px;" %>
     <% end %>
     <table>
       <thead>
@@ -24,6 +28,24 @@
         <% end %>
       </tbody>
     </table>
+
+
+      </div>
+    </div>
   </div>
 </div>
 
+<%= javascript_tag do %>
+  $(function(){
+
+    <% if @category.errors.any? %>
+      Materialize.toast('<%= @category.errors.full_messages.to_sentence %>', 4000)
+    <% end %>
+
+    <%#客製 layout 的變數%>
+    $("#nav-bg-img").css("background-image","url(<%= asset_path 'backend.jpg' %>)");
+    $("#nav-header-h1").text("神聖的管理殿堂");
+    $("#nav-header-tag").text("後台");
+
+  })
+<% end %>

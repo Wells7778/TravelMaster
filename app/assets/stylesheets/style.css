@@ -258,3 +258,68 @@ label {
 #tags-modal-table td{
 	padding: 0px 4px;
 }
+
+/* 以下後台CSS */
+
+nav.pagination{
+	padding-left: 24px;
+	padding-right: 24px;
+	background-color: #fff;
+	height: inherit;
+}
+
+nav.pagination span{
+	padding: 4px 8px;
+	border: 1px solid #DCDCDC;
+	margin-right: 12px;
+}
+
+nav.pagination span a{
+	color: black;
+}
+
+nav.pagination span.current, nav.pagination span.gap{
+	color: blue;
+}
+
+form.new_attraction [type="checkbox"]+label {
+	padding-left: 24px;
+	margin-right: 24px;
+}
+
+.admin_user_form select{
+	width: 100px;
+	display: inline-block;
+}
+
+.api-result{
+	padding: 16px 16px;
+	margin: 16px 16px;
+	background-color: #EAE3EA;
+	border-radius: 12px;
+	border: 2px solid #945D60;
+}
+
+.api-result p{
+	font-size: 18px;
+}
+
+.review_audit_form{
+	margin-top: 24px;
+	margin-bottom: 24px;
+}
+
+.review_audit_form span{
+	margin-left: 16px;
+	margin-right: 4px;
+}
+
+.review_audit_form select{
+	width: 150px;
+	margin-right: 24px;
+	display: inline-block;
+}
+
+.review_audit_form .btn{
+	margin-right: 24px;
+}
