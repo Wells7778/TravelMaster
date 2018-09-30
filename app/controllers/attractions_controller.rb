@@ -3,7 +3,7 @@ class AttractionsController < ApplicationController
   before_action :set_tags
 
   def index
-    @categories = Category.all
+    @categories = Category.all.order("attractions_count desc")
     @attractions = Attraction.includes(:categories_attractions, :categories).order("created_at").limit(6) #attractions以熱門景點為基礎
     @comment = Comment.new
 
