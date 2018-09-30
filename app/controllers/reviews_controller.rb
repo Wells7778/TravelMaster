@@ -1,5 +1,5 @@
 class ReviewsController < ApplicationController
-  before_action :set_attraction, except: [:new_one]
+  before_action :set_attraction, except: [:new_one, :new_cone_create]
   before_action :set_review, only: [:index, :show, :edit, :update]
 
   def index
@@ -15,6 +15,25 @@ class ReviewsController < ApplicationController
 
   def new_one
     @review = Review.new
+  end
+
+  def new_one_create
+    @review = Review.new(review_params)
+    @attraction = Attraction.where(name: new_one_params[:attraction_name]).first
+    if @attraction.try(:reviews)
+      @review.attraction_id = @attraction.id
+      @review.user_id = current_user.id
+      if @review.save
+        flash[:notice] = "新增投稿成功，等待審核"
+        redirect_to reviews_path
+      else
+        flash[:alert] = @review.errors.full_messages.to_sentence
+        render :new_one
+      end
+    else
+      flash[:alert] = "景點讀取失敗"
+      render :new_one
+    end
   end
 
   def create
@@ -56,4 +75,9 @@ class ReviewsController < ApplicationController
   def review_params
     params.require(:review).permit(:title, :content, :suggestion, {images: []})
   end
+
+  def new_one_params
+    params.require(:review).permit(:attraction_name, :title, :content, :suggestion, {images: []})
+  end
+
 end
