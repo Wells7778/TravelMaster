@@ -1,5 +1,5 @@
 class ReviewsController < ApplicationController
-  before_action :set_attraction
+  before_action :set_attraction, except: [:new_one]
   before_action :set_review, only: [:index, :show, :edit, :update]
 
   def index
@@ -11,6 +11,10 @@ class ReviewsController < ApplicationController
 
   def new
     @review = @attraction.reviews.new
+  end
+
+  def new_one
+    @review = Review.new
   end
 
   def create
