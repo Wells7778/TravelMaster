@@ -175,21 +175,21 @@ label {
 	overflow: hidden;
 }
 
-.review-cards-wrapper .reviews-card .card-content{
+.review-cards-wrapper .reviews-card .card-content, .review-relate .reviews-card .card-content{
 	text-decoration:none;
 	color: black;
 }
 
-.review-cards-wrapper .reviews-card .card-content p{
+.review-cards-wrapper .reviews-card .card-content p, .review-relate .reviews-card .card-content p{
 	font-size: 18px;
 }
 
-.review-cards-wrapper .reviews-card{
+.review-cards-wrapper .reviews-card, .review-relate .reviews-card{
 	max-height: 120px;
 	overflow: hidden;
 }
 
-.review-cards-wrapper .reviews-card .card-image,.reviews-card .card-image {
+.review-cards-wrapper .reviews-card .card-image, .review-relate .reviews-card .card-image {
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -206,6 +206,10 @@ label {
 #show-review img{
 	max-width: 90%;
 	border-radius: 24px;
+}
+
+.review-relate h5{
+	padding: 24px 0px;
 }
 
 .spot-reviews-title .btn{

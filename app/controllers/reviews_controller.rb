@@ -9,6 +9,7 @@ class ReviewsController < ApplicationController
   end
 
   def show
+    @relates = Review.where(status: "passed").where( "id <> ?", @review.id ).order("created_at DESC").limit(3)
   end
 
   def new
