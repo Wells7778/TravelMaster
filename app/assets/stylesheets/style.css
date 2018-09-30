@@ -165,6 +165,11 @@ label {
 	font-size: 1rem !important;
 }
 
+#review-fails {
+	background-color: #fff;
+	border: 1px grey solid;
+}
+
 .reviews-card {
 	max-height: 120px;
 	overflow: hidden;
@@ -184,7 +189,7 @@ label {
 	overflow: hidden;
 }
 
-.review-cards-wrapper .reviews-card .card-image {
+.review-cards-wrapper .reviews-card .card-image,.reviews-card .card-image {
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;

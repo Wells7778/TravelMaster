@@ -5,6 +5,7 @@ class ReviewsController < ApplicationController
 
   def index
     @reviews = Review.where(status: "passed")
+    @failed_reviews = current_user.reviews.where(status: "reject")
   end
 
   def show
@@ -56,12 +57,18 @@ class ReviewsController < ApplicationController
 
   def update
     @review = Review.find_by(id: params[:id])
-    if @review.status == "pending" && @review.update(review_params)
-      flash[:notice] = "新增投稿成功，等待審核"
-      redirect_to attraction_path(@attraction)
+    if @review.status == "reject"
+      @review.status = "pending"
+      if @review.update(review_params)
+        flash[:notice] = "修改投稿成功，等待審核"
+        redirect_to reviews_path
+      else
+        flash[:alert] = "系統錯誤，請聯繫管理員"
+        redirect_to reviews_path
+      end
     else
-      flash[:alert] = @review.errors.full_messages.to_sentence
-      render :new
+      flash[:alert] = "系統錯誤，請聯繫管理員"
+      redirect_to reviews_path
     end
   end
 
