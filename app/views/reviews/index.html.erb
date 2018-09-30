@@ -2,8 +2,42 @@
   <div class="container">
 
 		<div class="center">
-      <h4>Reviews－旅程紀錄</h4>
+      <h4>遊記－旅程紀錄</h4>
     </div>
+    <div class="center" style="margin: 24px 24px;">
+    	<%= link_to "新增遊記",new_one_attractions_path ,class:"btn devise-btn" %>
+    </div>
+    <% if @failed_reviews && @failed_reviews.length>0 %>
+		  <div class="review-fails-open center">
+		    <div id="open-reivew" class="btn grey">您有未通過審核的遊記，點此看更多</div>
+		  </div>
+	  <%end%>
+		<div id="review-fails" class="section" style="display: none;">
+	  	<div class="container">
+	  		<h5>審核失敗，請重新調整內容</h5>
+		  	<% if @failed_reviews && @failed_reviews.length>0 %>
+			  	<% @failed_reviews.each do |review| %>
+			    <div class="card horizontal reviews-card">
+			      <div class="card-image" style="background-image: url('<%= image_path(review.images.first) %>')">
+			      	<img src="" alt="" style="width: 300px;height: 300px;">
+			      </div>
+			      <%= link_to edit_attraction_review_path(review.attraction, review) do %>
+				      <div class="card-stacked">
+				        <div class="card-content">
+				          <p>
+				          	[<%= review.attraction.name%>]- <%= review.title%>
+				          </p>
+				          <label>
+				          	<%=review.user.name%>建立於<%=time_ago_in_words review.updated_at %>
+				          </label>
+				        </div>
+			      </div>
+			      <%end%>
+			    </div>
+					<%end %>
+				<%end %>
+		  </div>
+		</div>
 
   <div class="row">
 
@@ -51,3 +85,14 @@
 
   })
 <% end %>
+
+<script>
+	$(function(){
+
+	  $( "#open-reivew" ).click(function() {
+	    $( ".review-fails-open" ).toggle();
+	    $( "#review-fails" ).slideDown( "slow" );
+	  });
+
+	});
+</script>

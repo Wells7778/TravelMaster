@@ -1,16 +1,44 @@
 class ReviewsController < ApplicationController
-  before_action :set_attraction
+  before_action :set_attraction, except: [:new_one, :new_cone_create]
   before_action :set_review, only: [:index, :show, :edit, :update]
+  before_action :set_all_names, only: [:new_one]
 
   def index
     @reviews = Review.where(status: "passed")
+    @failed_reviews = current_user.reviews.where(status: "reject")
   end
 
   def show
+    @relates = Review.where(status: "passed").where( "id <> ?", @review.id ).order("created_at DESC").limit(3)
   end
 
   def new
     @review = @attraction.reviews.new
+  end
+
+  def new_one
+    @review = Review.new
+  end
+
+  def new_one_create
+    @review = Review.new(review_params)
+    @attraction = Attraction.where(name: new_one_params[:attraction_name]).first
+    if @attraction.try(:reviews)
+      @review.attraction_id = @attraction.id
+      @review.user_id = current_user.id
+      if @review.save
+        flash[:notice] = "新增投稿成功，等待審核"
+        redirect_to reviews_path
+      else
+        flash[:alert] = @review.errors.full_messages.to_sentence
+        set_all_names
+        render :new_one
+      end
+    else
+      flash[:alert] = "景點讀取失敗"
+      set_all_names
+      render :new_one
+    end
   end
 
   def create
@@ -30,12 +58,18 @@ class ReviewsController < ApplicationController
 
   def update
     @review = Review.find_by(id: params[:id])
-    if @review.status == "pending" && @review.update(review_params)
-      flash[:notice] = "新增投稿成功，等待審核"
-      redirect_to attraction_path(@attraction)
+    if @review.status == "reject"
+      @review.status = "pending"
+      if @review.update(review_params)
+        flash[:notice] = "修改投稿成功，等待審核"
+        redirect_to reviews_path
+      else
+        flash[:alert] = "系統錯誤，請聯繫管理員"
+        redirect_to reviews_path
+      end
     else
-      flash[:alert] = @review.errors.full_messages.to_sentence
-      render :new
+      flash[:alert] = "系統錯誤，請聯繫管理員"
+      redirect_to reviews_path
     end
   end
 
@@ -52,4 +86,16 @@ class ReviewsController < ApplicationController
   def review_params
     params.require(:review).permit(:title, :content, :suggestion, {images: []})
   end
+
+  def new_one_params
+    params.require(:review).permit(:attraction_name, :title, :content, :suggestion, {images: []})
+  end
+
+  def set_all_names
+    @all_names = []
+    Attraction.all.each do |a|
+      @all_names << a.name
+    end
+  end
+
 end
