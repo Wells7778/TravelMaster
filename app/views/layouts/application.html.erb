@@ -32,22 +32,22 @@
         <ul class="right hide-on-med-and-down">
           <li id="mainnav-1" class="">
             <%= link_to root_path do %>
-              Spots
+              景點
             <% end %>
           </li>
           <li id="mainnav-2" class="">
             <%= link_to reviews_path do %>
-              Reviews
+              遊記
             <% end %>
           </li>
           <li id="mainnav-3" class="">
             <%= link_to mytrips_path do %>
-              Mytrips
+              我的紀錄
             <% end %>
           </li>
           <li id="mainnav-4" class="">
             <%= link_to about_path do %>
-              About
+              關於TravelMaster
             <% end %>
           </li>
           <% if current_user && current_user.role=="admin" %>
