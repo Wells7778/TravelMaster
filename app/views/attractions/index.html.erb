@@ -290,14 +290,16 @@ $(function(){
   //以下是geolocation的程式碼
   $( document ).ready(function () {
     var x = $("#search_geo_location");
-    $("input#search_submit").attr("disabled", true);
     (function () {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(setPosition);
+      } else {
+        $("input#search_location").attr("required", true);
       }
     })();
     function setPosition(position) {
       var location = [ position.coords.latitude,position.coords.longitude ]
+      $("input#search_submit").attr("disabled", true);
       $(x).val(location);
       $("input#search_submit").removeAttr("disabled");
     }
