@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="col s11 offset-m2 m8 review-cards-wrapper">
+    <h4><%= trip_text %></h4>
+    <% if trips && trips.length > 0 %>
+      <% trips.each do |trip| %>
+        <% if trip_type == "review" %>
+          <%= link_to attraction_review_path(trip.attraction, trip) do %>
+            <div class="card horizontal reviews-card">
+              <div class="card-image" style="background-image: url('<%= image_path(trip.images.first) %>')">
+                <img src="" alt="" style="width: 300px;height: 300px;">
+              </div>
+              <div class="card-stacked">
+                <div class="card-content">
+                  <p>
+                    [<%= trip.attraction.name %>]- <%= trip.title%>
+                  </p>
+                  <label>
+                    <%= trip.user.name %>建立於<%= time_ago_in_words trip.updated_at %>
+                  </label>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <%= link_to attraction_path(trip), target: :_blank do %>
+          <div class="card horizontal reviews-card">
+            <div class="card-image" style="background-image: url('<%= image_path(trip.image) %>')">
+              <img src="" alt="" style="width: 300px;height: 300px;">
+            </div>
+            <div class="card-stacked">
+              <div class="card-content short-text">
+                <p>
+                  <%= trip.name %>
+                </p>
+                <label class="">
+                  TAGS: <%= trip.categories.map(&:tag_name).join(",") %>
+                </label>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
