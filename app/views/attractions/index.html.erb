@@ -386,6 +386,7 @@ $(function(){
     var id = event.target.id.slice(15,);
     if ($("#new-comment-" + id).val().trim() === "") {
       Materialize.toast('請輸入留言內容', 4000);
+      $("#new-comment-" + id).val("");
     } else {
       $.ajax({
         url: "create_comment",
@@ -400,6 +401,7 @@ $(function(){
         success: function(data) {
         Materialize.toast('留言成功', 4000);
         addComment(id,data["c_id"],data["c_content"],data["c_user"],data["visited"]);
+        $("#new-comment-" + id).val("");
         }
       });
     }
