@@ -31,8 +31,9 @@ class AttractionsController < ApplicationController
       elsif flash[:search] #從Search action進來
         @way_check = 3
         #以下兩個參數是Search的結果，再看後端要怎摸樣吐景點回來，複寫 @attractions 即可
-        @search_tags = flash[:search]["tags"]
-        @search_location = flash[:search]["location"]
+        @list = current_user.lists.last
+        @search_tags = @list.travel_tag
+        @search_location = @list.origin
         # 搜尋結果直接存在list裏
         @list = current_user.lists.last
         @attractions = @list.attractions.includes(:categories_attractions, :categories)
