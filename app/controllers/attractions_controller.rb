@@ -52,8 +52,7 @@ class AttractionsController < ApplicationController
     flash[:search] = search_params #用來傳遞變數
     # 如果無法取得裝置經緯度且為輸入地址就跳出無法搜尋
     if search_params[:location].blank? && search_params[:geo_location].blank?
-      @search_tags = search_params[:tags].split(",")
-      @search_location = search_params[:location]
+      flash[:search] = nil
       redirect_to root_path, alert: "找不到出發地點"
     else
       # 如果沒輸入起始地則使用裝置經緯度當作起始地
