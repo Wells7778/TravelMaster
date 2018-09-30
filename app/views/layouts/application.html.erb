@@ -41,19 +41,19 @@
           </li>
           <li id="mainnav-3" class="">
             <%= link_to mytrips_path do %>
-              我的紀錄
+              紀錄
             <% end %>
           </li>
           <li id="mainnav-4" class="">
             <%= link_to about_path do %>
-              關於TravelMaster
+              關於
             <% end %>
           </li>
           <% if current_user && current_user.role=="admin" %>
           <li><a class='dropdown-button' href='#' data-activates='admin-dropdown' data-belowOrigin="true" data-constrainWidth="false">後台<i class="material-icons right">arrow_drop_down</i></a></li>
           <%end %>
           <li>
-            <a class="ropdown-button" href="#"
+            <a class="dropdown-button" href="#"
               data-activates="feature-dropdown"
               data-belowOrigin="true"
               data-constrainWidth="false">
@@ -100,12 +100,12 @@
       </li>
       <li id="sidenav-3" class="">
         <%= link_to mytrips_path do %>
-          <i class="material-icons">history</i>我的紀錄
+          <i class="material-icons">history</i>紀錄
         <% end %>
       </li>
       <li id="sidenav-4" class="">
         <%= link_to about_path do %>
-          <i class="material-icons">school</i>關於TravelMaster
+          <i class="material-icons">school</i>關於
         <% end %>
       </li>
       <% if current_user && current_user.role == "admin" %>
