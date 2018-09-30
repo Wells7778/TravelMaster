@@ -17,7 +17,7 @@ class AttractionsController < ApplicationController
       if flash[:show_id] #從Show action進來
         @way_check = 2
         @show_id = flash[:show_id]
-        if @attractions.include?(Attraction.find(flash[:show_id])) ==false
+        if !@attractions.include?(Attraction.find(flash[:show_id]))
           @show = Attraction.find(flash[:show_id])
         end
         #@attractions.merge(Attraction.where(id: flash[:show_id]))
