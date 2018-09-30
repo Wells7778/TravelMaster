@@ -198,6 +198,8 @@ label {
 }
 
 #show-review p{
+	font-size: 18px;
+	font-weight: 400;
 	padding-top: 24px;
 }
 
@@ -265,6 +267,14 @@ label {
 }
 
 #review_attraction_name{
+}
+
+.review-images{
+	padding: 24px 24px;
+}
+
+.review-images img{
+	margin-bottom: 24px;
 }
 
 /* 以下後台CSS */
