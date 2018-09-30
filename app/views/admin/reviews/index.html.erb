@@ -15,6 +15,36 @@
   <div class="container">
 
   <h5>未審核遊記</h5>
+  <% if @pending_reviews && @pending_reviews.length>0 %>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>景點名稱</th>
+          <th>上傳照片張數</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @pending_reviews.each do |review| %>
+          <tr>
+            <td><%= review.title %></td>
+            <td><%= review.attraction.name %></td>
+            <td><%= review.images.size %></td>
+            <td>
+              <%= link_to "審核", admin_review_path(review), class: "btn" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <%else%>
+  <h5>無</h5>
+  <%end%>
+  <hr style="margin: 32px 0;"> 
+
+  <% if @reject_reviews && @reject_reviews.length>0 %>
+  <h5>否決審核遊記</h5>
   <table>
     <thead>
       <tr>
@@ -25,7 +55,7 @@
       </tr>
     </thead>
     <tbody>
-      <% @pending_reviews.each do |review| %>
+      <% @reject_reviews.each do |review| %>
         <tr>
           <td><%= review.title %></td>
           <td><%= review.attraction.name %></td>
@@ -37,8 +67,11 @@
       <% end %>
     </tbody>
   </table>
-  <hr style="margin: 32px 0;"> 
+  <hr style="margin: 32px 0;">
+  <%end%>
+
   <h5>通過審核遊記</h5>
+  <% if @reviews && @reviews.length>0 %>
     <table>
       <thead>
         <tr>
@@ -62,6 +95,10 @@
       </tbody>
     </table>
     <%= paginate @reviews %>
+  <%else%>
+  <h5>無</h5>
+  <%end%>
+
   </div>
 </div>
 
