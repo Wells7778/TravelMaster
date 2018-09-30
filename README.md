@@ -1,24 +1,9 @@
-# README
+# 專案簡介
+### 只是想出門走走
+週末有時心血來潮想出遊，因為時間有限，活動的範圍不會很大，搜尋旅遊行程往往都是多點排程的行程或者太多地方無法決定。 抑或是出差在外臨時有的空檔，想要利用有限的時間旅遊，卻往往找到很多資訊。
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+###Travel Master來了！
+使用者設定出發地點及挑選主題tag(如心情、群體、目的等)及時程tag(交通時間範圍)，系統自動推薦景點。 推薦景點會根據使用者的偏好排序，同時點入景點可查看網友的照片及評論(包含針對主題推薦、及交通建議等)。
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+最後，希望大家能盡情旅行！
+# User Stories
