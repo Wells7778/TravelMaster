@@ -24,6 +24,7 @@ class AttractionsController < ApplicationController
         @way_check = 2
         @show_id = flash[:show_id]
         if !@attractions.include?(Attraction.find(flash[:show_id]))
+          @attractions = @attractions.take 5
           @show = Attraction.find(flash[:show_id])
         end
         #@attractions.merge(Attraction.where(id: flash[:show_id]))
