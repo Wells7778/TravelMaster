@@ -111,6 +111,10 @@ class AttractionsController < ApplicationController
   def about
   end
 
+  def browse
+    @attractions = Attraction.all
+  end
+
   private
     def attraction_params
       params.require(:attraction).permit(:name, :image, :description, :address, :lat, :lng, category_ids: [])

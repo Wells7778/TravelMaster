@@ -1,0 +1,40 @@
+<div id="portfolio" class="section gray">
+  <div class="container">
+    <div class="gallery row">
+      <% if @attractions && @attractions.size > 0 %>
+        <% @attractions.each do |spot| %>
+        <%= render partial: "spot", locals: { id:spot.id,
+                                              name: spot.name,
+                                              image: spot.image,
+                                              address: spot.address,
+                                              comments: spot.comments,
+                                              lat: spot.lat,
+                                              lng: spot.lng,
+                                              description: spot.description,
+                                              list: @list,
+                                              reviews: spot.reviews.passed,
+                                              categories: spot.categories } %>
+        <% end %>
+      <% else %>
+        不好意思，沒有搜尋結果，請重新嘗試！
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= javascript_tag do %>
+  $(function(){
+
+    <%#客製 layout 的變數%>
+    $("#mainnav-1").addClass('active');
+    $("#sidenav-1").addClass('active');
+
+    $("#nav-bg-img").css("background-image","url(<%= asset_path 'rock.jpg' %>)");
+    $("#nav-header-h1").text("想出門走走？馬上開始");
+    $("#nav-header-tag").text("找尋景點好幫手");
+  });
+<%end %>
+
+<script>
+  
+</script>
