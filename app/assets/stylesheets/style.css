@@ -291,6 +291,11 @@ label {
 	margin-bottom: 36px;
 }
 
+.spot-show-tags label span{
+	position: relative;
+	top: -4px;	
+}
+
 .responsive-table{
 	background-color: #fff;
 	width:100%; 
