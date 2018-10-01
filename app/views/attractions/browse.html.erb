@@ -5,23 +5,23 @@
       <h4>所有景點-分類檢視</h4>
     </div>
 
-    <div class="gallery row">
-
-      <%= search_form_for @ransack, :url => browse_attractions_path, class:"browse-form" do |f| %>
-        <% Category.all.each do |c|%>
-        <p>
-          <% if @categories&& @categories.include?(c)%> 
-            <%= check_box_tag "q[categories_id_eq_any][]",c.id, checked:"checked" %>
-          <% else %>
-            <%= check_box_tag "q[categories_id_eq_any][]",c.id%>
-          <% end %>
-          <%= label_tag "q[categories_id_eq_any][#{c.id}]", c.tag_name %>
-        </p>
+    <%= search_form_for @ransack, :url => browse_attractions_path, class:"browse-form" do |f| %>
+      <% Category.all.each do |c|%>
+      <p>
+        <% if @categories&& @categories.include?(c)%> 
+          <%= check_box_tag "q[categories_id_eq_any][]",c.id, checked:"checked" %>
+        <% else %>
+          <%= check_box_tag "q[categories_id_eq_any][]",c.id%>
         <% end %>
-        <div class="center browse-form-submit">
-        <%= f.submit "開始搜尋", class:"btn" %>
-        </div>
-      <%end%>
+        <%= label_tag "q[categories_id_eq_any][#{c.id}]", c.tag_name %>
+      </p>
+      <% end %>
+      <div class="center browse-form-submit">
+      <%= f.submit "開始搜尋", class:"btn" %>
+      </div>
+    <%end%>
+
+    <div class="gallery row">
       <% if @attractions && @attractions.size > 0 %>
         <% @attractions.each do |spot| %>
         <%= render partial: "spot", locals: { id:spot.id,
@@ -59,11 +59,26 @@
 <script>
 $(function(){
 
+  $('.gallery-expand').galleryExpand({
+  });
+
   $("input[type='checkbox']").each(function() {
     var val = $(this).val();
     console.log( $(this).attr('id'));
     $(this).attr('id', "q_categories_id_eq_any_"+val);
     $(this).addClass("filled-in");
+  });
+
+  var $masonry = $('.gallery');
+  $masonry.masonry({
+    // set itemSelector so .grid-sizer is not used in layout
+    itemSelector: '.gallery-item',
+    // use element for option
+    columnWidth: '.gallery-item',
+  });
+  // layout Masonry after each image loads
+  $masonry.imagesLoaded(function() {
+    $masonry.masonry('layout');
   });
 
 });
