@@ -25,7 +25,7 @@ class Admin::AttractionsController < Admin::BaseController
       flash[:notice] = "景點建立完成"
       redirect_to admin_attractions_path
     else
-      flash.new[:alert] = @attraction.errors.full_messages.to_sentence
+      flash.now[:alert] = @attraction.errors.full_messages.to_sentence
       render :new
     end
   end
