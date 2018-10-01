@@ -5,7 +5,11 @@
       <%= search_form_for @ransack, :url => browse_attractions_path do |f| %>
         <% Category.all.each do |c|%>
         <p>
-          <%= check_box_tag "q[categories_id_eq_any][]",c.id %>
+          <% if @categories&& @categories.include?(c)%> 
+            <%= check_box_tag "q[categories_id_eq_any][]",c.id, checked:"checked" %>
+          <% else %>
+            <%= check_box_tag "q[categories_id_eq_any][]",c.id%>
+          <% end %>
           <%= label_tag "q[categories_id_eq_any][#{c.id}]", c.tag_name %>
         </p>
         <% end %>
