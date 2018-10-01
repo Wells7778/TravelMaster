@@ -6,7 +6,10 @@
     </div>
     <div class="gallery-header">
       <span class="gallery-header-title"><%= name %></span>
-      <div class="gallery-header-intro"><%= address %></p></div>
+      <div class="gallery-header-intro"><%= address %></div>
+      <% starN = (reviews.size) + (comments.size/5)%>
+      <% starN = starN.floor() %>
+      <div class="stars-<%=starN%> gallery-header-rating"><span>熱門程度 </span></div>
     </div>
     <div class="gallery-body">
       <div class="title-wrapper">

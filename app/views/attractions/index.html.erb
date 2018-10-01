@@ -462,6 +462,25 @@ $(function(){
     Materialize.toast('加入搜尋列', 2000)
   });
 
+  //Star rating
+  $("div[class^='stars-']").each(function() {
+    var stars = $(this).attr('class').split(' ')[0].slice(6,);
+    stars = parseInt(stars);
+    if(!isNaN(stars)){
+      if(stars <= 5){
+        for (i = 0; i < stars; i++) { 
+          $(this).append( "<i class='material-icons'>star</i>" );
+        };
+        for (i = 0; i < (5-stars); i++) { 
+          $(this).append( "<i class='material-icons'>star_border</i>" );
+        };
+      }else {
+          $(this).append( "<i class='material-icons'>star</i><i class='material-icons'>star</i><i class='material-icons'>star</i><i class='material-icons'>star</i><i class='material-icons'>star</i>" );
+      };      
+    };
+  });
+
+
 }); // end of document ready
 
 </script>
