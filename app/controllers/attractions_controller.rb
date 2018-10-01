@@ -112,7 +112,12 @@ class AttractionsController < ApplicationController
   end
 
   def browse
-    @attractions = Attraction.all
+    if params[:q]
+      @ransack = Attraction.search(params[:q])
+    else
+      @ransack = Attraction.all.includes(:categories)
+    end
+    @attractions = @ransack.result(distinct: true).limit(3)
   end
 
   private
