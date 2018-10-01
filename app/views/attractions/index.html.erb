@@ -148,10 +148,12 @@
                                               categories: spot.categories } %>
       <% end %>
     </div>
-
+    <% if @way_check == 3 %>
+    <% else %>
     <div class="center">
       <%=link_to "（ 查看所有景點... ）", browse_attractions_path, style:"font-size: 18px;"%>
     </div>
+    <% end %>
   </div>
 </div><!-- /.container -->
 

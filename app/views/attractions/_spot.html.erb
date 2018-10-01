@@ -6,7 +6,13 @@
     </div>
     <div class="gallery-header">
       <span class="gallery-header-title"><%= name %></span>
-      <div class="gallery-header-intro"><%= address %></div>
+      <div class="gallery-header-intro">
+        <% if list %>
+          旅行時間 <%= list.list_attractions.where(attraction_id: id).first.duration %>
+        <% else %>
+          <%= address %>
+        <%end%>
+        </div>
       <% starN = (reviews.size) + (comments.size/5)%>
       <% starN = starN.floor() %>
       <div class="stars-<%=starN%> gallery-header-rating"><span>熱門程度 </span></div>
@@ -15,7 +21,7 @@
       <div class="title-wrapper">
         <h3><%= name %></h3>
         <% if list %>
-          <h3>旅行時間<%= list.list_attractions.where(attraction_id: id).first.duration %></h3>
+          <h5>旅行時間 <%= list.list_attractions.where(attraction_id: id).first.duration %></h5>
         <% end %>
         <span class="price"><%= address %></span>
         <% if list %>
