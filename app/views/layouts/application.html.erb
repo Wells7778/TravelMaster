@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%= csrf_meta_tags %>
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+    <!--<link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>-->
+    <link href="https://fonts.googleapis.com/earlyaccess/notosanstc.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>-->
@@ -15,12 +16,11 @@
   </head>
 
   <body>
-
     <header>
     <!-- Navbar and Header -->
     <nav class="nav-extended">
       <div class="nav-background">
-        <div id="nav-bg-img" class="pattern active" style="background-image: url(<%= asset_path 'city.jpg' %>)"></div>
+        <div id="nav-bg-img" class="pattern active" style="background-image: url(<%= asset_path 'city.jpg' %>);background-size: cover;"></div>
       </div>
       <div class="nav-wrapper container">
         <%= link_to root_path, class:"brand-logo" do %>
@@ -31,43 +31,53 @@
         <ul class="right hide-on-med-and-down">
           <li id="mainnav-1" class="">
             <%= link_to root_path do %>
-              Spots
+              景點
             <% end %>
           </li>
           <li id="mainnav-2" class="">
             <%= link_to reviews_path do %>
-              Reviews
+              遊記
             <% end %>
           </li>
           <li id="mainnav-3" class="">
             <%= link_to mytrips_path do %>
-              Mytrips
+              紀錄
             <% end %>
           </li>
           <li id="mainnav-4" class="">
             <%= link_to about_path do %>
-              About
+              關於
             <% end %>
           </li>
           <% if current_user && current_user.role=="admin" %>
-          <li class="">
-            <%= link_to admin_root_path do %>
-              後台
-            <% end %>
-          </li>
+          <li><a class='dropdown-button' href='#' data-activates='admin-dropdown' data-belowOrigin="true" data-constrainWidth="false">後台<i class="material-icons right">arrow_drop_down</i></a></li>
           <%end %>
-
-          <li><a class='dropdown-button' href='#' data-activates='feature-dropdown' data-belowOrigin="true" data-constrainWidth="false">會員功能<i class="material-icons right">arrow_drop_down</i></a></li>
+          <li>
+            <a class="dropdown-button" href="#"
+              data-activates="feature-dropdown"
+              data-belowOrigin="true"
+              data-constrainWidth="false">
+                會員功能
+                <i class="material-icons right">arrow_drop_down</i>
+              </a>
+            </li>
         </ul>
         <!-- Dropdown Structure -->
-        <ul id='feature-dropdown' class='dropdown-content'>
+        <ul id="feature-dropdown" class="dropdown-content">
           <% if current_user %>
-              <li><%= link_to('修改密碼', edit_user_registration_path) %></li>
-              <li><%= link_to('登出', destroy_user_session_path, method: :delete) %></li>
+              <li><%= link_to("修改密碼", edit_user_registration_path) %></li>
+              <li><%= link_to("登出", destroy_user_session_path, method: :delete) %></li>
             <% else %>
-              <li><%= link_to('註冊', new_user_registration_path) %></li>
-              <li><%= link_to('登入', new_user_session_path) %></li>
+              <li><%= link_to("註冊", new_user_registration_path) %></li>
+              <li><%= link_to("登入", new_user_session_path) %></li>
           <% end %>
+        </ul>
+        <!-- Dropdown Structure -->
+        <ul id='admin-dropdown' class='dropdown-content'>
+          <li><%= link_to('後台-景點', admin_attractions_path) %></li>
+          <li><%= link_to('後台-用戶', admin_users_path) %></li>
+          <li><%= link_to('後台-遊記', admin_reviews_path) %></li>
+          <li><%= link_to('後台-主題', admin_categories_path) %></li>
         </ul>
 
         <div class="nav-header center">
@@ -80,28 +90,43 @@
     <ul class="side-nav" id="nav-mobile">
       <li id="sidenav-1" class="">
         <%= link_to root_path do %>
-          <i class="material-icons">landscape</i>Spots
+          <i class="material-icons">landscape</i>景點
         <% end %>
       </li>
       <li id="sidenav-2" class="">
         <%= link_to reviews_path do %>
-          <i class="material-icons">book</i>Reviews
+          <i class="material-icons">book</i>遊記
         <% end %>
       </li>
       <li id="sidenav-3" class="">
         <%= link_to mytrips_path do %>
-          <i class="material-icons">history</i>Mytrips
+          <i class="material-icons">history</i>紀錄
         <% end %>
       </li>
       <li id="sidenav-4" class="">
         <%= link_to about_path do %>
-          <i class="material-icons">school</i>About
+          <i class="material-icons">school</i>關於
         <% end %>
       </li>
-      <% if current_user && current_user.role=="admin" %>
+      <% if current_user && current_user.role == "admin" %>
       <li class="">
-        <%= link_to admin_root_path do %>
-          <i class="material-icons">computer</i>後台
+        <%= link_to admin_attractions_path do %>
+          <i class="material-icons">computer</i>後台-景點
+        <% end %>
+      </li>
+      <li class="">
+        <%= link_to admin_users_path do %>
+          <i class="material-icons">computer</i>後台-用戶
+        <% end %>
+      </li>
+      <li class="">
+        <%= link_to admin_reviews_path do %>
+          <i class="material-icons">computer</i>後台-遊記
+        <% end %>
+      </li>
+      <li class="">
+        <%= link_to admin_categories_path do %>
+          <i class="material-icons">computer</i>後台-主題
         <% end %>
       </li>
       <%end %>
@@ -123,9 +148,7 @@
       <% end %>
     </ul>
     </header>
-
     <%= yield %>
-
     <footer class="page-footer">
       <div class="container">
         <div class="row">
@@ -156,50 +179,41 @@
       </div>
       <div class="footer-copyright">
         <div class="container">
-        © 2018 Copyright Text
-
+          © 2018 Copyright Text
         </div>
       </div>
     </footer>
 
-<%= javascript_tag do %>
-  $(function(){
-
-    <%if notice %>
-      Materialize.toast('<%= notice %>', 4000)
+    <%= javascript_tag do %>
+      $(function(){
+        <% if notice %>
+          Materialize.toast('<%= notice %>', 4000)
+        <% end %>
+        <% if alert %>
+          Materialize.toast('<%= alert %>', 4000)
+        <% end %>
+      })
     <% end %>
-    <%if alert %>
-      Materialize.toast('<%= alert %>', 4000)
-    <% end %>
 
-  })
-<% end %>
+    <script>
+    $( document ).ready(function(){
+      // Home
+      $('.carousel:not(.carousel-slider)').carousel({
+        dist: 0,
+        padding: 10
+      });
+      $('.carousel.carousel-slider').carousel({
+        fullWidth: true,
+        indicators: true,
+        onCycleTo: function(el) {
+          $('.nav-background img').removeClass('active');
+          $('.nav-background img').eq(el.index()).addClass('active');
+        }
+      });
 
-<script>
-
-$( document ).ready(function(){
-
-  // Home
-  $('.carousel:not(.carousel-slider)').carousel({
-    dist: 0,
-    padding: 10
-  });
-  $('.carousel.carousel-slider').carousel({
-    fullWidth: true,
-    indicators: true,
-    onCycleTo: function(el) {
-      $('.nav-background img').removeClass('active');
-      $('.nav-background img').eq(el.index()).addClass('active');
-    }
-  });
-
- // Navbar
-  $(".button-collapse").sideNav();
-
-}); // end of document ready
-
-
-</script>
-
+    // Navbar
+      $(".button-collapse").sideNav();
+    }); // end of document ready
+    </script>
   </body>
 </html>

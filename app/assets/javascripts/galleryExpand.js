@@ -345,7 +345,10 @@
           });
 
           // Color sample
+          //ColorThief只適用於本地(local)圖片
+          /*
           if (typeof ColorThief !== "undefined" && $object.length) {
+
             colorThief = new ColorThief();
             var img = new Image();
             img.onload = function () {
@@ -358,7 +361,6 @@
               sampledColorPalette = colorThief.getPalette(origin.find('img')[0], 2);
               primaryColor = primaryColor || 'rgb(' + sampledColorPalette[0][0] + ',' +  sampledColorPalette[0][1] + ',' + sampledColorPalette[0][2] + ')';
               secondaryColor = secondaryColor || 'rgb(' + sampledColorPalette[1][0] + ',' +  sampledColorPalette[1][1] + ',' + sampledColorPalette[1][2] + ')';
-
               // Make navbar secondaryColor background
               navbar.css({
                 backgroundColor: secondaryColor
@@ -382,11 +384,21 @@
                 }
               }
             }
-
           }
+          */
+
+          //非本地圖片作法
+          //加入隨機配色[淺、深]
+          var randomColor = [["#96858F","#5E4654"],["#9099A2","#506376"],["#98505E","#76323F"],["#C09F80","#7F5935"],["#94618E","#7C4075"],["#F18693","#AF2F3E"],["#578790","#356D77"],["#B56457","#964235"],["#66AB8C","#3F8F6B"],["#7988A9","#314674"]];
+          var randSet = randomColor[Math.floor(Math.random() * randomColor.length)];
+
+          navbar.css({
+            backgroundColor: randSet[1]
+          });
 
           // If color thief fails to set primaryColor
-          primaryColor = primaryColor || options.defaultColor;
+          //primaryColor = primaryColor || options.defaultColor;
+          primaryColor = randSet[0] || options.defaultColor;
 
           // Style overlay and gradient
           overlay.css({
@@ -397,7 +409,6 @@
               background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, ' + primaryColor + ' 100%)'
             });
           }
-
 
           /*****************************************
            * Actual transformations and animations *

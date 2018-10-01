@@ -1,112 +1,49 @@
 <div id="reveiws-index" class="section gray">
   <div class="container">
-
 		<div class="center">
-      <h4>Mytrips－我的紀錄</h4>
+      <h4>紀錄－我的旅程</h4>
     </div>
-
-  <div class="row">
-	  <div class="col s11 offset-m2 m8 review-cards-wrapper">
-			<h4>我的遊記</h4>
-	  	<% if @reviews && @reviews.length>0 %>
-		  	<% @reviews.each do |review| %>
-		    <div class="card horizontal reviews-card">
-		      <div class="card-image">
-		      	<% if review.images.length>0 %>
-		        	<%= image_tag review.images.first.url %>
-		        <%end%>
-		      </div>
-		      <%= link_to attraction_review_path(review.attraction, review) do %>
-			      <div class="card-stacked">
-			        <div class="card-content">
-			          <p>
-			          	[<%= review.attraction.name%>]- <%= review.title%>
-			          </p>
-			          <label>
-			          	<%=review.user.name%>建立於<%=time_ago_in_words review.updated_at %>
-			          </label>
-			        </div>
-		      </div>
-		      <%end%>
-		    </div>
-				<%end %>
-			<%end %>
-	  </div>
-	</div>
-<hr>
-  <div class="row">
-	  <div class="col s11 offset-m2 m8 review-cards-wrapper">
-			<h4>收藏的景點</h4>
-	  	<% if @favorites && @favorites.length>0 %>
-		  	<% @favorites.each do |spot| %>
-		    <div class="card horizontal reviews-card">
-		      <div class="card-image">
-						<%= image_tag spot.image, class:"responsive-img img-fit" %>
-		      </div>
-		      <%= link_to attraction_path(spot), target: :_blank do %>
-			      <div class="card-stacked">
-			        <div class="card-content short-text">
-			          <p>
-			          	<%= spot.name%>
-			          </p>
-			          <label class="">
-			          	TAGS:
-			          	<% spot.categories.each do |c| %>
-			          		<%= c.tag_name %>,
-			          	<%end%>
-			          </label>
-			        </div>
-		      </div>
-		      <%end%>
-		    </div>
-				<%end %>
-			<%end %>
-	  </div>
-	</div>
-<hr>
-  <div class="row">
-	  <div class="col s11 offset-m2 m8 review-cards-wrapper">
-			<h4>留言過的景點</h4>
-	  	<% if @commented && @commented.length>0 %>
-		  	<% @commented.each do |spot| %>
-		    <div class="card horizontal reviews-card">
-		      <div class="card-image">
-						<%= image_tag spot.image, class:"responsive-img img-fit" %>
-		      </div>
-		      <%= link_to attraction_path(spot), target: :_blank do %>
-			      <div class="card-stacked">
-			        <div class="card-content short-text">
-			          <p>
-			          	<%= spot.name%>
-			          </p>
-			          <label class="">
-			          	TAGS:
-			          	<% spot.categories.each do |c| %>
-			          		<%= c.tag_name %>,
-			          	<%end%>
-			          </label>
-			        </div>
-		      </div>
-		      <%end%>
-		    </div>
-				<%end %>
-			<%end %>
-	  </div>
-	</div>
-
+    <%= render partial: "trip", locals: { trip_text: "我的遊記", trip_type: "review", trips: @reviews } %>
+    <hr>
+    <%= render partial: "trip", locals: { trip_text: "收藏的景點", trip_type: "", trips: @favorites } %>
+    <hr>
+    <%= render partial: "trip", locals: { trip_text: "留言過的景點", trip_type: "", trips: @commented } %>
+    <hr>
+    <div class="row">
+  <div class="col s11 offset-m2 m8 review-cards-wrapper">
+    <h4>最近五筆搜尋紀錄</h4>
+    <% if @lists && @lists.size > 0 %>
+      <% @lists.each do |list| %>
+        <%= link_to attractions_path(list_id: list.id) do %>
+          <div class="card horizontal reviews-card">
+            <div class="card-image" style="background-image: url('<%= image_path(list.attractions.first.image) if list.attractions.present? %>')">
+              <img src="" alt="" style="width: 300px;height: 300px;">
+            </div>
+            <div class="card-stacked">
+              <div class="card-content short-text">
+                <p>
+                  從 <%= list.origin %> 出發，<%= Attraction::TRAFFIC.key(list.travel_mode) %>
+                </p>
+                <label class="">
+                  旅行時間：<%= Attraction::TRAVELTIME.key(list.travel_time) %>，景點TAG：<%= list.travel_tag.join(",") if list.travel_tag.present? %>
+                </label>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
 	</div>
 </div>
-
 <%= javascript_tag do %>
   $(function(){
-
     <%#客製 layout 的變數%>
     $("#mainnav-3").addClass('active');
     $("#sidenav-3").addClass('active');
-
     $("#nav-bg-img").css("background-image","url(<%= asset_path 'travel.jpg' %>)");
     $("#nav-header-h1").text("收藏每個美麗瞬間");
     $("#nav-header-tag").text("留下足跡、大步邁進！");
-
   })
 <% end %>

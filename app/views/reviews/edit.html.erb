@@ -4,8 +4,8 @@
 
     <div class="card">
       <div class="card-content">
-				<h4>編輯Review</h4>
-				<%= render partial: "form", locals: { attraction: @attraction, review: @review, type: "edit"  } %>
+				<h4>遊記修改</h4>
+				<%= render partial: "form", locals: { attraction: @attraction, review: @review, type: "edit", form_controller: "reviews", form_action: "update"  } %>
       </div>
     </div>
 

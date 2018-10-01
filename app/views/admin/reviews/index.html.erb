@@ -1,22 +1,114 @@
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>景點名稱</th>
-      <th>上傳照片張數</th>
-      <th>操作</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @reviews.each do |review| %>
+<div class="row">
+  <div class="col s12">
+    <ul class="tabs">
+      <li class="tab col s6">
+        <%= link_to "後台-遊記首頁", admin_reviews_path, target:"_self",class:"active" %>
+      </li>
+      <li class="tab col s6 disabled">
+        <a style="cursor: not-allowed;">後台-遊記審核/查看</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+
+  <h5>未審核遊記</h5>
+  <% if @pending_reviews && @pending_reviews.length>0 %>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>景點名稱</th>
+          <th>上傳照片張數</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @pending_reviews.each do |review| %>
+          <tr>
+            <td><%= review.title %></td>
+            <td><%= review.attraction.name %></td>
+            <td><%= review.images.size %></td>
+            <td>
+              <%= link_to "審核", admin_review_path(review), class: "btn" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <%else%>
+  <h5>無</h5>
+  <%end%>
+  <hr style="margin: 32px 0;"> 
+
+  <% if @reject_reviews && @reject_reviews.length>0 %>
+  <h5>否決審核遊記</h5>
+  <table>
+    <thead>
       <tr>
-        <td><%= review.title %></td>
-        <td><%= review.attraction.name %></td>
-        <td><%= review.images.size %></td>
-        <td>
-          <%= link_to "Show", admin_review_path(review), class: "btn" %>
-        </td>
+        <th>Title</th>
+        <th>景點名稱</th>
+        <th>上傳照片張數</th>
+        <th>操作</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @reject_reviews.each do |review| %>
+        <tr>
+          <td><%= review.title %></td>
+          <td><%= review.attraction.name %></td>
+          <td><%= review.images.size %></td>
+          <td>
+            <%= link_to "審核", admin_review_path(review), class: "btn" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <hr style="margin: 32px 0;">
+  <%end%>
+
+  <h5>通過審核遊記</h5>
+  <% if @reviews && @reviews.length>0 %>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>景點名稱</th>
+          <th>上傳照片張數</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @reviews.each do |review| %>
+          <tr>
+            <td><%= review.title %></td>
+            <td><%= review.attraction.name %></td>
+            <td><%= review.images.size %></td>
+            <td>
+              <%= link_to "查看", admin_review_path(review), class: "btn" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate @reviews %>
+  <%else%>
+  <h5>無</h5>
+  <%end%>
+
+  </div>
+</div>
+
+<%= javascript_tag do %>
+  $(function(){
+
+    <%#客製 layout 的變數%>
+    $("#nav-bg-img").css("background-image","url(<%= asset_path 'backend.jpg' %>)");
+    $("#nav-header-h1").text("神聖的管理殿堂");
+    $("#nav-header-tag").text("後台");
+
+  })
+<% end %>

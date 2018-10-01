@@ -4,7 +4,7 @@ class List < ApplicationRecord
 
   belongs_to :user
 
-  store :search_params, :accessors => [:travel_time, :travel_mode]
+  store :search_params, :accessors => [:travel_time, :travel_mode, :travel_tag]
 
   # 地址轉換為經緯度
   def geocode

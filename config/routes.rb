@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       post :search
       post :create_comment, to: "comments#create"
       post :destroy_comment, to: "comments#destroy"
+      get :new_one, to: "reviews#new_one"
+      post :new_one_create, to: "reviews#new_one_create"
     end
 
     member do

@@ -61,8 +61,18 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
+# 登入使用
 gem 'devise'
+gem 'devise-i18n'
+# 送Http request
 gem 'rest-client'
+# 上傳檔案
 gem 'carrierwave'
+# 影像辨識
 gem 'google-cloud-vision'
 gem 'figaro'
+# 排序和搜尋
+gem 'ransack'
+# 分頁使用
+gem 'kaminari'
+gem 'rails-i18n'

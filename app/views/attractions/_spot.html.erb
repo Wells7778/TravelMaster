@@ -1,12 +1,15 @@
 <div id="<%= id %>" class="col l4 m6 s12 gallery-item gallery-expand gallery-filter polygon">
   <div class="gallery-curve-wrapper">
-    <a class="gallery-cover gray">
-      <% if image && image.length>0 %>
-        <%= image_tag image %>
-      <% end %>
-    </a>
+    <div class="gallery-cover gray">
+      <%= image_tag image %>
+      <% puts("#{name}:#{image}")%>
+    </div>
     <div class="gallery-header">
-      <span><%= name %></span>
+      <span class="gallery-header-title"><%= name %></span>
+      <div class="gallery-header-intro"><%= address %></div>
+      <% starN = (reviews.size) + (comments.size/5)%>
+      <% starN = starN.floor() %>
+      <div class="stars-<%=starN%> gallery-header-rating"><span>熱門程度 </span></div>
     </div>
     <div class="gallery-body">
       <div class="title-wrapper">
@@ -24,47 +27,44 @@
         <%= description %></p>
       <div class="spot-show-tags">
         <label>
-          景點標籤：
+          主題：
           <% categories.each do |c|%>
           <%= c.tag_name%>
           <%=","%>
           <%end%>
+        </label>
+        <label>
+          <div class="stars-<%=starN%>"><span>熱門程度 </span></div>
         </label>
       </div>
       <hr style="max-width: 600px; margin-top: 24px;margin-bottom: 24px;">
 
       <div class="spot-reviews-title">
         <h5 style="display: inline-block;">精選遊記</h5>
-        <%= link_to "我要投稿", new_attraction_review_path(attraction_id: id), target: :_blank, class: "btn btn-small"  if !current_user.has_review?(id) %>
-        <%= link_to "再次投稿", new_attraction_review_path(attraction_id: id), target: :_blank, class: "btn btn-small"  if current_user.has_passed_review?(id) %>
-        <%= link_to "投稿審核中", "#", class: "btn disabled"  if current_user.has_pending_review?(id) %>
       </div>
 
-      <div class="row " id="spot-reviews">
-        <% if reviews.length>0 %>
+      <div class="row" id="spot-reviews">
+        <% if reviews.size > 0 %>
         <div class="col s11 offset-m1 m8 review-cards-wrapper">
-            <% reviews.each do |review| %>
+          <% reviews.each do |review| %>
             <div class="card horizontal reviews-card">
-              <div class="card-image">
-                <% if review.images.length>0 %>
-                  <%= image_tag review.images.first %>
-                <%end%>
+              <div class="card-image" style="background-image: url('<%= image_path(review.images.first) %>')">
+                <img src="" alt="" style="width: 300px;height: 300px;">
               </div>
               <%= link_to attraction_review_path(review.attraction, review), target: :_blank do %>
                 <div class="card-stacked">
                   <div class="card-content">
                     <p>
-                      [<%= review.attraction.name%>]- <%= review.title%>
+                      [<%= review.attraction.name%>]- <%= review.title %>
                     </p>
                     <label>
-                      <%=review.user.name%>建立於<%=time_ago_in_words review.updated_at %>
+                      <%= review.user.name %>建立於<%= time_ago_in_words review.updated_at %>
                     </label>
                   </div>
-              </div>
-              <%end%>
+                </div>
+              <% end%>
             </div>
-            <%end %>
-
+          <% end %>
         </div>
         <% else %>
         <p>尚未有遊記發布</p>
@@ -72,54 +72,51 @@
       </div>
 
       <h5>討論留言區</h5>
-<form>
-  <div class="input-field inline" style="min-width: 400px;">
-    <label for="new-comment-<%=id%>">留言</label>
-    <input type="text" id="new-comment-<%=id%>">
-  </div>
-  <div class="input-field inline">
-    <button id="create-comment-<%=id%>" class="create-comment btn">Create<i class="material-icons right">send</i></button>
-  </div>
-</form>
+      <form onsubmit="return false;">
+        <div class="input-field inline" style="min-width: 400px;">
+          <label for="new-comment-<%= id %>">留言</label>
+          <input type="text" id="new-comment-<%= id %>">
+        </div>
+        <div class="input-field inline">
+          <button id="create-comment-<%= id %>" class="create-comment btn">新增</button>
+        </div>
+      </form>
 
-<table class="highlight bordered responsive-table">
-  <thead>
-    <tr>
-        <th>留言</th>
-        <th>作者</th>
-    </tr>
-  </thead>
-  <tbody id="comment-tbody-<%=id%>" class="comment-tbody">
-    <% comments.each do |c| %>
-    <tr id="comment-<%=c.id%>">
-      <td><p><%=c.content%></p>
-        <% if current_user.has_passed_review?(id) %>
-          <span class="new badge blue" data-badge-caption="visted"></span>
-        <%end%>
-      </td>
-      <td>
-        <%= c.user.name %> (<%=time_ago_in_words c.updated_at %>ago)
-        <% if current_user == c.user %>
-          <a href="#" class="comment-delete">delete</a>
-        <%end%>
-      </td>
-    </tr>
-    <%end %>
-  </tbody>
-</table>
-<div style="height: 120px; width: 120px; background-color: white;">
+      <table class="highlight bordered responsive-table">
+        <thead>
+          <tr>
+            <th>留言</th>
+            <th>作者</th>
+          </tr>
+        </thead>
+        <tbody id="comment-tbody-<%=id%>" class="comment-tbody">
+          <% comments.each do |c| %>
+            <tr id="comment-<%= c.id %>">
+              <td><p><%= c.content %></p>
+                <% if current_user.has_passed_review?(id) %>
+                  <span class="new badge blue" data-badge-caption="visted"></span>
+                <% end%>
+              </td>
+              <td>
+                <%= c.user.name %> ( <%= time_ago_in_words c.updated_at %> ago )
+                <% if current_user == c.user %>
+                  <a href="#" class="comment-delete">刪除</a>
+                <% end%>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div style="height: 120px; width: 120px; background-color: white;"></div>
     </div>
-
-
-</div>
-
-    <div id="like-action-<%=id%>" class="like-action gallery-action">
+    <div id="like-action-<%= id %>" class="like-action gallery-action">
       <% if Attraction.find(id).is_liked?(current_user) %>
-        <a href="#" class="btn-unlike btn-floating btn-large waves-effect waves-light"><i class="material-icons">backspace</i></a>
+        <a title="取消收藏" href="#" class="btn-unlike btn-floating btn-large waves-effect waves-light center">
+          <%= image_tag "noheart.png", style:"width:60%; margin-top:14px;" %>
+        </a>
       <% else %>
-        <a href="#" class="btn-like btn-floating btn-large waves-effect waves-light"><i class="material-icons">favorite</i></a>
+        <a title="收藏景點" href="#" class="btn-like btn-floating btn-large waves-effect waves-light"><i class="material-icons">favorite</i></a>
       <% end %>
     </div>
   </div>
 </div>
-
