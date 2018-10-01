@@ -4,7 +4,9 @@
     <div class="center">
       <h4>所有景點-分類檢視</h4>
     </div>
-
+    <%= link_to root_path, class:"btn blue-grey" do %>
+      返回首頁
+    <%end%>
     <%= search_form_for @ransack, :url => browse_attractions_path, class:"browse-form" do |f| %>
       <% Category.all.each do |c|%>
       <p>
