@@ -88,6 +88,8 @@ GEM
       railties (>= 4.1.0, < 6.0)
       responders
       warden (~> 1.2.3)
+    devise-i18n (1.6.1)
+      devise (>= 4.4)
     domain_name (0.5.20170404)
       unf (>= 0.0.5, < 1.0.0)
     erubi (1.7.1)
@@ -200,6 +202,9 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.0.4)
       loofah (~> 2.2, >= 2.2.2)
+    rails-i18n (5.1.1)
+      i18n (>= 0.7, < 2)
+      railties (>= 5.0, < 6)
     railties (5.1.6)
       actionpack (= 5.1.6)
       activesupport (= 5.1.6)
@@ -294,6 +299,7 @@ DEPENDENCIES
   carrierwave
   coffee-rails (~> 4.2)
   devise
+  devise-i18n
   figaro
   google-cloud-vision
   jbuilder (~> 2.5)
@@ -302,6 +308,7 @@ DEPENDENCIES
   mysql2 (< 0.5)
   puma (~> 3.7)
   rails (~> 5.1.6)
+  rails-i18n
   ransack
   rest-client
   sass-rails (~> 5.0)
