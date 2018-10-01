@@ -1,0 +1,35 @@
+zh-TW:
+  activerecord:
+    attributes:
+      attraction:
+        name: '名稱'
+        image: '照片'
+        description: '描述'
+        address: '地址'
+        lat: '緯度'
+        lng: '經度'
+        region: '地區'
+      category:
+        tag_name: '名稱'
+      comment:
+        content: '內容'
+      list_attraction:
+        duration: '時間'
+      list:
+        origin: '出發地點'
+        origin_lat: '出發地點緯度'
+        origin_lng: '出發地點經度'
+        search_params: '搜尋條件'
+      review:
+        content: '內容'
+        images: '照片集'
+        suggestion: '建議主題'
+        status: '狀態'
+        title: '標題'
+    models:
+      attraction: '景點'
+      category: '主題'
+      comment: '留言'
+      list: '搜尋紀錄'
+      review: '遊記'
+      user: '使用者'
