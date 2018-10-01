@@ -1,10 +1,15 @@
 <div id="<%= id %>" class="col l4 m6 s12 gallery-item gallery-expand gallery-filter polygon">
   <div class="gallery-curve-wrapper">
-    <a class="gallery-cover gray">
+    <div class="gallery-cover gray">
       <%= image_tag image %>
-    </a>
+      <% puts("#{name}:#{image}")%>
+    </div>
     <div class="gallery-header">
-      <span><%= name %></span>
+      <span class="gallery-header-title"><%= name %></span>
+      <div class="gallery-header-intro"><%= address %></div>
+      <% starN = (reviews.size) + (comments.size/5)%>
+      <% starN = starN.floor() %>
+      <div class="stars-<%=starN%> gallery-header-rating"><span>熱門程度 </span></div>
     </div>
     <div class="gallery-body">
       <div class="title-wrapper">
@@ -22,11 +27,14 @@
         <%= description %></p>
       <div class="spot-show-tags">
         <label>
-          景點標籤：
+          主題：
           <% categories.each do |c|%>
           <%= c.tag_name%>
           <%=","%>
           <%end%>
+        </label>
+        <label>
+          <div class="stars-<%=starN%>"><span>熱門程度 </span></div>
         </label>
       </div>
       <hr style="max-width: 600px; margin-top: 24px;margin-bottom: 24px;">
@@ -103,11 +111,12 @@
     </div>
     <div id="like-action-<%= id %>" class="like-action gallery-action">
       <% if Attraction.find(id).is_liked?(current_user) %>
-        <a title="取消收藏" href="#" class="btn-unlike btn-floating btn-large waves-effect waves-light"><i class="material-icons">favorite_border</i></a>
+        <a title="取消收藏" href="#" class="btn-unlike btn-floating btn-large waves-effect waves-light center">
+          <%= image_tag "noheart.png", style:"width:60%; margin-top:14px;" %>
+        </a>
       <% else %>
         <a title="收藏景點" href="#" class="btn-like btn-floating btn-large waves-effect waves-light"><i class="material-icons">favorite</i></a>
       <% end %>
     </div>
   </div>
 </div>
-
