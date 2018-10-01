@@ -1,8 +1,9 @@
 <div id="<%= id %>" class="col l4 m6 s12 gallery-item gallery-expand gallery-filter polygon">
   <div class="gallery-curve-wrapper">
-    <a class="gallery-cover gray">
+    <div class="gallery-cover gray">
       <%= image_tag image %>
-    </a>
+      <% puts("#{name}:#{image}")%>
+    </div>
     <div class="gallery-header">
       <span><%= name %></span>
     </div>
