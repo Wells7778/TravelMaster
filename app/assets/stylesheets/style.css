@@ -162,7 +162,7 @@ input[type="file"] {
 
 label {
 	color: grey !important;
-	font-size: 1rem !important;
+	font-size: 14px !important;
 }
 
 #review-fails {
@@ -279,6 +279,27 @@ label {
 
 .review-images img{
 	margin-bottom: 24px;
+}
+
+.browse-form-submit{
+	padding-top: 12px;
+	padding-bottom: 36px;
+}
+
+.browse-form{
+	padding-top: 36px;
+}
+
+.browse-form p{
+	width: 82px;
+	display: inline-block;
+	margin: 0 0;
+	margin-right: 8px;
+	margin-bottom: 12px;
+}
+
+.browse-form p label{
+	padding-left: 25px;
 }
 
 /* 以下後台CSS */
