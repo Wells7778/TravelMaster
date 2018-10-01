@@ -197,7 +197,7 @@ label {
 	max-width: 150px;
 }
 
-#show-review p{
+#show-review .show-text{
 	font-size: 18px;
 	font-weight: 400;
 	padding-top: 24px;
