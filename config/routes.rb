@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       post :destroy_comment, to: "comments#destroy"
       get :new_one, to: "reviews#new_one"
       post :new_one_create, to: "reviews#new_one_create"
+      get :browse
     end
 
     member do

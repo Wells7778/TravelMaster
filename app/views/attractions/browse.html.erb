@@ -1,0 +1,103 @@
+<div id="portfolio" class="section gray">
+  <div class="container">
+    
+    <div class="center">
+      <h4>所有景點-分類檢視</h4>
+    </div>
+    <%= link_to root_path, class:"btn blue-grey" do %>
+      返回首頁
+    <%end%>
+    <%= search_form_for @ransack, :url => browse_attractions_path, class:"browse-form" do |f| %>
+      <% Category.all.each do |c|%>
+      <p>
+        <% if @categories&& @categories.include?(c)%> 
+          <%= check_box_tag "q[categories_id_eq_any][]",c.id, checked:"checked" %>
+        <% else %>
+          <%= check_box_tag "q[categories_id_eq_any][]",c.id%>
+        <% end %>
+        <%= label_tag "q[categories_id_eq_any][#{c.id}]", c.tag_name %>
+      </p>
+      <% end %>
+      <p>
+        <span id="check-all">全部勾選</span>
+      </p>
+      <p>
+        <span id="uncheck-all">全部取消</span>
+      </p>
+      <div class="center browse-form-submit">
+      <%= f.submit "開始搜尋", class:"btn" %>
+      </div>
+    <%end%>
+
+    <div class="gallery row">
+      <% if @attractions && @attractions.size > 0 %>
+        <% @attractions.each do |spot| %>
+        <%= render partial: "spot", locals: { id:spot.id,
+                                              name: spot.name,
+                                              image: spot.image,
+                                              address: spot.address,
+                                              comments: spot.comments,
+                                              lat: spot.lat,
+                                              lng: spot.lng,
+                                              description: spot.description,
+                                              list: @list,
+                                              reviews: spot.reviews.passed,
+                                              categories: spot.categories } %>
+        <% end %>
+      <% else %>
+        不好意思，沒有搜尋結果，請重新嘗試！
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= javascript_tag do %>
+  $(function(){
+
+    <%#客製 layout 的變數%>
+    $("#mainnav-1").addClass('active');
+    $("#sidenav-1").addClass('active');
+
+    $("#nav-bg-img").css("background-image","url(<%= asset_path 'rock.jpg' %>)");
+    $("#nav-header-h1").text("想出門走走？馬上開始");
+    $("#nav-header-tag").text("找尋景點好幫手");
+  });
+<%end %>
+
+<script>
+$(function(){
+
+  $('.gallery-expand').galleryExpand({
+  });
+
+  $("input[type='checkbox']").each(function() {
+    var val = $(this).val();
+    $(this).attr('id', "q_categories_id_eq_any_"+val);
+    $(this).addClass("filled-in");
+  });
+
+  var $masonry = $('.gallery');
+  $masonry.masonry({
+    // set itemSelector so .grid-sizer is not used in layout
+    itemSelector: '.gallery-item',
+    // use element for option
+    columnWidth: '.gallery-item',
+  });
+  // layout Masonry after each image loads
+  $masonry.imagesLoaded(function() {
+    $masonry.masonry('layout');
+  });
+
+  $(".browse-form").on("click","#check-all", function(){
+    $("input[type='checkbox']").each(function() {
+      $(this).prop("checked",true);
+    });
+  });
+  $(".browse-form").on("click","#uncheck-all", function(){
+    $("input[type='checkbox']").each(function() {
+      $(this).prop("checked",false);
+    });
+  });
+
+});
+</script>

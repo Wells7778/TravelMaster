@@ -5,13 +5,16 @@
     </div>
     <div class="card">
       <div class="card-content">
+        <%= link_to reviews_path, class:"btn blue-grey", style:"margin-top: -60px;" do %>
+          返回首頁
+        <%end%>
 				<h5>
           <%= link_to attraction_path(@review.attraction), target: :_blank do %>
           [<%= @review.attraction.name %>]
           <%end%>
           - <%= @review.title%></h5>
 				<%=@review.user.name%>建立於<%=time_ago_in_words @review.updated_at %>
-				<p><%= @review.content %></p>
+				<p class="show-text"><%= @review.content %></p>
 				<div class="review-images center">
 					<% @review.images.each do |image| %>
 					  <%= image_tag image %>
@@ -37,7 +40,7 @@
                       <%=review.user.name%>建立於<%=time_ago_in_words review.updated_at %>
                     </label>
                   </div>
-              </div>
+                </div>
               <%end%>
             </div>
           <%end%>

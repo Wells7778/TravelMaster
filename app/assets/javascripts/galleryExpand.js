@@ -741,7 +741,10 @@
 
               // Remove active class
               origin.removeClass('active');
-              history.pushState({},"","/"); //客製 改變URL
+              if (window.location.pathname.includes("browse")){
+              }else{
+                history.pushState({},"","/"); //客製 改變URL
+              };
 
               // Enable origin to be clickable once return animation finishes.
               originClickable = true;
