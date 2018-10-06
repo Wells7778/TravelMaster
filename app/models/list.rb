@@ -71,6 +71,6 @@ class List < ApplicationRecord
       i += 1
     end
     # 結果把符合旅行時間的元素留下後回傳陣列
-    return result.select{ |e| e[:travel_time] <= self.travel_time }
+    return result.select{ |e| e[:travel_time] <= self.travel_time }.sort_by { |element| element[:travel_time] }
   end
 end
