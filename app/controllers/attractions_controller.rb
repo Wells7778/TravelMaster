@@ -16,7 +16,8 @@ class AttractionsController < ApplicationController
       @way_check = 3
       @search_tags = @list.travel_tag
       @search_location = @list.origin
-      @attractions = @list.attractions.includes(:categories_attractions, :categories)
+      @attractions = @list.attractions.includes(:categories_attractions, :categories, :list_attractions)
+                                      .order("list_attractions.id asc")
     else
       #進入首頁方式2 Show action
       if flash[:show_id] #從Show action進來
@@ -30,13 +31,13 @@ class AttractionsController < ApplicationController
       #進入首頁方式3 Search action
       elsif flash[:search] #從Search action進來
         @way_check = 3
-        #以下兩個參數是Search的結果，再看後端要怎摸樣吐景點回來，複寫 @attractions 即可
         @list = current_user.lists.last
+        #以下兩個參數是Search的結果，再看後端要怎摸樣吐景點回來，複寫 @attractions 即可
         @search_tags = @list.travel_tag
         @search_location = @list.origin
         # 搜尋結果直接存在list裏
-        @list = current_user.lists.last
-        @attractions = @list.attractions.includes(:categories_attractions, :categories)
+        @attractions = @list.attractions.includes(:categories_attractions, :categories, :list_attractions)
+                                        .order("list_attractions.id asc")
       end
     end
   end
