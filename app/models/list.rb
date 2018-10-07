@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: lists
+#
+#  id            :integer          not null, primary key
+#  origin        :string           not null
+#  origin_lat    :float
+#  origin_lng    :float
+#  search_params :text
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  user_id       :integer
+#
+
 class List < ApplicationRecord
   has_many :list_attractions, dependent: :destroy
   has_many :attractions, through: :list_attractions

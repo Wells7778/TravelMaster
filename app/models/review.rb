@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: reviews
+#
+#  id            :integer          not null, primary key
+#  content       :text
+#  images        :text
+#  suggestion    :string
+#  status        :string           default("pending"), not null
+#  attraction_id :integer
+#  user_id       :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  title         :string
+#
+
 class Review < ApplicationRecord
   belongs_to :attraction
   belongs_to :user
