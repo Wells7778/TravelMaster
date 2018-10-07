@@ -128,7 +128,8 @@
                                               description: spot.description,
                                               list: @list,
                                               reviews: spot.reviews.passed,
-                                              categories: spot.categories } %>
+                                              categories: spot.categories,
+                                              near_by: spot.near_by } %>
         <% end %>
       <% else %>
         不好意思，沒有搜尋結果，請重新嘗試！
@@ -145,7 +146,8 @@
                                               description: spot.description,
                                               list: @list,
                                               reviews: spot.reviews.passed,
-                                              categories: spot.categories } %>
+                                              categories: spot.categories,
+                                              near_by: spot.near_by } %>
       <% end %>
     </div>
     <% if @way_check == 3 %>
@@ -359,7 +361,7 @@ $(function(){
     event.preventDefault();
     if ( event.target.parentNode.parentNode.id=="" ){
       var id = event.target.parentNode.id.slice(12,);
-    }else { 
+    }else {
       var id = event.target.parentNode.parentNode.id.slice(12,);
     };
     $.ajax({
@@ -474,15 +476,15 @@ $(function(){
     stars = parseInt(stars);
     if(!isNaN(stars)){
       if(stars <= 5){
-        for (i = 0; i < stars; i++) { 
+        for (i = 0; i < stars; i++) {
           $(this).append( "<i class='material-icons'>star</i>" );
         };
-        for (i = 0; i < (5-stars); i++) { 
+        for (i = 0; i < (5-stars); i++) {
           $(this).append( "<i class='material-icons'>star_border</i>" );
         };
       }else {
           $(this).append( "<i class='material-icons'>star</i><i class='material-icons'>star</i><i class='material-icons'>star</i><i class='material-icons'>star</i><i class='material-icons'>star</i>" );
-      };      
+      };
     };
   });
 

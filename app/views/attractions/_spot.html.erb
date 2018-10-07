@@ -35,9 +35,15 @@
         <label>
           主題：
           <% categories.each do |c|%>
-          <%= c.tag_name%>
-          <%=","%>
-          <%end%>
+            <%= link_to c.tag_name, attractions_path(category_id: c.id), target: "_blank" %>,
+          <% end %>
+        </label>
+        <br/>
+        <label>
+          附近景點：
+          <% near_by.each do |n| %>
+            <%= link_to show_near_by(n), attraction_path(id: n), target: "_blank" %>,
+          <% end %>
         </label>
         <label>
           <div class="stars-<%=starN%>"><span>熱門程度 </span></div>

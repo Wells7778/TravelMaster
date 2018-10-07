@@ -10,7 +10,7 @@ class AttractionsController < ApplicationController
     if params[:category_id]
       @way_check = 1 #用來搭配view 顯示 避免出錯
       @category = Category.find(params[:category_id])
-      @attractions = @category.attractions.inclouds(:reviews)
+      @attractions = @category.attractions.includes(:reviews)
     elsif params[:list_id]
       @list = List.find_by(id: params[:list_id])
       @way_check = 3
