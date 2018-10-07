@@ -275,9 +275,13 @@ $(function(){
 
   //開始旅程按鈕 啟動openSearch()
   $( "#open-search" ).click(function() {
-    $( "#starter" ).toggle();
-    $( "#function" ).slideDown( "slow" );
-    openSearch();
+    if ('<%= current_user %>') {
+      $( "#starter" ).toggle();
+      $( "#function" ).slideDown( "slow" );
+      openSearch();
+    } else {
+      window.location.assign('http://localhost:3000/users/sign_in');
+    }
   });
 
   //送出表單時的click 進行資料清洗

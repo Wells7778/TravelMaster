@@ -8,11 +8,11 @@ class AttractionsController < ApplicationController
     @comment = Comment.new
 
     #進入首頁方式1 分類
-    if params[:category_id]
+    if params[:category_id] && current_user
       @way_check = 1 #用來搭配view 顯示 避免出錯
       @category = Category.find(params[:category_id])
       @attractions = @category.attractions.includes(:reviews)
-    elsif params[:list_id]
+    elsif params[:list_id] && current_user
       @list = List.find_by(id: params[:list_id])
       @way_check = 3
       @search_tags = @list.travel_tag
