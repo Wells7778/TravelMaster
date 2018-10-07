@@ -1,4 +1,5 @@
 class AttractionsController < ApplicationController
+  before_action :authenticate_user!, except: :index
   before_action :set_tags
 
   def index
