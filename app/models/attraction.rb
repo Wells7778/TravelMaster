@@ -16,6 +16,8 @@ class Attraction < ApplicationRecord
   # comment 多對多關聯
   has_many :comments
 
+  serialize :near_by, Array
+
   def is_liked?(user)
     self.liked_users.include?(user)
   end
