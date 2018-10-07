@@ -99,7 +99,7 @@
           <% comments.each do |c| %>
             <tr id="comment-<%= c.id %>">
               <td><p><%= c.content %></p>
-                <% if current_user.has_passed_review?(id) %>
+                <% if c.user.has_passed_review?(id) %>
                   <span class="new badge blue" data-badge-caption="visted"></span>
                 <% end%>
               </td>
