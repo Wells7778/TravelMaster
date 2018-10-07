@@ -281,7 +281,7 @@ $(function(){
   //送出表單時的click 進行資料清洗
   $( ".main-input .submit" ).click(function() {
     //tags從materialtags 的功能來讀取值
-    $("#search_tags").val($("input").materialtags('items')[1]);
+    $("#search_tags").val($("#tags-input").materialtags('items'));
     //$("#search_location").val(x);
     //安全因素 被chrome擋掉了 沒辦法測試
   });
