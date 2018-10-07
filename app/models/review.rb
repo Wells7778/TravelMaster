@@ -31,6 +31,8 @@ class Review < ApplicationRecord
     reject: '審核退回'
   }
 
+  after_save :update_reviews_count
+
   def detect_landmark
     project_id = 'alphacampdemoday2'
     vision = Google::Cloud::Vision.new project: project_id
@@ -39,7 +41,6 @@ class Review < ApplicationRecord
     avatars.each do |avatar|
       img_path.push(avatar.file.path)
     end
-    puts img_path
     @result = []
     img_path.each do |path|
       image = vision.image path
@@ -48,5 +49,11 @@ class Review < ApplicationRecord
     end
     return @result
   end
+
+  private
+  def update_reviews_count
+    self.attraction.update(reviews_count: self.attraction.reviews_count + 1) if self.status == "passed"
+  end
+
 
 end
