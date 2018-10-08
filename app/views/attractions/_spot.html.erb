@@ -35,7 +35,7 @@
         <label>
           主題：
           <% categories.each do |c|%>
-            <%= link_to c.tag_name, attractions_path(category_id: c.id), target: "_blank" %>,
+            <%= link_to c.tag_name, browse_attractions_path(q: { categories_id_eq_any: c.id}), target: "_blank" %>,
           <% end %>
         </label>
         <br/>

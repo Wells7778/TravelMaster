@@ -1,6 +1,6 @@
 <div id="portfolio" class="section gray">
   <div class="container">
-    
+
     <div class="center">
       <h4>所有景點-分類檢視</h4>
     </div>
@@ -10,7 +10,7 @@
     <%= search_form_for @ransack, :url => browse_attractions_path, class:"browse-form" do |f| %>
       <% Category.all.each do |c|%>
       <p>
-        <% if @categories&& @categories.include?(c)%> 
+        <% if @categories&& @categories.include?(c)%>
           <%= check_box_tag "q[categories_id_eq_any][]",c.id, checked:"checked" %>
         <% else %>
           <%= check_box_tag "q[categories_id_eq_any][]",c.id%>
@@ -42,7 +42,8 @@
                                               description: spot.description,
                                               list: @list,
                                               reviews: spot.reviews.passed,
-                                              categories: spot.categories } %>
+                                              categories: spot.categories,
+                                              near_by: spot.near_by } %>
         <% end %>
       <% else %>
         不好意思，沒有搜尋結果，請重新嘗試！
