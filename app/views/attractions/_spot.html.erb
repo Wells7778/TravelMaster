@@ -35,9 +35,20 @@
         <label>
           主題：
           <% categories.each do |c|%>
-          <%= c.tag_name%>
-          <%=","%>
-          <%end%>
+            <%= link_to c.tag_name, browse_attractions_path(q: { categories_id_eq_any: c.id}), target: "_blank" %>
+          <% end %>
+        </label>
+        <br/>
+        <label class="near-by-<%= id %>">
+          附近景點(<%= near_by.size %>)：
+          <% near_by.each_with_index do |n,i| %>
+            <% if i > 5 %>
+              <%= link_to show_near_by(n), attraction_path(id: n), target: "_blank", class:"hided", style: "display:none;" %>
+            <% else %>
+              <%= link_to show_near_by(n), attraction_path(id: n), target: "_blank" %>
+            <% end %>
+          <% end %>
+          <a href="#" id="more-spot">more...</a>
         </label>
         <label>
           <div class="stars-<%=starN%>"><span>熱門程度 </span></div>
@@ -126,3 +137,21 @@
     </div>
   </div>
 </div>
+
+
+<script>
+  $(document).ready(function () {
+    $(".near-by-" + "<%= id %>").on("click", "#more-spot",function(e) {
+      e.preventDefault();
+      $(".near-by-" + "<%= id %>").find(".hided").show();
+      $(".near-by-" + "<%= id %>").find("#more-spot").remove();
+      $(".near-by-" + "<%= id %>").append(`<a href="#" id="hide-spot">...hide</a>`);
+    });
+    $(".near-by-" + "<%= id %>").on("click", "#hide-spot",function(e) {
+      e.preventDefault();
+      $(".near-by-" + "<%= id %>").find(".hided").hide();
+      $(".near-by-" + "<%= id %>").find("#hide-spot").remove();
+      $(".near-by-" + "<%= id %>").append(`<a href="#" id="more-spot">more...</a>`);
+    });
+  })
+</script>

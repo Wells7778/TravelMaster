@@ -1,17 +1,18 @@
 class AttractionsController < ApplicationController
+  before_action :authenticate_user!, except: :index
   before_action :set_tags
 
   def index
     @categories = Category.all.order("attractions_count desc")
-    @attractions = Attraction.includes(:categories_attractions, :categories).order("created_at").limit(6) #attractions以熱門景點為基礎
+    @attractions = Attraction.order("reviews_count desc").includes(:categories_attractions, :categories).limit(6) #attractions以熱門景點為基礎
     @comment = Comment.new
 
     #進入首頁方式1 分類
-    if params[:category_id]
+    if params[:category_id] && current_user
       @way_check = 1 #用來搭配view 顯示 避免出錯
       @category = Category.find(params[:category_id])
-      @attractions = @category.attractions.inclouds(:reviews)
-    elsif params[:list_id]
+      @attractions = @category.attractions.includes(:reviews)
+    elsif params[:list_id] && current_user
       @list = List.find_by(id: params[:list_id])
       @way_check = 3
       @search_tags = @list.travel_tag
