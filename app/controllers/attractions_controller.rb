@@ -12,13 +12,6 @@ class AttractionsController < ApplicationController
       @way_check = 1 #用來搭配view 顯示 避免出錯
       @category = Category.find(params[:category_id])
       @attractions = @category.attractions.includes(:reviews)
-    elsif params[:list_id] && current_user
-      @list = List.find_by(id: params[:list_id])
-      @way_check = 3
-      @search_tags = @list.travel_tag
-      @search_location = @list.origin
-      @attractions = @list.attractions.includes(:categories_attractions, :categories, :list_attractions)
-                                      .order("list_attractions.id asc")
     end
   end
 
