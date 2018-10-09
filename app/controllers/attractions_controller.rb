@@ -64,6 +64,7 @@ class AttractionsController < ApplicationController
           @list.list_attractions.create(attraction_id: result[:attraction_id], duration: result[:travel_text])
         end
       end
+      @comment = Comment.new
       @way_check = 3
       #以下兩個參數是Search的結果，再看後端要怎摸樣吐景點回來，複寫 @attractions 即可
       @search_tags = @list.travel_tag
