@@ -3,15 +3,17 @@ class AttractionsController < ApplicationController
   before_action :set_tags
 
   def index
-    @categories = Category.all.order("attractions_count desc")
-    @attractions = Attraction.order("reviews_count desc").includes(:categories_attractions, :categories).limit(6) #attractions以熱門景點為基礎
     @comment = Comment.new
 
+    #進入首頁方式0 僅顯示熱門景點
+    @attractions = Attraction.order("reviews_count desc").includes(:categories_attractions, :categories).limit(6) #attractions以熱門景點為基礎
     #進入首頁方式1 分類
+    @categories = Category.all.order("attractions_count desc")
     if params[:category_id] && current_user
       @way_check = 1 #用來搭配view 顯示 避免出錯
       @category = Category.find(params[:category_id])
       @attractions = @category.attractions.includes(:reviews)
+    #進入首頁方式3 搜尋紀錄
     elsif params[:list_id] && current_user
       @list = List.find_by(id: params[:list_id])
       @way_check = 3
@@ -19,39 +21,25 @@ class AttractionsController < ApplicationController
       @search_location = @list.origin
       @attractions = @list.attractions.includes(:categories_attractions, :categories, :list_attractions)
                                       .order("list_attractions.id asc")
-    else
-      #進入首頁方式2 Show action
-      if flash[:show_id] #從Show action進來
-        @way_check = 2
-        @show_id = flash[:show_id]
-        if !@attractions.include?(Attraction.find(flash[:show_id]))
-          @attractions = @attractions.take 5
-          @show = Attraction.find(flash[:show_id])
-        end
-        #@attractions.merge(Attraction.where(id: flash[:show_id]))
-      #進入首頁方式3 Search action
-      elsif flash[:search] #從Search action進來
-        @way_check = 3
-        @list = current_user.lists.last
-        #以下兩個參數是Search的結果，再看後端要怎摸樣吐景點回來，複寫 @attractions 即可
-        @search_tags = @list.travel_tag
-        @search_location = @list.origin
-        # 搜尋結果直接存在list裏
-        @attractions = @list.attractions.includes(:categories_attractions, :categories, :list_attractions)
-                                        .order("list_attractions.id asc")
-      end
     end
   end
 
   def show
-    @attraction = Attraction.find(params[:id])
     @comment = Comment.new
-    flash[:show_id] = params[:id] #用來傳遞變數
-    redirect_to root_path
+
+    #進入首頁的方法2 單一景點顯示
+    @way_check = 2
+    @attractions = Attraction.order("reviews_count desc").includes(:categories_attractions, :categories).limit(5)
+    @attractions = @attractions.where.not(id: params[:id])
+    @show = Attraction.find(params[:id])
+    render :index
   end
 
   def search
-    flash[:search] = search_params #用來傳遞變數
+    @comment = Comment.new
+
+    #進入首頁的方法3 搜尋結果
+    @way_check = 3
     # 如果無法取得裝置經緯度且為輸入地址就跳出無法搜尋
     if search_params[:location].blank? && search_params[:geo_location].blank?
       flash[:search] = nil
@@ -64,7 +52,7 @@ class AttractionsController < ApplicationController
       @vibe_tag = []
       search_params[:tags].split(",").each do |tag|
         @travel_tag = Attraction::TRAFFIC[tag] if Attraction::TRAFFIC.has_key?(tag)
-        @vibe_tag << tag if Attraction::VIBE.include?(tag)
+        @vibe_tag << tag if Category.order("attractions_count desc").pluck(:tag_name).include?(tag)
         @travel_time = Attraction::TRAVELTIME[tag] if Attraction::TRAVELTIME.has_key?(tag)
       end
       # 預設開車、旅行時間一小時
@@ -84,7 +72,13 @@ class AttractionsController < ApplicationController
           @list.list_attractions.create(attraction_id: result[:attraction_id], duration: result[:travel_text])
         end
       end
-      redirect_to root_path
+      #以下兩個參數是Search的結果，再看後端要怎摸樣吐景點回來，複寫 @attractions 即可
+      @search_tags = @list.travel_tag
+      @search_location = @list.origin
+      # 搜尋結果直接存在list裏
+      @attractions = @list.attractions.includes(:categories_attractions, :categories, :list_attractions)
+                                      .order("list_attractions.id asc")
+      render :index
     end
   end
 
@@ -134,7 +128,7 @@ class AttractionsController < ApplicationController
 
     def set_tags #把我們要的TAG都放在這邊
       @traffic_tags = Attraction::TRAFFIC.keys
-      @vibe_tags = Attraction::VIBE
+      @vibe_tags = Category.order("attractions_count desc").pluck(:tag_name)
       @time_tags = Attraction::TRAVELTIME.keys
     end
 end
