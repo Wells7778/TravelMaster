@@ -44,7 +44,7 @@ class AttractionsController < ApplicationController
       @vibe_tag = []
       search_params[:tags].split(",").each do |tag|
         @travel_tag = Attraction::TRAFFIC[tag] if Attraction::TRAFFIC.has_key?(tag)
-        @vibe_tag << tag if Attraction::VIBE.include?(tag)
+        @vibe_tag << tag if Category.order("attractions_count desc").pluck(:tag_name).include?(tag)
         @travel_time = Attraction::TRAVELTIME[tag] if Attraction::TRAVELTIME.has_key?(tag)
       end
       # 預設開車、旅行時間一小時
@@ -121,7 +121,7 @@ class AttractionsController < ApplicationController
 
     def set_tags #把我們要的TAG都放在這邊
       @traffic_tags = Attraction::TRAFFIC.keys
-      @vibe_tags = Attraction::VIBE
+      @vibe_tags = Category.order("attractions_count desc").pluck(:tag_name)
       @time_tags = Attraction::TRAVELTIME.keys
     end
 end

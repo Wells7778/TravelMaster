@@ -7,7 +7,7 @@
       <span class="gallery-header-title"><%= spot.name %></span>
       <div class="gallery-header-intro">
         <% if list %>
-          旅行時間 <%= list.list_attractions.where(attraction_id: id).first.duration %>
+          旅行時間 <%= list.list_attractions.where(attraction_id: spot.id).first.duration %>
         <% else %>
           <%= spot.address %>
         <%end%>
@@ -20,7 +20,7 @@
       <div class="title-wrapper">
         <h3><%= spot.name %></h3>
         <% if list %>
-          <h5>旅行時間 <%= list.list_attractions.where(attraction_id: id).first.duration %></h5>
+          <h5>旅行時間 <%= list.list_attractions.where(attraction_id: spot.id).first.duration %></h5>
         <% end %>
         <span class="price"><%= spot.address %></span>
         <% if list %>
@@ -109,7 +109,7 @@
           <% spot.comments.each do |c| %>
             <tr id="comment-<%= c.id %>">
               <td><p><%= c.content %></p>
-                <% if c.user.has_passed_review?(id) %>
+                <% if c.user.has_passed_review?(spot.id) %>
                   <span class="new badge blue" data-badge-caption="visted"></span>
                 <% end%>
               </td>

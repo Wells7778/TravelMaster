@@ -49,7 +49,6 @@ class Attraction < ApplicationRecord
               "單車" => "bicycling",
               "步行" => "walking"
   }
-  VIBE = Category.order("attractions_count desc").pluck(:tag_name)
   TRAVELTIME = { "半小時" => 1800,
                  "一小時" => 3600,
                  "兩小時" => 7200,
