@@ -3,11 +3,12 @@ class AttractionsController < ApplicationController
   before_action :set_tags
 
   def index
-    @categories = Category.all.order("attractions_count desc")
-    @attractions = Attraction.order("reviews_count desc").includes(:categories_attractions, :categories).limit(6) #attractions以熱門景點為基礎
     @comment = Comment.new
 
+    #進入首頁方式0 僅顯示熱門景點
+    @attractions = Attraction.order("reviews_count desc").includes(:categories_attractions, :categories).limit(6) #attractions以熱門景點為基礎
     #進入首頁方式1 分類
+    @categories = Category.all.order("attractions_count desc")
     if params[:category_id] && current_user
       @way_check = 1 #用來搭配view 顯示 避免出錯
       @category = Category.find(params[:category_id])
@@ -16,15 +17,21 @@ class AttractionsController < ApplicationController
   end
 
   def show
+    @comment = Comment.new
+
+    #進入首頁的方法2 單一景點顯示
+    @way_check = 2
     @attractions = Attraction.order("reviews_count desc").includes(:categories_attractions, :categories).limit(5)
     @attractions = @attractions.where.not(id: params[:id])
-    @comment = Comment.new
-    @way_check = 2
     @show = Attraction.find(params[:id])
     render :index
   end
 
   def search
+    @comment = Comment.new
+
+    #進入首頁的方法3 搜尋結果
+    @way_check = 3
     # 如果無法取得裝置經緯度且為輸入地址就跳出無法搜尋
     if search_params[:location].blank? && search_params[:geo_location].blank?
       flash[:search] = nil
@@ -57,8 +64,6 @@ class AttractionsController < ApplicationController
           @list.list_attractions.create(attraction_id: result[:attraction_id], duration: result[:travel_text])
         end
       end
-      @comment = Comment.new
-      @way_check = 3
       #以下兩個參數是Search的結果，再看後端要怎摸樣吐景點回來，複寫 @attractions 即可
       @search_tags = @list.travel_tag
       @search_location = @list.origin
