@@ -1,22 +1,19 @@
 <div id="portfolio" class="section gray">
   <div class="container">
-
     <div class="center">
       <h4>所有景點-分類檢視</h4>
     </div>
-    <%= link_to root_path, class:"btn blue-grey" do %>
-      返回首頁
-    <%end%>
-    <%= search_form_for @ransack, :url => browse_attractions_path, class:"browse-form" do |f| %>
+    <%= link_to "返回首頁", root_path, class: "btn blue-grey" %>
+    <%= search_form_for @ransack, :url => browse_attractions_path, class: "browse-form" do |f| %>
       <% Category.all.each do |c|%>
-      <p>
-        <% if @categories&& @categories.include?(c)%>
-          <%= check_box_tag "q[categories_id_eq_any][]",c.id, checked:"checked" %>
-        <% else %>
-          <%= check_box_tag "q[categories_id_eq_any][]",c.id%>
-        <% end %>
-        <%= label_tag "q[categories_id_eq_any][#{c.id}]", c.tag_name %>
-      </p>
+        <p>
+          <% if @categories && @categories.include?(c)%>
+            <%= check_box_tag "q[categories_id_eq_any][]", c.id, checked: "checked" %>
+          <% else %>
+            <%= check_box_tag "q[categories_id_eq_any][]", c.id %>
+          <% end %>
+          <%= label_tag "q[categories_id_eq_any][#{c.id}]", c.tag_name %>
+        </p>
       <% end %>
       <p>
         <span id="check-all">全部勾選</span>
@@ -25,25 +22,13 @@
         <span id="uncheck-all">全部取消</span>
       </p>
       <div class="center browse-form-submit">
-      <%= f.submit "開始搜尋", class:"btn" %>
+        <%= f.submit "開始搜尋", class:"btn" %>
       </div>
-    <%end%>
-
+    <% end %>
     <div class="gallery row">
       <% if @attractions && @attractions.size > 0 %>
         <% @attractions.each do |spot| %>
-        <%= render partial: "spot", locals: { id:spot.id,
-                                              name: spot.name,
-                                              image: spot.image,
-                                              address: spot.address,
-                                              comments: spot.comments,
-                                              lat: spot.lat,
-                                              lng: spot.lng,
-                                              description: spot.description,
-                                              list: @list,
-                                              reviews: spot.reviews.passed,
-                                              categories: spot.categories,
-                                              near_by: spot.near_by } %>
+          <%= render partial: "spot", locals: { spot: spot, list: @list } %>
         <% end %>
       <% else %>
         不好意思，沒有搜尋結果，請重新嘗試！
@@ -63,8 +48,7 @@
     $("#nav-header-h1").text("想出門走走？馬上開始");
     $("#nav-header-tag").text("找尋景點好幫手");
   });
-<%end %>
-
+<% end %>
 <script>
 $(function(){
 
@@ -73,7 +57,7 @@ $(function(){
 
   $("input[type='checkbox']").each(function() {
     var val = $(this).val();
-    $(this).attr('id', "q_categories_id_eq_any_"+val);
+    $(this).attr('id', "q_categories_id_eq_any_" + val);
     $(this).addClass("filled-in");
   });
 
@@ -106,17 +90,16 @@ $(function(){
     stars = parseInt(stars);
     if(!isNaN(stars)){
       if(stars <= 5){
-        for (i = 0; i < stars; i++) { 
+        for (i = 0; i < stars; i++) {
           $(this).append( "<i class='material-icons'>star</i>" );
         };
-        for (i = 0; i < (5-stars); i++) { 
+        for (i = 0; i < (5-stars); i++) {
           $(this).append( "<i class='material-icons'>star_border</i>" );
         };
       }else {
           $(this).append( "<i class='material-icons'>star</i><i class='material-icons'>star</i><i class='material-icons'>star</i><i class='material-icons'>star</i><i class='material-icons'>star</i>" );
-      };      
+      };
     };
   });
-
 });
 </script>
