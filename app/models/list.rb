@@ -39,37 +39,37 @@ class List < ApplicationRecord
   def search_attraction(tag_name)
     url = 'https://maps.googleapis.com/maps/api/distancematrix/json'
     key = $settings['secret']
-    @lat = self.origin_lat if self.origin_lat
-    @lng = self.origin_lng if self.origin_lng
-    @origin = "#{@lat},#{@lng}"
-    @mode = self.travel_mode.nil? ? "driving" : self.travel_mode
+    lat = self.origin_lat if self.origin_lat
+    lng = self.origin_lng if self.origin_lng
+    origin = "#{lat},#{lng}"
+    mode = self.travel_mode.nil? ? "driving" : self.travel_mode
     # 依照分類先抓出景點清單
-    @destinations = Attraction.where(id: CategoriesAttraction.where(category_id: Category.where(tag_name: tag_name).pluck(:id)).pluck(:attraction_id).uniq)
+    destinations = Attraction.where(id: CategoriesAttraction.where(category_id: Category.where(tag_name: tag_name).pluck(:id)).pluck(:attraction_id).uniq)
     # 因ＡＰＩ一次只能有25個目的地，故先把景點經緯度取出，先做成Array稍後使用
-    dest = @destinations.pluck(:lat, :lng).map { |t| t.join(",")}
+    dest = destinations.pluck(:lat, :lng).map { |t| t.join(",")}
 
     # 用來存搜尋結果
     result = []
     # 把景點id先存進result
-    @destinations.each do |destination|
+    destinations.each do |destination|
       result << { attraction_id: destination.id }
     end
     i = 0
     # 一次送25個景點進去做旅程搜索
     while dest.size > 0
-      @params = { origins: @origin,
+      params = { origins: origin,
                   destinations: dest.slice!(0,25).join("|"),
-                  mode: @mode,
+                  mode: mode,
                   language: 'zh-TW',
                   key: key }
-      if @mode == "bus"
-        @params[:mode] = "transit"
-        @params[:transit_mode] = "bus"
-      elsif @mode == "subway"
-        @params[:mode] = "transit"
-        @params[:transit_mode] = "subway"
+      if mode == "bus"
+        params[:mode] = "transit"
+        params[:transit_mode] = "bus"
+      elsif mode == "subway"
+        params[:mode] = "transit"
+        params[:transit_mode] = "subway"
       end
-      json_rep = RestClient.get url, { params: @params }
+      json_rep = RestClient.get url, { params: params }
       respond = JSON.parse(json_rep)
       res_array = respond['rows'][0]['elements']
       # 把搜尋出來的旅行時間存進result
