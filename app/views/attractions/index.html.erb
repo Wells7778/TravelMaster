@@ -118,36 +118,13 @@
     <div class="gallery row">
       <% if @attractions && @attractions.size > 0 %>
         <% @attractions.each do |spot| %>
-        <%= render partial: "spot", locals: { id:spot.id,
-                                              name: spot.name,
-                                              image: spot.image,
-                                              address: spot.address,
-                                              comments: spot.comments,
-                                              lat: spot.lat,
-                                              lng: spot.lng,
-                                              description: spot.description,
-                                              list: @list,
-                                              reviews: spot.reviews.passed,
-                                              categories: spot.categories,
-                                              near_by: spot.near_by } %>
+        <%= render partial: "spot", locals: { spot: spot, list: @list } %>
         <% end %>
       <% else %>
         不好意思，沒有搜尋結果，請重新嘗試！
       <% end %>
       <% if @show %>
-        <% spot = @show %>
-        <%= render partial: "spot", locals: { id:spot.id,
-                                              name: spot.name,
-                                              image: spot.image,
-                                              address: spot.address,
-                                              comments: spot.comments,
-                                              lat: spot.lat,
-                                              lng: spot.lng,
-                                              description: spot.description,
-                                              list: @list,
-                                              reviews: spot.reviews.passed,
-                                              categories: spot.categories,
-                                              near_by: spot.near_by } %>
+        <%= render partial: "spot", locals: { spot: @show, list: @list } %>
       <% end %>
     </div>
     <% if @way_check == 3 %>
