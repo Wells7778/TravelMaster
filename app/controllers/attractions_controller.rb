@@ -19,39 +19,19 @@ class AttractionsController < ApplicationController
       @search_location = @list.origin
       @attractions = @list.attractions.includes(:categories_attractions, :categories, :list_attractions)
                                       .order("list_attractions.id asc")
-    else
-      #進入首頁方式2 Show action
-      if flash[:show_id] #從Show action進來
-        @way_check = 2
-        @show_id = flash[:show_id]
-        if !@attractions.include?(Attraction.find(flash[:show_id]))
-          @attractions = @attractions.take 5
-          @show = Attraction.find(flash[:show_id])
-        end
-        #@attractions.merge(Attraction.where(id: flash[:show_id]))
-      #進入首頁方式3 Search action
-      elsif flash[:search] #從Search action進來
-        @way_check = 3
-        @list = current_user.lists.last
-        #以下兩個參數是Search的結果，再看後端要怎摸樣吐景點回來，複寫 @attractions 即可
-        @search_tags = @list.travel_tag
-        @search_location = @list.origin
-        # 搜尋結果直接存在list裏
-        @attractions = @list.attractions.includes(:categories_attractions, :categories, :list_attractions)
-                                        .order("list_attractions.id asc")
-      end
     end
   end
 
   def show
     @attraction = Attraction.find(params[:id])
     @comment = Comment.new
-    flash[:show_id] = params[:id] #用來傳遞變數
-    redirect_to root_path
+    @way_check = 2
+    @show_id = params[:id]
+    @show = Attraction.find(@show_id)
+    render :index
   end
 
   def search
-    flash[:search] = search_params #用來傳遞變數
     # 如果無法取得裝置經緯度且為輸入地址就跳出無法搜尋
     if search_params[:location].blank? && search_params[:geo_location].blank?
       flash[:search] = nil
@@ -84,7 +64,14 @@ class AttractionsController < ApplicationController
           @list.list_attractions.create(attraction_id: result[:attraction_id], duration: result[:travel_text])
         end
       end
-      redirect_to root_path
+      @way_check = 3
+      #以下兩個參數是Search的結果，再看後端要怎摸樣吐景點回來，複寫 @attractions 即可
+      @search_tags = @list.travel_tag
+      @search_location = @list.origin
+      # 搜尋結果直接存在list裏
+      @attractions = @list.attractions.includes(:categories_attractions, :categories, :list_attractions)
+                                      .order("list_attractions.id asc")
+      render :index
     end
   end
 
