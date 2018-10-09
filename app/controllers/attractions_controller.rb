@@ -23,11 +23,11 @@ class AttractionsController < ApplicationController
   end
 
   def show
-    @attraction = Attraction.find(params[:id])
+    @attractions = Attraction.order("reviews_count desc").includes(:categories_attractions, :categories).limit(5)
+    @attractions = @attractions.where.not(id: params[:id])
     @comment = Comment.new
     @way_check = 2
-    @show_id = params[:id]
-    @show = Attraction.find(@show_id)
+    @show = Attraction.find(params[:id])
     render :index
   end
 

@@ -149,7 +149,7 @@
     $("#nav-header-tag").text("找尋景點好幫手");
 
     <% if @way_check == 2 #以controller show進入 %>
-      $(function(){$('#<%= @show_id %>').galleryExpand('open');})
+      $(function(){$('#<%= @show.id %>').galleryExpand('open');})
     <% end %>
 
     <%#讀取TAGS %>
