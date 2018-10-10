@@ -171,7 +171,8 @@
         </div>
       </div>
     </footer>
-
+    <%= yield :page_js %>
+    <% #http://www.railscook.com/recipes/how-to-organize-page-specific-javascript/ %>
     <%= javascript_tag do %>
       $(function(){
         <% if notice %>
