@@ -12,10 +12,10 @@
   <%= f.text_field :address %>
 
   <%= f.label :lat, "lat" %>
-  <%= f.number_field :lat %>
+  <%= f.number_field :lat, step: :any %>
 
   <%= f.label :lng, "lng" %>
-  <%= f.number_field :lng %>
+  <%= f.number_field :lng, step: :any%>
 
   <span style="display: block;">主題標籤</span>
   <%= f.collection_check_boxes :category_ids, Category.all, :id, :tag_name, {}, {multiple: true, class:"new_attraction_checkbox"} %>
