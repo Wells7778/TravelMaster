@@ -121,7 +121,7 @@ class AttractionsController < ApplicationController
 
     def set_tags #把我們要的TAG都放在這邊
       @traffic_tags = Attraction::TRAFFIC.keys
-      @vibe_tags = Category.order("attractions_count desc").pluck(:tag_name)
+      @vibe_tags = Attraction.vibe
       @time_tags = Attraction::TRAVELTIME.keys
     end
 end
