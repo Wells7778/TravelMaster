@@ -32,6 +32,7 @@ class Review < ApplicationRecord
   }
 
   after_save :update_reviews_count
+  after_destroy :update_reviews_count
 
   def detect_landmark
     project_id = 'alphacampdemoday2'
@@ -52,7 +53,7 @@ class Review < ApplicationRecord
 
   private
   def update_reviews_count
-    self.attraction.update(reviews_count: self.attraction.reviews_count + 1) if self.status == "passed"
+    self.attraction.update(reviews_count: self.attraction.reviews.passed.size)
   end
 
 
