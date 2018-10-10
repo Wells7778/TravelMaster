@@ -20,6 +20,7 @@ class List < ApplicationRecord
 
   store :search_params, :accessors => [:travel_time, :travel_mode, :travel_tag]
 
+  after_create :update_lists_attractoins
   # 地址轉換為經緯度
   def geocode
     url = 'https://maps.googleapis.com/maps/api/geocode/json'
@@ -36,7 +37,7 @@ class List < ApplicationRecord
   end
 
   # 搜尋景點，傳入景點分類、旅行時間、交通工具、起點資訊
-  def search_attraction(tag_name)
+  def search_attraction
     url = 'https://maps.googleapis.com/maps/api/distancematrix/json'
     key = $settings['secret']
     lat = self.origin_lat if self.origin_lat
@@ -44,7 +45,7 @@ class List < ApplicationRecord
     origin = "#{lat},#{lng}"
     mode = self.travel_mode.nil? ? "driving" : self.travel_mode
     # 依照分類先抓出景點清單
-    destinations = Attraction.where(id: CategoriesAttraction.where(category_id: Category.where(tag_name: tag_name).pluck(:id)).pluck(:attraction_id).uniq)
+    destinations = Attraction.where(id: CategoriesAttraction.where(category_id: Category.where(tag_name: self.travel_tag).pluck(:id)).pluck(:attraction_id).uniq)
     # 因ＡＰＩ一次只能有25個目的地，故先把景點經緯度取出，先做成Array稍後使用
     dest = destinations.pluck(:lat, :lng).map { |t| t.join(",")}
 
@@ -87,4 +88,12 @@ class List < ApplicationRecord
     # 結果把符合旅行時間的元素留下後回傳陣列
     return result.select{ |e| e[:travel_time] <= self.travel_time }.sort_by { |element| element[:travel_time] }
   end
+
+  private
+  def update_lists_attractoins
+    self.search_attraction.each do |result|
+      self.list_attractions.create(attraction_id: result[:attraction_id], duration: result[:travel_text])
+    end
+  end
+
 end

@@ -37,10 +37,6 @@ class Attraction < ApplicationRecord
 
   serialize :near_by, Array
 
-  def is_liked?(user)
-    self.liked_users.include?(user)
-  end
-
   validates_presence_of :name, :image, :description, :address
 
   TRAFFIC = { "公車" => "bus",
@@ -55,4 +51,13 @@ class Attraction < ApplicationRecord
                  "三小時" => 10800,
                  "四小時" => 14400
   }
+
+  def is_liked?(user)
+    self.liked_users.include?(user)
+  end
+
+  def self.vibe
+    @@vibe ||= Category.order("attractions_count desc").pluck(:tag_name)
+    @@vibe
+  end
 end
