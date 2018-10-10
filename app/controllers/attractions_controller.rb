@@ -18,10 +18,8 @@ class AttractionsController < ApplicationController
     elsif params[:list_id] && current_user
       @list = List.find_by(id: params[:list_id])
       @way_check = 3
-      @search_tags = @list.travel_tag
-      @search_location = @list.origin
       @attractions = @list.attractions.includes(:categories_attractions, :categories, :list_attractions)
-                                      .order("list_attractions.id asc")
+                                      .order("reviews_count desc").order("list_attractions.id asc")
     end
   end
 
