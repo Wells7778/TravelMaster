@@ -163,18 +163,6 @@
               </ul>
             </p>
           </div>
-          <!--
-          <div class="col l4 offset-l2 s12">
-
-            <h5 class="white-text"></h5>
-            <ul>
-              <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-              <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-              <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-              <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
-            </ul>
-          </div>
-          -->
         </div>
       </div>
       <div class="footer-copyright">
@@ -192,28 +180,10 @@
         <% if alert %>
           Materialize.toast('<%= alert %>', 4000)
         <% end %>
+        // Navbar
+        $(".button-collapse").sideNav();
       })
     <% end %>
 
-    <script>
-    $( document ).ready(function(){
-      // Home
-      $('.carousel:not(.carousel-slider)').carousel({
-        dist: 0,
-        padding: 10
-      });
-      $('.carousel.carousel-slider').carousel({
-        fullWidth: true,
-        indicators: true,
-        onCycleTo: function(el) {
-          $('.nav-background img').removeClass('active');
-          $('.nav-background img').eq(el.index()).addClass('active');
-        }
-      });
-
-    // Navbar
-      $(".button-collapse").sideNav();
-    }); // end of document ready
-    </script>
   </body>
 </html>
