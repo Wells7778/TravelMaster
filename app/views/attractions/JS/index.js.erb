@@ -1,0 +1,328 @@
+
+$(function(){
+
+  <%#客製 layout 的變數%>
+  $("#mainnav-1").addClass('active');
+  $("#sidenav-1").addClass('active');
+
+  $("#nav-bg-img").css("background-image","url(<%= asset_path 'rock.jpg' %>)");
+  $("#nav-header-h1").text("想出門走走？馬上開始");
+  $("#nav-header-tag").text("找尋景點好幫手");
+
+  <% if @way_check == 2 #以controller show進入 %>
+    $(function(){$('#<%= @show.id %>').galleryExpand('open');})
+  <% end %>
+
+  <%#讀取TAGS %>
+  window.aheadTagFirst = []; //aheadTagFirst傳入下一個script作typeAhead用
+
+  //每個tags給數量限制，多的則往typeAhead排列
+  <% i = 0 %>
+  <% m = 0 %>
+  <% n = 0 %>
+  <% @vibe_tags.each do |vibe| %>
+    <% if i < 10 %>
+      $(".grid-1 span").after('<div class="grid-item chip vibe"><%= vibe %></div>');
+    <% else %>
+      window.aheadTagFirst.push("<%= vibe %>");
+    <% end %>
+    <% i = i + 1%>
+  <% end %>
+
+  <% @time_tags.each do |time| %>
+    <% if m < 5 %>
+      $(".grid-2 span").after('<div class="grid-item chip time"><%= time %></div>');
+    <% else %>
+      window.aheadTagFirst.push("<%= time %>");
+    <% end %>
+    <% m = m + 1 %>
+  <% end %>
+
+  <% @traffic_tags.each do |traffic| %>
+    <% if n < 5 %>
+      $(".grid-3 span").after('<div class="grid-item chip traffic"><%= traffic %></div>');
+    <% else %>
+      window.aheadTagFirst.push("<%= traffic %>");
+    <% end %>
+    <% n = n + 1 %>
+  <% end %>
+
+  //packery gird參數設定
+  var gridSetUp = {
+      itemSelector: '.grid-item',
+      gutter: 1,
+      columnWidth: 1,
+    }
+  function draggie(i, gridItem, $grid){
+    var draggie = new Draggabilly( gridItem );
+    $grid.packery( 'bindDraggabillyEvents', draggie );
+  }
+  function clickItem(event,$grid,itemClass){
+    $grid.packery( 'remove', event.currentTarget ).packery('shiftLayout');
+    $('input').materialtags('add', event.currentTarget.innerText );
+    $(itemClass).packery();
+    $('.n-tag').val("");
+  }
+
+  //openSearch時 開啟.packery模組 並設定tag的選取、移位等
+  function openSearch() { //tag initialize
+    var $grid_1 = $('.grid-1').packery(gridSetUp);
+    $grid_1.find('.grid-item').each( function(i,gridItem){
+      draggie( i, gridItem, $grid_1 )});
+
+    var $grid_2 = $('.grid-2').packery(gridSetUp);
+    $grid_2.find('.grid-item').each(function(i,gridItem){
+      draggie( i, gridItem, $grid_2 )});
+
+    var $grid_3 = $('.grid-3').packery(gridSetUp);
+    $grid_3.find('.grid-item').each(function(i,gridItem){
+      draggie( i, gridItem, $grid_3 )});
+
+    var $grid_4 = $('.grid-4').packery(gridSetUp);
+    $grid_4.find('.grid-item').each(function(i,gridItem){
+      draggie( i, gridItem, $grid_4 )});
+
+    $grid_1.on( 'click', '.vibe.grid-item', function( event ) {
+      clickItem(event,$grid_1,".grid-1");
+    });
+    $grid_2.on( 'click', '.time.grid-item', function( event ) {
+      clickItem(event,$grid_2,".grid-2");
+    });
+    $grid_3.on( 'click', '.traffic.grid-item', function( event ) {
+      clickItem(event,$grid_3,".grid-3");
+    });
+    $grid_4.on( 'click', '.returned.grid-item', function( event ) {
+      clickItem(event,$grid_4,".grid-4");
+    });
+
+    $('input').on('beforeItemRemove', function(event) {
+      var $items = $('<div class="grid-item chip returned">'+event.item+'</div>');
+      // prepend items to grid
+      $(".returned-outter").show();
+      $grid_4.prepend( $items )
+      // add and lay out newly prepended items
+      .packery( 'prepended', $items );
+    });
+  };
+
+  //開始旅程按鈕 啟動openSearch()
+  $( "#open-search" ).click(function() {
+    if ('<%= current_user %>') {
+      $( "#starter" ).toggle();
+      $( "#function" ).slideDown( "slow" );
+      openSearch();
+    } else {
+      window.location.assign('https://www.travelmaster.life/users/sign_in');
+    }
+  });
+
+  //送出表單時的click 進行資料清洗
+  $( ".main-input .submit" ).click(function() {
+    //tags從materialtags 的功能來讀取值
+    $("#search_tags").val($("#tags-input").materialtags('items'));
+    //$("#search_location").val(x);
+    //安全因素 被chrome擋掉了 沒辦法測試
+  });
+
+  //以下是geolocation的程式碼
+  $( document ).ready(function () {
+    var x = $("#search_geo_location");
+    (function () {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(setPosition);
+      } else {
+        $("input#search_location").attr("required", true);
+      }
+    })();
+    function setPosition(position) {
+      var location = [ position.coords.latitude,position.coords.longitude ]
+      $("input#search_submit").attr("disabled", true);
+      $(x).val(location);
+      $("input#search_submit").removeAttr("disabled");
+    }
+  });
+
+  //gallery-expand 也就是點景點 會跳出來的特效
+  //從這邊直接改URL 需配合controller與galleryExpand.js
+  var onShow = function(el) {
+    history.pushState({},"","/attractions/"+el.attr('id'));
+    //消除的部分寫在galleryExpand.js
+  };
+  $('.gallery-expand').galleryExpand({
+    onShow: onShow,
+  });
+  //card排版功能
+
+  var $masonry = $('.gallery');
+  $masonry.masonry({
+    // set itemSelector so .grid-sizer is not used in layout
+    itemSelector: '.gallery-item',
+    // use element for option
+    columnWidth: '.gallery-item',
+  });
+  // layout Masonry after each image loads
+  $masonry.imagesLoaded(function() {
+    $masonry.masonry('layout');
+  });
+
+  //添加placeholder
+  $(".n-tag").attr("placeholder", "自行輸入或點選主題標籤");
+  $("#search_location").attr("placeholder", "輸入出發地址");
+
+  //ajax
+  function addUlikeBtn(id){
+    var unlikeBtn = '<a title="取消收藏" href="#" class="btn-unlike btn-floating btn-large waves-effect waves-light center active"><img style="width:60%; margin-top:14px;" src="/assets/noheart-a98944b44e53f742ab67f7b7d54a3df964691405f96b04cce2e863c14325ecf7.png" alt="Noheart"></a>'
+    $("#like-action-"+id).html(unlikeBtn);
+  };
+
+  function addLikeBtn(id){
+    var likeBtn = '<a title="收藏景點" href="#" class="btn-like btn-floating btn-large waves-effect waves-light active"><i class="material-icons">favorite</i></a>'
+    $("#like-action-"+id).html(likeBtn);
+  };
+
+  $(".like-action").on("click",".btn-like", function(event) {
+    event.preventDefault();
+    var id = event.target.parentNode.parentNode.id.slice(12,);
+    $.ajax({
+      url: id+"/like",
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        addUlikeBtn(id);
+        Materialize.toast('成功收藏', 4000);
+      }
+    });
+  });
+  $(".like-action").on("click",".btn-unlike", function(event) {
+    event.preventDefault();
+    if ( event.target.parentNode.parentNode.id=="" ){
+      var id = event.target.parentNode.id.slice(12,);
+    }else {
+      var id = event.target.parentNode.parentNode.id.slice(12,);
+    };
+    $.ajax({
+      url: id+"/unlike",
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        addLikeBtn(id);
+        Materialize.toast('取消收藏', 4000);
+      }
+    });
+  });
+
+  //comment ajax
+  function addComment(a_id,c_id,c_content,c_user,visited){
+    var comment = document.createElement("tr");
+    comment.id = "comment-"+c_id;
+    $(comment).html($("#comment-template").html());
+    $(comment).find(".c_content").html(c_content);
+    if (visited == true) {
+      $(comment).find(".c_content").append('<span class="new badge blue" data-badge-caption="visted"></span>')
+    }
+    $(comment).find(".c_user_time").html(c_user+" (just now)"+'<a href="#" class="comment-delete">刪除</a>');
+    $("#comment-tbody-"+a_id).append(comment);
+  }
+
+  $(".create-comment").on("click", function(event) {
+    event.preventDefault();
+    var id = event.target.id.slice(15,);
+    if ($("#new-comment-" + id).val().trim() === "") {
+      Materialize.toast('請輸入留言內容', 4000);
+      $("#new-comment-" + id).val("");
+    } else {
+      $.ajax({
+        url: "create_comment",
+        method: "POST",
+        dataType: "json",
+        data: {
+          comment:{
+            attraction_id: id,
+            content: $("#new-comment-" + id).val()
+          }
+        },
+        success: function(data) {
+        Materialize.toast('留言成功', 4000);
+        addComment(id,data["c_id"],data["c_content"],data["c_user"],data["visited"]);
+        $("#new-comment-" + id).val("");
+        }
+      });
+    }
+  });
+
+  $(".comment-tbody").on("click",".comment-delete",function(event){
+    event.preventDefault();
+    var id = event.target.parentNode.parentNode.id.slice(8,);
+    $.ajax({
+      url: "destroy_comment",
+      method: "POST",
+      dataType: "json",
+      data: {
+        comment:{
+          attraction_id: id,
+        }
+      },
+      success: function(data) {
+      Materialize.toast('刪除成功', 4000);
+      event.target.parentNode.parentNode.remove();
+      }
+    })
+  })
+
+  //typeahead
+  //https://github.com/twitter/typeahead.js
+  //aheadTagFirst在上方存入
+  var aheadTag = window.aheadTagFirst;
+
+  // constructs the suggestion engine
+  var aheadTag = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.whitespace,
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    local: aheadTag
+  });
+
+  $('.n-tag').typeahead({
+    hint: true
+  },
+  {
+    name: 'aheadTag',
+    source: aheadTag
+  });
+
+  //typeAhead與tags的互動處理
+  $(".input-outter").on("change click",".tt-menu",function(event){
+    $('input').materialtags('add', $('.tt-input').val() );
+    $('.tt-input').val("");
+    $('.n-tag').typeahead('close');
+    $('.tt-selectable').remove();
+  });
+
+  //modal1 trigger
+  $('.modal').modal();
+
+  //所有標籤的modal
+  $("#tags-modal-table").on("click",".modal-tag",function(event){
+    $('input').materialtags('add', event.currentTarget.innerText );
+    Materialize.toast('加入搜尋列', 2000)
+  });
+
+  //Star rating
+  $("div[class^='stars-']").each(function() {
+    var stars = $(this).attr('class').split(' ')[0].slice(6,);
+    stars = parseInt(stars);
+    if(!isNaN(stars)){
+      if(stars <= 5){
+        for (i = 0; i < stars; i++) {
+          $(this).append( "<i class='material-icons'>star</i>" );
+        };
+        for (i = 0; i < (5-stars); i++) {
+          $(this).append( "<i class='material-icons'>star_border</i>" );
+        };
+      }else {
+          $(this).append( "<i class='material-icons'>star</i><i class='material-icons'>star</i><i class='material-icons'>star</i><i class='material-icons'>star</i><i class='material-icons'>star</i>" );
+      };
+    };
+  });
+
+
+});
