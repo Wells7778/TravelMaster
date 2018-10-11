@@ -19,16 +19,15 @@
 	</div>
 </div>
 
-<%= javascript_tag do %>
-  $(function(){
-
-    <%#客製 layout 的變數%>
-    $("#mainnav-4").addClass('active');
-    $("#sidenav-4").addClass('active');
-
-    $("#nav-bg-img").css("background-image","url(<%= asset_path 'jump.jpg' %>)");
-    $("#nav-header-h1").text("關於Travel Master");
-    $("#nav-header-tag").text("同樣是喜愛旅遊的人們！");
-
-  })
+<% content_for :page_js do %>
+  <script type="text/javascript">
+    $(function(){
+	    //客製 layout 的變數
+	    $("#mainnav-4").addClass('active');
+	    $("#sidenav-4").addClass('active');
+	    $("#nav-bg-img").css("background-image","url(<%= asset_path 'jump.jpg' %>)");
+	    $("#nav-header-h1").text("關於Travel Master");
+	    $("#nav-header-tag").text("同樣是喜愛旅遊的人們！");
+    })
+  </script>
 <% end %>

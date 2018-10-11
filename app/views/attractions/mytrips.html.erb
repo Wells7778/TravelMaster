@@ -37,13 +37,16 @@
 </div>
 	</div>
 </div>
-<%= javascript_tag do %>
-  $(function(){
-    <%#客製 layout 的變數%>
-    $("#mainnav-3").addClass('active');
-    $("#sidenav-3").addClass('active');
-    $("#nav-bg-img").css("background-image","url(<%= asset_path 'travel.jpg' %>)");
-    $("#nav-header-h1").text("收藏每個美麗瞬間");
-    $("#nav-header-tag").text("留下足跡、大步邁進！");
-  })
+
+<% content_for :page_js do %>
+  <script type="text/javascript">
+    $(function(){
+      //客製 layout 的變數
+      $("#mainnav-3").addClass('active');
+      $("#sidenav-3").addClass('active');
+      $("#nav-bg-img").css("background-image","url(<%= asset_path 'travel.jpg' %>)");
+      $("#nav-header-h1").text("收藏每個美麗瞬間");
+      $("#nav-header-tag").text("留下足跡、大步邁進！");
+    })
+  </script>
 <% end %>
