@@ -1,0 +1,62 @@
+
+$(function(){
+
+  //客製 layout 的變數
+  $("#mainnav-1").addClass('active');
+  $("#sidenav-1").addClass('active');
+
+  $("#nav-bg-img").css("background-image","url(<%= asset_path 'rock.jpg' %>)");
+  $("#nav-header-h1").text("想出門走走？馬上開始");
+  $("#nav-header-tag").text("找尋景點好幫手");
+
+
+  $('.gallery-expand').galleryExpand({});
+
+  $("input[type='checkbox']").each(function() {
+    var val = $(this).val();
+    $(this).attr('id', "q_categories_id_eq_any_" + val);
+    $(this).addClass("filled-in");
+  });
+
+  var $masonry = $('.gallery');
+  $masonry.masonry({
+    // set itemSelector so .grid-sizer is not used in layout
+    itemSelector: '.gallery-item',
+    // use element for option
+    columnWidth: '.gallery-item',
+  });
+  // layout Masonry after each image loads
+  $masonry.imagesLoaded(function() {
+    $masonry.masonry('layout');
+  });
+
+  $(".browse-form").on("click","#check-all", function(){
+    $("input[type='checkbox']").each(function() {
+      $(this).prop("checked",true);
+    });
+  });
+  $(".browse-form").on("click","#uncheck-all", function(){
+    $("input[type='checkbox']").each(function() {
+      $(this).prop("checked",false);
+    });
+  });
+
+  //Star rating
+  $("div[class^='stars-']").each(function() {
+    var stars = $(this).attr('class').split(' ')[0].slice(6,);
+    stars = parseInt(stars);
+    if(!isNaN(stars)){
+      if(stars <= 5){
+        for (i = 0; i < stars; i++) {
+          $(this).append( "<i class='material-icons'>star</i>" );
+        };
+        for (i = 0; i < (5-stars); i++) {
+          $(this).append( "<i class='material-icons'>star_border</i>" );
+        };
+      }else {
+          $(this).append( "<i class='material-icons'>star</i><i class='material-icons'>star</i><i class='material-icons'>star</i><i class='material-icons'>star</i><i class='material-icons'>star</i>" );
+      };
+    };
+  });
+
+});

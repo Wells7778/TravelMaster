@@ -12,16 +12,8 @@
   </div>
 </div>
 
-<%= javascript_tag do %>
-  $(function(){
-
-    <%#客製 layout 的變數%>
-    $("#mainnav-2").addClass('active');
-    $("#sidenav-2").addClass('active');
-
-    $("#nav-bg-img").css("background-image","url(<%= asset_path 'map.jpg' %>)");
-    $("#nav-header-h1").text("紀錄旅程點滴");
-    $("#nav-header-tag").text("幫助更多喜愛旅遊的人！");
-
-  })
+<% content_for :page_js do %>
+  <script type="text/javascript">
+     <%= render file: "#{Rails.root}/app/views/reviews/JS/new.js.erb" %>
+  </script>
 <% end %>

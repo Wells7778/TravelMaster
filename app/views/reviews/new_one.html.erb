@@ -45,54 +45,8 @@
   </div>
 </div>
 
-<%= javascript_tag do %>
-  $(function(){
-
-    window.suggestion = {}; //aheadTagFirst傳入下一個script作typeAhead用
-    <% @all_names.each do |name| %>
-      window.suggestion["<%=name%>"] = "";
-    <%end%>
-
-    <%#客製 layout 的變數%>
-    $("#mainnav-2").addClass('active');
-    $("#sidenav-2").addClass('active');
-
-    $("#nav-bg-img").css("background-image","url(<%= asset_path 'map.jpg' %>)");
-    $("#nav-header-h1").text("紀錄旅程點滴");
-    $("#nav-header-tag").text("幫助更多喜愛旅遊的人！");
-
-  })
+<% content_for :page_js do %>
+  <script type="text/javascript">
+     <%= render file: "#{Rails.root}/app/views/reviews/JS/newone.js.erb" %>
+  </script>
 <% end %>
-
-<script>
-$(function(){
-  $("#imagesInput").change(function(){
-    $("#preview_imgs").html(""); // 清除預覽
-    readURL(this);
-  });
-
-  function readURL(input){
-    if (input.files && input.files.length >= 0) {
-      for(var i = 0; i < input.files.length; i ++){
-        var reader = new FileReader();
-        reader.onload = function (e) {
-          var img = $("<img width='300' height='200'>").attr('src', e.target.result);
-          $("#preview_imgs").append(img);
-        }
-        reader.readAsDataURL(input.files[i]);
-      }
-    }else{
-       var noPictures = $("<p>目前沒有圖片</p>");
-       $("#preview_imgs").append(noPictures);
-    }
-  }
-  
-  $('#review_attraction_name').autocomplete({
-    data: window.suggestion,
-    onAutocomplete: function(val) {
-    Materialize.toast('成功選取景點，請勿改變系統建議值', 4000);
-    },
-  });
-
-});
-</script>
