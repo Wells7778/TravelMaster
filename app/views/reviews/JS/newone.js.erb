@@ -1,9 +1,9 @@
 
 $(function(){
 
-  window.suggestion = {}; //aheadTagFirst傳入下一個script作typeAhead用
+  var suggestion = {}; //suggestion傳入下方script作typeAhead用
   <% @all_names.each do |name| %>
-    window.suggestion["<%=name%>"] = "";
+    suggestion["<%=name%>"] = "";
   <%end%>
 
   <%#客製 layout 的變數%>
@@ -36,7 +36,7 @@ $(function(){
   }
   
   $('#review_attraction_name').autocomplete({
-    data: window.suggestion,
+    data: suggestion,
     onAutocomplete: function(val) {
     Materialize.toast('成功選取景點，請勿改變系統建議值', 4000);
     },
