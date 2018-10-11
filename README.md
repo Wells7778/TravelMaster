@@ -30,3 +30,13 @@
 - 管理者可以 CRUD 景點 (**complete**)
 - 管理者能夠調整使用者的權限 (**complete**)
 - 管理者能夠審核遊記，並確認是否可發布 (**complete**)
+
+---
+
+# API
+
+- Google Distance Matrix API: 同時計算多點路程與時間
+- Google Geocoding api 轉換出發地點與景點的經緯度
+- Google Cloud Vision API: 協助確認遊記照片地標
+- 應用Python BeautifulSoup爬取旅遊網站資訊
+
