@@ -14,7 +14,7 @@ $(function(){
   <% end %>
 
   <%#讀取TAGS %>
-  window.aheadTagFirst = []; //aheadTagFirst傳入下一個script作typeAhead用
+  var aheadTagFirst = []; //aheadTagFirst傳入下方作typeAhead用
 
   //每個tags給數量限制，多的則往typeAhead排列
   <% i = 0 %>
@@ -24,7 +24,7 @@ $(function(){
     <% if i < 10 %>
       $(".grid-1 span").after('<div class="grid-item chip vibe"><%= vibe %></div>');
     <% else %>
-      window.aheadTagFirst.push("<%= vibe %>");
+      aheadTagFirst.push("<%= vibe %>");
     <% end %>
     <% i = i + 1%>
   <% end %>
@@ -33,7 +33,7 @@ $(function(){
     <% if m < 5 %>
       $(".grid-2 span").after('<div class="grid-item chip time"><%= time %></div>');
     <% else %>
-      window.aheadTagFirst.push("<%= time %>");
+      aheadTagFirst.push("<%= time %>");
     <% end %>
     <% m = m + 1 %>
   <% end %>
@@ -42,7 +42,7 @@ $(function(){
     <% if n < 5 %>
       $(".grid-3 span").after('<div class="grid-item chip traffic"><%= traffic %></div>');
     <% else %>
-      window.aheadTagFirst.push("<%= traffic %>");
+      aheadTagFirst.push("<%= traffic %>");
     <% end %>
     <% n = n + 1 %>
   <% end %>
@@ -272,21 +272,20 @@ $(function(){
   //typeahead
   //https://github.com/twitter/typeahead.js
   //aheadTagFirst在上方存入
-  var aheadTag = window.aheadTagFirst;
 
   // constructs the suggestion engine
-  var aheadTag = new Bloodhound({
+  var aheadTagFirst = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.whitespace,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    local: aheadTag
+    local: aheadTagFirst
   });
 
   $('.n-tag').typeahead({
     hint: true
   },
   {
-    name: 'aheadTag',
-    source: aheadTag
+    name: 'aheadTagFirst',
+    source: aheadTagFirst
   });
 
   //typeAhead與tags的互動處理
@@ -337,7 +336,5 @@ $(function(){
     $(this).parent().append(`<a href="#" class="more-spot">more...</a>`);
     $(this).parent().find(".hide-spot").remove();
   });
-
-
 
 });
