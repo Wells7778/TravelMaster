@@ -18,9 +18,11 @@
 		  	<% if @failed_reviews && @failed_reviews.length>0 %>
 			  	<% @failed_reviews.each do |review| %>
 			    <div class="card horizontal reviews-card">
+			    	<% if review.images.first %>
 			      <div class="card-image" style="background-image: url('<%= image_path(review.images.first) %>')">
 			      	<img src="" alt="" style="width: 300px;height: 300px;">
 			      </div>
+			      <% end %>
 			      <%= link_to edit_attraction_review_path(review.attraction, review) do %>
 				      <div class="card-stacked">
 				        <div class="card-content">
