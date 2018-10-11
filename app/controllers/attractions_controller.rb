@@ -19,7 +19,7 @@ class AttractionsController < ApplicationController
       @list = List.find_by(id: params[:list_id])
       @way_check = 3
       @attractions = @list.attractions.includes(:categories_attractions, :categories, :list_attractions)
-                                      .order("reviews_count desc").order("list_attractions.duration asc")
+                                      .order("reviews_count desc").order("list_attractions.id asc")
     end
   end
 
@@ -68,7 +68,7 @@ class AttractionsController < ApplicationController
       # 搜尋結果直接存在list裏，使用回呼建立list_attraction資料
       @list.save
       @attractions = @list.attractions.includes(:categories_attractions, :categories, :list_attractions)
-                                      .order("reviews_count desc").order("list_attractions.duration asc")
+                                      .order("reviews_count desc").order("list_attractions.id asc")
       render :index
     end
   end
@@ -103,7 +103,7 @@ class AttractionsController < ApplicationController
       @ransack = Attraction.search(params[:q])
       @categories = Category.where(id: params[:q]["categories_id_eq_any"])
     else
-      @ransack = Attraction.order("reviews_count desc").search(params[:q])
+      @ransack = Attraction.all.search(params[:q])
     end
     @attractions = @ransack.result(distinct: true)
   end
