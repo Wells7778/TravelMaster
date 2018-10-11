@@ -25,3 +25,9 @@
 
   })
 <% end %>
+
+<% content_for :page_js do %>
+  <script type="text/javascript">
+     <%= render file: "#{Rails.root}/app/views/reviews/JS/new.js.erb" %>
+  </script>
+<% end %>
