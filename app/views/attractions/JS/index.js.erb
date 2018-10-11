@@ -324,5 +324,20 @@ $(function(){
     };
   });
 
+  //near-by-attractions
+  $(".near-by-attractions").on("click", ".more-spot",function(e) {
+    e.preventDefault();
+    $(this).parent().find(".hided").show();
+    $(this).parent().append(`<a href="#" class="hide-spot">...hide</a>`);
+    $(this).parent().find(".more-spot").remove();
+  });
+  $(".near-by-attractions").on("click", ".hide-spot",function(e) {
+    e.preventDefault();
+    $(this).parent().find(".hided").hide();
+    $(this).parent().append(`<a href="#" class="more-spot">more...</a>`);
+    $(this).parent().find(".hide-spot").remove();
+  });
+
+
 
 });
