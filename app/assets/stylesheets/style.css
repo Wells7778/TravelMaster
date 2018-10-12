@@ -238,31 +238,57 @@ label {
 	margin-bottom: 20px;
 }
 
-.reviews-card {
-	max-height: 120px;
+
+.travel-card{
+	margin-bottom: 20px;
+	height: 120px;
 	overflow: hidden;
 }
 
-.review-cards-wrapper .reviews-card .card-content, .review-relate .reviews-card .card-content{
-	text-decoration:none;
-	color: black;
+/* 卡片 travel-card */
+
+.travel-card .travel-card-content{
+	padding: 20px;
 }
 
-.review-cards-wrapper .reviews-card .card-content p, .review-relate .reviews-card .card-content p{
-	font-size: 18px;
+.travel-card .travel-card-content p{
+	margin: 0;
+	font-size: 17px;
+	font-weight: 450;
+	color: black !important;
 }
 
-.review-cards-wrapper .reviews-card, .review-relate .reviews-card{
-	max-height: 120px;
-	overflow: hidden;
-}
-
-.review-cards-wrapper .reviews-card .card-image, .review-relate .reviews-card .card-image {
+.travel-card .travel-card-image{
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
 	overflow: hidden;
-	max-width: 150px;
+	height: 100%;
+}
+
+.travel-small-card{
+	margin-bottom: 12px !important;
+	height: 80px;
+	overflow: hidden;
+}
+
+.travel-small-card .travel-small-card-content{
+	padding: 12px;
+}
+
+.travel-small-card .travel-small-card-content p{
+	margin: 0 !important;
+	font-size: 15px;
+	font-weight: 400;
+	color: black !important;
+}
+
+.travel-small-card .travel-small-card-image{
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	overflow: hidden;
+	height: 100%;
 }
 
 #show-review .show-text{
@@ -445,54 +471,4 @@ form.new_attraction [type="checkbox"]+label {
 
 .review_audit_form .btn{
 	margin-right: 24px;
-}
-
-.travel-card{
-	margin-bottom: 20px;
-	height: 120px;
-	overflow: hidden;
-}
-
-.travel-card .travel-card-content{
-	padding: 20px;
-}
-
-.travel-card .travel-card-content p{
-	margin: 0;
-	font-size: 17px;
-	font-weight: 450;
-	color: black !important;
-}
-
-.travel-card .travel-card-image{
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: center;
-	overflow: hidden;
-	height: 100%;
-}
-
-.travel-small-card{
-	margin-bottom: 12px !important;
-	height: 80px;
-	overflow: hidden;
-}
-
-.travel-small-card .travel-small-card-content{
-	padding: 12px;
-}
-
-.travel-small-card .travel-small-card-content p{
-	margin: 0 !important;
-	font-size: 15px;
-	font-weight: 400;
-	color: black !important;
-}
-
-.travel-small-card .travel-small-card-image{
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: center;
-	overflow: hidden;
-	height: 100%;
 }
