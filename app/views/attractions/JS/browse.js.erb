@@ -41,6 +41,106 @@ $(function(){
     });
   });
 
+  //ajax
+  function addUlikeBtn(id){
+    var unlikeBtn = '<a title="取消收藏" href="#" class="btn-unlike btn-floating btn-large waves-effect waves-light center active"><img style="width:60%; margin-top:14px;" src="/assets/noheart-a98944b44e53f742ab67f7b7d54a3df964691405f96b04cce2e863c14325ecf7.png" alt="Noheart"></a>'
+    $("#like-action-"+id).html(unlikeBtn);
+  };
+
+  function addLikeBtn(id){
+    var likeBtn = '<a title="收藏景點" href="#" class="btn-like btn-floating btn-large waves-effect waves-light active"><i class="material-icons">favorite</i></a>'
+    $("#like-action-"+id).html(likeBtn);
+  };
+
+  $(".like-action").on("click",".btn-like", function(event) {
+    event.preventDefault();
+    var id = event.target.parentNode.parentNode.id.slice(12,);
+    $.ajax({
+      url: id+"/like",
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        addUlikeBtn(id);
+        Materialize.toast('成功收藏', 4000);
+      }
+    });
+  });
+  $(".like-action").on("click",".btn-unlike", function(event) {
+    event.preventDefault();
+    if ( event.target.parentNode.parentNode.id=="" ){
+      var id = event.target.parentNode.id.slice(12,);
+    }else {
+      var id = event.target.parentNode.parentNode.id.slice(12,);
+    };
+    $.ajax({
+      url: id+"/unlike",
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        addLikeBtn(id);
+        Materialize.toast('取消收藏', 4000);
+      }
+    });
+  });
+
+  //comment ajax
+  function addComment(a_id,c_id,c_content,c_user,visited){
+    var comment = document.createElement("tr");
+    comment.id = "comment-"+c_id;
+    $(comment).html($("#comment-template").html());
+    $(comment).find(".c_content").html(c_content);
+    if (visited == true) {
+      $(comment).find(".c_content").append('<span class="new badge blue" data-badge-caption="visted"></span>')
+    }
+    $(comment).find(".c_user_time").html(c_user+" (just now)"+'<a href="#" class="comment-delete">刪除</a>');
+    $("#comment-tbody-"+a_id).append(comment);
+  }
+
+  $(".create-comment").on("click", function(event) {
+    event.preventDefault();
+    var id = event.target.id.slice(15,);
+    if ($("#new-comment-" + id).val().trim() === "") {
+      Materialize.toast('請輸入留言內容', 4000);
+      $("#new-comment-" + id).val("");
+    } else {
+      $.ajax({
+        url: "create_comment",
+        method: "POST",
+        dataType: "json",
+        data: {
+          comment:{
+            attraction_id: id,
+            content: $("#new-comment-" + id).val()
+          }
+        },
+        success: function(data) {
+        Materialize.toast('留言成功', 4000);
+        addComment(id,data["c_id"],data["c_content"],data["c_user"],data["visited"]);
+        $("#new-comment-" + id).val("");
+        }
+      });
+    }
+  });
+
+  $(".comment-tbody").on("click",".comment-delete",function(event){
+    event.preventDefault();
+    var id = event.target.parentNode.parentNode.id.slice(8,);
+    $.ajax({
+      url: "destroy_comment",
+      method: "POST",
+      dataType: "json",
+      data: {
+        comment:{
+          attraction_id: id,
+        }
+      },
+      success: function(data) {
+      Materialize.toast('刪除成功', 4000);
+      event.target.parentNode.parentNode.remove();
+      }
+    })
+  });
+
   //Star rating
   $("div[class^='stars-']").each(function() {
     var stars = $(this).attr('class').split(' ')[0].slice(6,);
@@ -57,6 +157,20 @@ $(function(){
           $(this).append( "<i class='material-icons'>star</i><i class='material-icons'>star</i><i class='material-icons'>star</i><i class='material-icons'>star</i><i class='material-icons'>star</i>" );
       };
     };
+  });
+
+  //near-by-attractions
+  $(".near-by-attractions").on("click", ".more-spot",function(e) {
+    e.preventDefault();
+    $(this).parent().find(".hided").show();
+    $(this).parent().append(`<a href="#" class="hide-spot">...hide</a>`);
+    $(this).parent().find(".more-spot").remove();
+  });
+  $(".near-by-attractions").on("click", ".hide-spot",function(e) {
+    e.preventDefault();
+    $(this).parent().find(".hided").hide();
+    $(this).parent().append(`<a href="#" class="more-spot">more...</a>`);
+    $(this).parent().find(".hide-spot").remove();
   });
 
 });
