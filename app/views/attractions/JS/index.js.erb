@@ -129,7 +129,7 @@ $(function(){
       $("#location-check").addClass('check-success');
       $("#location-check i").html("location_on");
     } else {
-      $("#location-check").addClass('check-fail');
+      $("#location-check").addClass('check-success');
       $("#location-check i").html("location_off");
     };
   })();
@@ -175,7 +175,7 @@ $(function(){
 
   //添加placeholder
   $(".n-tag").attr("placeholder", "自行輸入或點選主題標籤");
-  $("#search_location").attr("placeholder", "輸入出發地址");
+  $("#search_location").attr("placeholder", "輸入出發地址或使用瀏覽器定位");
 
   //ajax
   function addUlikeBtn(id){
