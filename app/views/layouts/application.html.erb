@@ -65,7 +65,7 @@
         <!-- Dropdown Structure -->
         <ul id="feature-dropdown" class="dropdown-content">
           <% if current_user %>
-              <li><%= link_to("修改密碼", edit_user_registration_path) %></li>
+              <li><%= link_to("修改資料", edit_user_registration_path) %></li>
               <li><%= link_to("登出", destroy_user_session_path, method: :delete) %></li>
             <% else %>
               <li><%= link_to("註冊", new_user_registration_path) %></li>
@@ -133,7 +133,7 @@
 
       <% if current_user %>
           <li><%= link_to edit_user_registration_path do %>
-            <i class="material-icons">edit</i>修改密碼<%end%>
+            <i class="material-icons">edit</i>修改資料<%end%>
           </li>
           <li><%= link_to destroy_user_session_path, method: :delete  do %>
             <i class="material-icons">exit_to_app</i>登出<%end%>
