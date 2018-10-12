@@ -471,3 +471,28 @@ form.new_attraction [type="checkbox"]+label {
 	overflow: hidden;
 	height: 100%;
 }
+
+.travel-small-card{
+	margin-bottom: 12px !important;
+	height: 80px;
+	overflow: hidden;
+}
+
+.travel-small-card .travel-small-card-content{
+	padding: 12px;
+}
+
+.travel-small-card .travel-small-card-content p{
+	margin: 0 !important;
+	font-size: 15px;
+	font-weight: 400;
+	color: black !important;
+}
+
+.travel-small-card .travel-small-card-image{
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	overflow: hidden;
+	height: 100%;
+}
