@@ -47,34 +47,32 @@
       </div>
     </div>
 
-    <hr>   
+    <hr>
 
     <div class="row">
-  <div class="col s11 offset-m2 m8 review-cards-wrapper">
-    <h4>最近五筆搜尋紀錄</h4>
-    <% if @lists && @lists.size > 0 %>
-      <% @lists.each do |list| %>
-        <%= link_to attractions_path(list_id: list.id) do %>
-          <div class="card horizontal reviews-card">
-            <div class="card-image" style="background-image: url('<%= image_path(list.attractions.first.image) if list.attractions.present? %>')">
-              <img src="" alt="" style="width: 300px;height: 300px;">
-            </div>
-            <div class="card-stacked">
-              <div class="card-content short-text">
-                <p>
-                  從 <%= list.origin %> 出發，<%= Attraction::TRAFFIC.key(list.travel_mode) %>
-                </p>
-                <label class="">
-                  旅行時間：<%= Attraction::TRAVELTIME.key(list.travel_time) %>，景點TAG：<%= list.travel_tag.join(",") if list.travel_tag.present? %>
-                </label>
-              </div>
-            </div>
-          </div>
+      <div class="col s11 offset-m2 m8">
+        <h4>最近五筆搜尋紀錄</h4>
+        <% if @lists && @lists.size > 0 %>
+          <% @lists.each do |list| %>
+            <%= link_to attractions_path(list_id: list.id) do %>
+              <% if list.attractions.present? %>
+                <%= render partial: "card", locals: { image:"background-image: url(#{image_path(list.attractions.first.image)})", 
+                                                      title:"從#{list.origin} 出發，#{Attraction::TRAFFIC.key(list.travel_mode)}",
+                                                      label:"旅行時間：#{Attraction::TRAVELTIME.key(list.travel_time)}，景點TAG：#{list.travel_tag.join(',') if list.travel_tag.present?}" } %>
+              <% else %>
+                <%= render partial: "card", locals: { image:"background-image: url(#{})", 
+                                                      title:"從#{list.origin} 出發，#{Attraction::TRAFFIC.key(list.travel_mode)}",
+                                                      label:"旅行時間：#{Attraction::TRAVELTIME.key(list.travel_time)}，景點TAG：#{list.travel_tag.join(',') if list.travel_tag.present?}" } %>
+              <% end %>
+            <% end %>
+          <%end%>
+        <%end%>
+        <% @commented.each do |f| %>
+
         <% end %>
-      <% end %>
-    <% end %>
-  </div>
-</div>
+      </div>
+    </div>    
+
 	</div>
 </div>
 
