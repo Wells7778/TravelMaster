@@ -445,6 +445,7 @@ form.new_attraction [type="checkbox"]+label {
 .travel-card{
 	margin-bottom: 20px;
 	height: 120px;
+	overflow: hidden;
 }
 
 .travel-card .travel-card-content{
