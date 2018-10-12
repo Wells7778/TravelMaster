@@ -1,14 +1,18 @@
 <div id="edit-user" class="section gray">
   <div class="container">
-    <h2><%= t('.title', resource: resource_name.to_s.humanize) %></h2>
+    <h2>修改會員資料</h2>
     <div class="card">
       <div class="card-content">
         <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
           <%= devise_error_messages! %>
+          <div class="field">
+            <%= f.label :name %><br />
+            <%= f.text_field :name, autofocus: true %>
+          </div>
 
           <div class="field">
             <%= f.label :email %><br />
-            <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+            <%= f.email_field :email, autocomplete: "email" %>
           </div>
 
           <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -17,10 +21,10 @@
 
           <div class="field">
             <%= f.label :password %> <i>(<%= t('.leave_blank_if_you_don_t_want_to_change_it') %>)</i>
-            <%= f.password_field :password, autocomplete: "off" %>
             <% if @minimum_password_length %>
               <i><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></i>
             <% end %>
+            <%= f.password_field :password, autocomplete: "off" %>
           </div>
 
           <div class="field">
