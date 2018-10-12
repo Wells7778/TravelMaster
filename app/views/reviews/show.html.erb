@@ -22,30 +22,20 @@
 				</div>
 
         <%if @relates&&@relates.length>0 %>
-        <div class="row">
-        <div class="col s11 offset-m1 m9 review-relate">
-          <h5>其他遊記</h5>
-          <% @relates.each do |review|%>
-            <div class="card horizontal reviews-card">
-              <div class="card-image" style="background-image: url('<%= image_path(review.images.first) %>')">
-                <img src="" alt="" style="width: 300px;height: 300px;">
-              </div>
-              <%= link_to attraction_review_path(review.attraction, review) do %>
-                <div class="card-stacked">
-                  <div class="card-content">
-                    <p>
-                      [<%= review.attraction.name%>]- <%= review.title%>
-                    </p>
-                    <label>
-                      <%=review.user.name%>建立於<%=time_ago_in_words review.updated_at %>
-                    </label>
-                  </div>
-                </div>
-              <%end%>
+
+          <div class="row">
+            <div class="col s12 offset-m1 m10">
+              <h5 style="margin-bottom: 20px;">其他遊記</h5>
+              <% @relates.each do |r| %>
+                <%= link_to attraction_review_path(r.attraction, r), target: :_blank do %>
+                  <%= render partial: "share/smallcard", locals: { image:"background-image: url(#{image_path(r.images.first)})", 
+                                                        title:"[#{r.attraction.name}]- #{r.title}",
+                                                        label:"#{r.user.name}建立於#{time_ago_in_words r.updated_at}之前" } %>
+                <% end %>
+              <% end %>
             </div>
-          <%end%>
-        </div>
-        </div>
+          </div>
+
         <%end%>
       </div>
     </div>

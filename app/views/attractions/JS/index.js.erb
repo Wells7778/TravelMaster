@@ -120,26 +120,34 @@ $(function(){
   $( ".main-input .submit" ).click(function() {
     //tags從materialtags 的功能來讀取值
     $("#search_tags").val($("#tags-input").materialtags('items'));
-    //$("#search_location").val(x);
-    //安全因素 被chrome擋掉了 沒辦法測試
   });
 
   //以下是geolocation的程式碼
-  $( document ).ready(function () {
-    var x = $("#search_geo_location");
-    (function () {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(setPosition);
-      } else {
-        $("input#search_location").attr("required", true);
-      }
-    })();
-    function setPosition(position) {
-      var location = [ position.coords.latitude,position.coords.longitude ]
-      $("input#search_submit").attr("disabled", true);
+  var x = $("#search_geo_location");
+  (function () {
+    if (navigator.geolocation.getCurrentPosition(setPosition)) {
+      $("#location-check").addClass('check-success');
+      $("#location-check i").html("location_on");
+    } else {
+      $("#location-check").addClass('check-success');
+      $("#location-check i").html("location_off");
+    };
+  })();
+  function setPosition(position) {
+    if(position.coords.latitude){
+      var location = [ position.coords.latitude,position.coords.longitude ];
       $(x).val(location);
-      $("input#search_submit").removeAttr("disabled");
-    }
+      return true;
+    }else{
+      return false;
+    };
+  };
+
+  $("form").on("click",".check-fail", function(event) {
+    Materialize.toast('請允許瀏覽器使用定位資訊，並重新載入', 4000);
+  });
+  $("form").on("click",".check-success", function(event) {
+    Materialize.toast('已讀取當前位置，下方地址欄無需填入', 4000);
   });
 
   //gallery-expand 也就是點景點 會跳出來的特效
@@ -167,7 +175,7 @@ $(function(){
 
   //添加placeholder
   $(".n-tag").attr("placeholder", "自行輸入或點選主題標籤");
-  $("#search_location").attr("placeholder", "輸入出發地址");
+  $("#search_location").attr("placeholder", "輸入出發地址或使用瀏覽器定位");
 
   //ajax
   function addUlikeBtn(id){

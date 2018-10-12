@@ -3,38 +3,76 @@
 		<div class="center">
       <h4>紀錄－我的旅程</h4>
     </div>
-    <%= render partial: "trip", locals: { trip_text: "我的遊記", trip_type: "review", trips: @reviews } %>
-    <hr>
-    <%= render partial: "trip", locals: { trip_text: "收藏的景點", trip_type: "", trips: @favorites } %>
-    <hr>
-    <%= render partial: "trip", locals: { trip_text: "留言過的景點", trip_type: "", trips: @commented } %>
-    <hr>
+    
     <div class="row">
-  <div class="col s11 offset-m2 m8 review-cards-wrapper">
-    <h4>最近五筆搜尋紀錄</h4>
-    <% if @lists && @lists.size > 0 %>
-      <% @lists.each do |list| %>
-        <%= link_to attractions_path(list_id: list.id) do %>
-          <div class="card horizontal reviews-card">
-            <div class="card-image" style="background-image: url('<%= image_path(list.attractions.first.image) if list.attractions.present? %>')">
-              <img src="" alt="" style="width: 300px;height: 300px;">
-            </div>
-            <div class="card-stacked">
-              <div class="card-content short-text">
-                <p>
-                  從 <%= list.origin %> 出發，<%= Attraction::TRAFFIC.key(list.travel_mode) %>
-                </p>
-                <label class="">
-                  旅行時間：<%= Attraction::TRAVELTIME.key(list.travel_time) %>，景點TAG：<%= list.travel_tag.join(",") if list.travel_tag.present? %>
-                </label>
-              </div>
-            </div>
-          </div>
+      <div class="col s11 offset-m2 m8">
+        <h4>我的遊記</h4>
+        <% @reviews.each do |r| %>
+          <%= link_to attraction_review_path(r.attraction, r) do %>
+            <%= render partial: "share/card", locals: { image:"background-image: url(#{image_path(r.images.first)})", 
+                                                  title:"[#{r.attraction.name}]- #{r.title}",
+                                                  label:"#{r.user.name}建立於#{time_ago_in_words r.updated_at}之前" } %>
+          <% end %>
         <% end %>
-      <% end %>
-    <% end %>
-  </div>
-</div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <div class="col s11 offset-m2 m8">
+        <h4>我收藏的景點</h4>
+        <% @favorites.each do |f| %>
+          <%= link_to attraction_path(f), target: :_blank do %>
+            <%= render partial: "share/card", locals: { image:"background-image: url(#{image_path(f.image)})", 
+                                                  title:"#{f.name}",
+                                                  label:"主題:#{f.categories.map(&:tag_name).join(',')}" } %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <div class="col s11 offset-m2 m8">
+        <h4>留言過的景點</h4>
+        <% @commented.each do |f| %>
+          <%= link_to attraction_path(f), target: :_blank do %>
+            <%= render partial: "share/card", locals: { image:"background-image: url(#{image_path(f.image)})", 
+                                                  title:"#{f.name}",
+                                                  label:"主題:#{f.categories.map(&:tag_name).join(',')}" } %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <div class="col s11 offset-m2 m8">
+        <h4>最近五筆搜尋紀錄</h4>
+        <% if @lists && @lists.size > 0 %>
+          <% @lists.each do |list| %>
+            <%= link_to attractions_path(list_id: list.id) do %>
+              <% if list.attractions.present? %>
+                <%= render partial: "share/card", locals: { image:"background-image: url(#{image_path(list.attractions.first.image)})", 
+                                                      title:"從#{list.origin} 出發，#{Attraction::TRAFFIC.key(list.travel_mode)}",
+                                                      label:"旅行時間：#{Attraction::TRAVELTIME.key(list.travel_time)}，景點TAG：#{list.travel_tag.join(',') if list.travel_tag.present?}" } %>
+              <% else %>
+                <%= render partial: "share/card", locals: { image:"background-image: url(#{asset_path 'noresult.jpg'})", 
+                                                      title:"從#{list.origin} 出發，#{Attraction::TRAFFIC.key(list.travel_mode)}",
+                                                      label:"旅行時間：#{Attraction::TRAVELTIME.key(list.travel_time)}，景點TAG：#{list.travel_tag.join(',') if list.travel_tag.present?}" } %>
+              <% end %>
+            <% end %>
+          <%end%>
+        <%end%>
+        <% @commented.each do |f| %>
+
+        <% end %>
+      </div>
+    </div>    
+
 	</div>
 </div>
 
