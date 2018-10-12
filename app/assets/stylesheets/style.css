@@ -231,6 +231,11 @@ label {
 #review-fails {
 	background-color: #fff;
 	border: 1px grey solid;
+	margin-bottom: 20px;
+}
+
+.review-fails-open{
+	margin-bottom: 20px;
 }
 
 .reviews-card {
