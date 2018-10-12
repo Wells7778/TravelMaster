@@ -158,6 +158,34 @@ body{
 	display: block !important;
 }
 
+#location-check.check-success{
+  color: #fff;
+  background-color: #26a69a;
+}
+
+#location-check.check-fail{
+  color: #fff;
+  background-color: gray;
+}
+
+#location-check{
+	cursor: pointer;
+	display: inline-block;
+	min-width: 3rem;
+  padding: 0 6px;
+  margin-left: 14px;
+  font-size: 1rem;
+  line-height: 22px;
+  height: 22px;
+  font-weight: 300;
+  font-size: 0.8rem;
+  border-radius: 2px;
+}
+
+#location-check i{
+	font-size: 0.8rem;
+}
+
 .main-input{
 	text-align: left;
 }
@@ -231,33 +259,64 @@ label {
 #review-fails {
 	background-color: #fff;
 	border: 1px grey solid;
+	margin-bottom: 20px;
 }
 
-.reviews-card {
-	max-height: 120px;
+.review-fails-open{
+	margin-bottom: 20px;
+}
+
+
+.travel-card{
+	margin-bottom: 20px;
+	height: 120px;
 	overflow: hidden;
 }
 
-.review-cards-wrapper .reviews-card .card-content, .review-relate .reviews-card .card-content{
-	text-decoration:none;
-	color: black;
+/* 卡片 travel-card */
+
+.travel-card .travel-card-content{
+	padding: 20px;
 }
 
-.review-cards-wrapper .reviews-card .card-content p, .review-relate .reviews-card .card-content p{
-	font-size: 18px;
+.travel-card .travel-card-content p{
+	margin: 0;
+	font-size: 17px;
+	font-weight: 450;
+	color: black !important;
 }
 
-.review-cards-wrapper .reviews-card, .review-relate .reviews-card{
-	max-height: 120px;
-	overflow: hidden;
-}
-
-.review-cards-wrapper .reviews-card .card-image, .review-relate .reviews-card .card-image {
+.travel-card .travel-card-image{
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
 	overflow: hidden;
-	max-width: 150px;
+	height: 100%;
+}
+
+.travel-small-card{
+	margin-bottom: 12px !important;
+	height: 80px;
+	overflow: hidden;
+}
+
+.travel-small-card .travel-small-card-content{
+	padding: 12px;
+}
+
+.travel-small-card .travel-small-card-content p{
+	margin: 0 !important;
+	font-size: 15px;
+	font-weight: 400;
+	color: black !important;
+}
+
+.travel-small-card .travel-small-card-image{
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	overflow: hidden;
+	height: 100%;
 }
 
 #show-review .show-text{
