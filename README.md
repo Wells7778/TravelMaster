@@ -36,7 +36,7 @@
 # API
 
 - Google Distance Matrix API: 同時計算多點路程與時間
-- Google Geocoding API: 轉換出發地點與景點的經緯度
+- Google Geocoding api 轉換出發地點與景點的經緯度
 - Google Cloud Vision API: 協助確認遊記照片地標
-- Python BeautifulSoup: 爬取旅遊網站資訊
+- 應用Python BeautifulSoup爬取旅遊網站資訊
 
