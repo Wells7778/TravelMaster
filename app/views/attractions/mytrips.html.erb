@@ -60,7 +60,7 @@
                                                       title:"從#{list.origin} 出發，#{Attraction::TRAFFIC.key(list.travel_mode)}",
                                                       label:"旅行時間：#{Attraction::TRAVELTIME.key(list.travel_time)}，景點TAG：#{list.travel_tag.join(',') if list.travel_tag.present?}" } %>
               <% else %>
-                <%= render partial: "card", locals: { image:"background-image: url(#{})", 
+                <%= render partial: "card", locals: { image:"background-image: url(#{asset_path 'noresult.jpg'})", 
                                                       title:"從#{list.origin} 出發，#{Attraction::TRAFFIC.key(list.travel_mode)}",
                                                       label:"旅行時間：#{Attraction::TRAVELTIME.key(list.travel_time)}，景點TAG：#{list.travel_tag.join(',') if list.travel_tag.present?}" } %>
               <% end %>
