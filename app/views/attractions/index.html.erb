@@ -40,6 +40,7 @@
       <div class="input-outter">
         <%= form_tag("/attractions/search", method: "post", class: "main-input") do %>
           <label for="search[location]" class="active">出發位置</label>
+          <div id="location-check"><i class="material-icons"></i>自動偵測</div>
           <%= text_field_tag 'search[location]' %>
           <%= hidden_field 'search', 'tags' %>
           <%= hidden_field 'search', 'geo_location' %>

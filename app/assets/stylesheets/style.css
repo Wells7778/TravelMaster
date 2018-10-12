@@ -158,6 +158,34 @@ body{
 	display: block !important;
 }
 
+#location-check.check-success{
+  color: #fff;
+  background-color: #26a69a;
+}
+
+#location-check.check-fail{
+  color: #fff;
+  background-color: gray;
+}
+
+#location-check{
+	cursor: pointer;
+	display: inline-block;
+	min-width: 3rem;
+  padding: 0 6px;
+  margin-left: 14px;
+  font-size: 1rem;
+  line-height: 22px;
+  height: 22px;
+  font-weight: 300;
+  font-size: 0.8rem;
+  border-radius: 2px;
+}
+
+#location-check i{
+	font-size: 0.8rem;
+}
+
 .main-input{
 	text-align: left;
 }
