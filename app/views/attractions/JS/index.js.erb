@@ -127,10 +127,10 @@ $(function(){
   (function () {
     if (navigator.geolocation.getCurrentPosition(setPosition)) {
       $("#location-check").addClass('check-success');
-      $("#location-check i").html("location_on");
+      $("#location-check").html("<i class='material-icons'>location_on</i>自動偵測");
     } else {
-      $("#location-check").addClass('check-success');
-      $("#location-check i").html("location_off");
+      $("#location-check").addClass('check-fail');
+      $("#location-check").html("<i class='material-icons'>location_off</i>無自動偵測");
     };
   })();
   function setPosition(position) {
