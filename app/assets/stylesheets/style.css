@@ -441,3 +441,27 @@ form.new_attraction [type="checkbox"]+label {
 .review_audit_form .btn{
 	margin-right: 24px;
 }
+
+.travel-card{
+	margin-bottom: 20px;
+	height: 120px;
+}
+
+.travel-card .travel-card-content{
+	padding: 20px;
+}
+
+.travel-card .travel-card-content p{
+	margin: 0;
+	font-size: 17px;
+	font-weight: 450;
+	color: black !important;
+}
+
+.travel-card .travel-card-image{
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	overflow: hidden;
+	height: 100%;
+}
