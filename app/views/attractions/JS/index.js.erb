@@ -125,22 +125,17 @@ $(function(){
   //以下是geolocation的程式碼
   var x = $("#search_geo_location");
   (function () {
-    if (navigator.geolocation.getCurrentPosition(setPosition)) {
-      $("#location-check").addClass('check-success');
-      $("#location-check").html("<i class='material-icons'>location_on</i>自動偵測");
-    } else {
-      $("#location-check").addClass('check-fail');
-      $("#location-check").html("<i class='material-icons'>location_off</i>無自動偵測");
-    };
+    navigator.geolocation.getCurrentPosition(setPosition,showError);
   })();
   function setPosition(position) {
-    if(position.coords.latitude){
-      var location = [ position.coords.latitude,position.coords.longitude ];
-      $(x).val(location);
-      return true;
-    }else{
-      return false;
-    };
+    var location = [ position.coords.latitude,position.coords.longitude ];
+    $(x).val(location);
+    $("#location-check").addClass('check-success');
+    $("#location-check").html("<i class='material-icons'>location_on</i>自動偵測");
+  };
+  function showError(error) {
+    $("#location-check").addClass('check-fail');
+    $("#location-check").html("<i class='material-icons'>location_off</i>無自動偵測");
   };
 
   $("form").on("click",".check-fail", function(event) {
