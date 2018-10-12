@@ -26,6 +26,8 @@ zh-TW:
         suggestion: '建議主題'
         status: '狀態'
         title: '標題'
+      user:
+        name: '使用者名稱'
     models:
       attraction: '景點'
       category: '主題'
